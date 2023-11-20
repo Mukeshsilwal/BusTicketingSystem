@@ -47,4 +47,9 @@ public class RouteController {
         Route12Dto route12Dto1=this.route12Service.createRouteWithBusStop(route12Dto,id,id1);
         return new ResponseEntity<>(route12Dto1,HttpStatus.CREATED);
     }
+    @GetMapping("source/{id}/destination/{id1}")
+    public ResponseEntity<List<Route12Dto>> findShortestPath(@PathVariable int id,@PathVariable int id1){
+        List<Route12Dto>  route12Dtos=this.route12Service.findShortestRoute(id,id1);
+        return new ResponseEntity<>(route12Dtos,HttpStatus.OK);
+    }
 }

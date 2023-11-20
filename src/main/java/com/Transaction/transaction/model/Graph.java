@@ -19,11 +19,10 @@ public class Graph {
     List<BusStop> busStops;
     List<Route12> route12s;
 
-    public void resetBusDistance(){
-        for(BusStop busStop:busStops){
-            busStop.setDistance(Integer.MAX_VALUE);
+    public void resetBusDistance() {
+        for (BusStop busStop : busStops) {
+            busStop.setDistance(Integer.MAX_VALUE); // Set to a large value representing infinity
             busStop.setVisited(false);
-
         }
     }
 }

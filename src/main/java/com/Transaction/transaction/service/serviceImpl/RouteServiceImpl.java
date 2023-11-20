@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,35 +71,64 @@ public class RouteServiceImpl implements Route12Service {
     public Route12Dto createRouteWithBusStop(Route12Dto route12Dto, int id, int id1) {
         BusStop busStop = this.busStopRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusStop", "id", id));
         BusStop busStop1 = this.busStopRepo.findById(id1).orElseThrow(() -> new ResourceNotFoundException("BusStop", "id1", id1));
-        List<BusStop> busStops = this.busStopRepo.findAll();
         Route12 route12 = this.dtoToRoute(route12Dto);
         route12.setSourceBusStop(busStop);
         route12.setDestinationBusStop(busStop1);
-        List<Route12> route12s = new ArrayList<>();
-        route12s.add(route12);
-        List<BusStop> busStops1 = new ArrayList<>(busStops);
         Route12 route121 = this.routeRepo.save(route12);
-        Graph graph = new Graph();
-        graph.setRoute12s(route12s);
-        graph.setBusStops(busStops1);
-        busConfig.dijkstra(graph,busStop);
-
-        for (BusStop b : busStops) {
-            BusStopDistance busStopDistance = new BusStopDistance();
-            busStopDistance.setSourceBusStop(busStop);
-            busStopDistance.setDestinationBusStop(b);
-            busStopDistance.setDistance(b.getDistance());
-            busStopDistanceRepo.save(busStopDistance);
-        }
-
         return routeToDto(route121);
     }
 
+    @Override
+    public List<Route12Dto> findShortestRoute(int sourceId, int destinationId) {
+        BusStop sourceBusStop = this.busStopRepo.findById(sourceId).orElseThrow(() -> new ResourceNotFoundException("BusStop", "id", sourceId));
+        BusStop destinationBusStop = this.busStopRepo.findById(destinationId).orElseThrow(() -> new ResourceNotFoundException("BusStop", "id1", destinationId));
+        List<BusStop> busStops=this.busStopRepo.findAll();
+        List<Route12> route12s=this.routeRepo.findAll();
+        Graph graph=new Graph();
+        graph.setRoute12s(route12s);
+        graph.setBusStops(busStops);
+        busConfig.dijkstra(graph,sourceBusStop);
+        return retriveShortestPath(sourceBusStop,destinationBusStop);
+    }
 
-    public Route12 dtoToRoute(Route12Dto route12Dto){
-        return this.modelMapper.map(route12Dto, Route12.class);
+    private List<Route12Dto> retriveShortestPath(BusStop sourceBusStop, BusStop destinationBusStop) {
+        List<Route12Dto> shortestRoute = new ArrayList<>();
+        BusStop currentBusStop = destinationBusStop;
+        while (currentBusStop != null) {
+            List<Route12> routesToCurrentBusStop = getRoutesToBusStop(currentBusStop);
+
+            if (!routesToCurrentBusStop.isEmpty()) {
+                // Assuming there could be multiple routes to the current bus stop,
+                // choose one (you may have a specific criterion to decide)
+                Route12 route = routesToCurrentBusStop.get(0);
+
+                // Convert the Route12 entity to Route12Dto and add it to the route
+                shortestRoute.add(routeToDto(route));
+
+                // Move to the source bus stop of the selected route
+                currentBusStop = route.getSourceBusStop();
+            } else {
+                // No routes found, exit the loop
+                break;
+            }
+        }
+
+        // Reverse the list to have the correct order (from source to destination)
+        Collections.reverse(shortestRoute);
+        return shortestRoute;
     }
-    public Route12Dto routeToDto(Route12 route12){
-        return this.modelMapper.map(route12, Route12Dto.class);
+
+    private List<Route12> getRoutesToBusStop(BusStop currentBusStop) {
+        return currentBusStop.getDestinationRoutes();
     }
+
+
+    public Route12 dtoToRoute (Route12Dto route12Dto){
+            return this.modelMapper.map(route12Dto, Route12.class);
+        }
+        public Route12Dto routeToDto (Route12 route12){
+            return this.modelMapper.map(route12, Route12Dto.class);
+        }
+
+
 }
