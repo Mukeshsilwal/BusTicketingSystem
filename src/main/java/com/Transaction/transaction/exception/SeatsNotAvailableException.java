@@ -8,7 +8,7 @@ import lombok.Setter;
 public class SeatsNotAvailableException extends RuntimeException{
     private String msg;
     public SeatsNotAvailableException(String msg) {
-        super(String.format("%s Not Available",msg));
+        super(String.format(msg));
         this.msg=msg;
     }
 }

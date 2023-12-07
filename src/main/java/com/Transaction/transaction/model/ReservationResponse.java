@@ -12,6 +12,4 @@ import lombok.Setter;
 public class ReservationResponse {
     private boolean status;
     private String message;
-
-
 }

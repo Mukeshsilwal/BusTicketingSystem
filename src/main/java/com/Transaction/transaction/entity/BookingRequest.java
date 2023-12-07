@@ -10,8 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -21,4 +21,5 @@ public class BookingRequest {
     private int id;
     private int noOfSeats;
     private String seatClass;
+
 }

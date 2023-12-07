@@ -49,24 +49,37 @@ public class BookingRequestServiceImpl implements BookingRequestService {
     }
 
     private void reserveSeatsAndUpdateDatabase(BookingRequest request) {
-        if(areSeatsAvailable(request)){
-            int count= request.getNoOfSeats();
-            List<Seat> reservedSeats=seatRepo.findFirstNByReservedFalse();
 
-            if (reservedSeats.size() > count) {
-                reservedSeats = reservedSeats.subList(0, count);
-                reservedSeats.forEach(seat->seat.setReserved(true));
-                seatRepo.saveAll(reservedSeats);
-                Booking booking=new Booking();
-                booking.setSeats(reservedSeats);
-                bookingSeatsRepo.save(booking);
+            if(areSeatsAvailable(request)){
+                int count= request.getNoOfSeats();
+                List<Seat> reservedSeats=seatRepo.findFirstNByReservedFalse();
+                if (reservedSeats.size() >= count) {
+                    // Check if all the seats are not already reserved
+                    boolean allSeatsNotReserved = reservedSeats.stream().noneMatch(Seat::isReserved);
+
+                    if (allSeatsNotReserved) {
+                        reservedSeats = reservedSeats.subList(0, count);
+                        reservedSeats.forEach(seat -> seat.setReserved(true));
+                        seatRepo.saveAll(reservedSeats);
+                        Booking booking = new Booking();
+                        booking.setSeats(reservedSeats);
+                        bookingSeatsRepo.save(booking);
+                    }
+                    else{
+                        throw new SeatsNotAvailableException("Some of the requested seats are already reserved");
+                    }
+                }
+                else {
+
+                    throw new SeatsNotAvailableException("Requested seats are not available");
+                }
+
             }
+            else {
+                throw new SeatsNotAvailableException("Requested seats are not available.");
+            }
+        }
 
-        }
-        else {
-            throw new SeatsNotAvailableException("Requested seats are not available.");
-        }
-    }
     public BookingRequest toRequest(BookingRequestDto bookingDto){
         return modelMapper.map(bookingDto,BookingRequest.class);
     }
