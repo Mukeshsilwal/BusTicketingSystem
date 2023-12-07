@@ -97,22 +97,13 @@ public class RouteServiceImpl implements Route12Service {
             List<Route12> routesToCurrentBusStop = getRoutesToBusStop(currentBusStop);
 
             if (!routesToCurrentBusStop.isEmpty()) {
-                // Assuming there could be multiple routes to the current bus stop,
-                // choose one (you may have a specific criterion to decide)
                 Route12 route = routesToCurrentBusStop.get(0);
-
-                // Convert the Route12 entity to Route12Dto and add it to the route
                 shortestRoute.add(routeToDto(route));
-
-                // Move to the source bus stop of the selected route
                 currentBusStop = route.getSourceBusStop();
             } else {
-                // No routes found, exit the loop
                 break;
             }
         }
-
-        // Reverse the list to have the correct order (from source to destination)
         Collections.reverse(shortestRoute);
         return shortestRoute;
     }
