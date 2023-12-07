@@ -1,8 +1,7 @@
 package com.Transaction.transaction.service.serviceImpl;
 
-import com.Transaction.transaction.config.BusConfig;
+import com.Transaction.transaction.algorithm.BusConfig;
 import com.Transaction.transaction.entity.BusStop;
-import com.Transaction.transaction.entity.BusStopDistance;
 import com.Transaction.transaction.entity.Route12;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.model.Graph;

@@ -1,5 +1,6 @@
 package com.Transaction.transaction.service.serviceImpl;
 
+import com.Transaction.transaction.algorithm.RandomSeatAllocator;
 import com.Transaction.transaction.entity.BookingTicket;
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Reservation;
@@ -67,6 +68,19 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public List<SeatDto> getAllSeat() {
         List<Seat> seats=this.seatRepo.findAll();
+        long count=seatRepo.count();
+        System.out.println("Counted seat"+count);
+        RandomSeatAllocator allocator=new RandomSeatAllocator((int) count);
+        allocator.allocateSeat();
+        for(int i=1;i<=count;i++){
+            int allocatedSeat= allocator.allocateSeat();
+            if(allocatedSeat!=-1){
+                System.out.println("Passenger " + i + " allocated to Seat " + allocatedSeat);
+            }
+            else{
+                System.out.println("No available seats for Passenger " + i);
+            }
+        }
         return seats.stream().map(this::seatToDto).collect(Collectors.toList());
     }
 
