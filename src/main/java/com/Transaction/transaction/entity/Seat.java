@@ -19,10 +19,11 @@ import java.util.Set;
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int seatId;
+    private int id;
     private String seatName;
     private char row1;
     private int col1;
+    private boolean reserved;
     @Enumerated(EnumType.STRING)
     private SeatType seatType;
     private float price;
@@ -41,5 +42,7 @@ public class Seat {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "reserve_id",referencedColumnName = "id")
     private Reservation reservation;
+    @ManyToMany(mappedBy = "seats")
+    private List<Booking> bookings;
 
 }

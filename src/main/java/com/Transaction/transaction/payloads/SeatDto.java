@@ -12,9 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SeatDto {
-    private int seatId;
+    private int id;
     private String seatName;
     private float price;
+    private boolean reserved;
     private char row1;
     private int col1;
     private SeatType seatType;

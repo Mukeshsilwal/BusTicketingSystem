@@ -24,7 +24,7 @@ public class Ticket {
     private Date departureDate;
     private double price;
     @OneToOne
-    @JoinColumn(name="seat_Id",referencedColumnName = "seatId")
+    @JoinColumn(name="seat_Id",referencedColumnName = "id")
     private Seat seat;
     @ManyToOne
     @JoinColumn(name="booking_id",referencedColumnName = "bookingId")

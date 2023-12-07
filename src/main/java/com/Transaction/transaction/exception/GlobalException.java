@@ -20,4 +20,10 @@ public class GlobalException {
         ApiResponse response=new ApiResponse(msg,true,HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(SeatsNotAvailableException.class)
+    public ResponseEntity<ApiResponse> responseEntity(SeatsNotAvailableException e){
+        String message=e.getMessage();
+        ApiResponse response=new ApiResponse(message,false,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+    }
 }
