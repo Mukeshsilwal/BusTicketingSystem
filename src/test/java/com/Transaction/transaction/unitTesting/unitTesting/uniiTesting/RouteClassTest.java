@@ -1,6 +1,6 @@
 package com.Transaction.transaction.unitTesting.unitTesting.uniiTesting;
 
-import com.Transaction.transaction.config.BusConfig;
+import com.Transaction.transaction.algorithm.BusConfig;
 import com.Transaction.transaction.entity.Route12;
 import com.Transaction.transaction.payloads.Route12Dto;
 import com.Transaction.transaction.repository.BusStopDistanceRepo;
