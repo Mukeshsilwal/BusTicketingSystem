@@ -1,6 +1,7 @@
 package com.Transaction.transaction.payloads;
 
 
+import com.Transaction.transaction.entity.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,5 @@ public class UserDto {
     private int id;
     private String email;
     private String password;
-    private Set<RoleDto> roles;
+    private Roles roles;
 }

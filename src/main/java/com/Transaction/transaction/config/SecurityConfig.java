@@ -1,5 +1,6 @@
 package com.Transaction.transaction.config;
 
+import com.Transaction.transaction.entity.Roles;
 import com.Transaction.transaction.security.CustomUserDetailsService;
 import com.Transaction.transaction.security.JwtEntryPoint;
 import com.Transaction.transaction.security.JwtFilterChain;
@@ -17,17 +18,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 @Configuration
 public class SecurityConfig {
 
     private final JwtFilterChain jwtAuthenticationFilter;
     private final JwtEntryPoint jwtEntryPoint;
-    private final UserDetailsService userDetailsService;
-    public SecurityConfig(@Lazy JwtFilterChain jwtAuthenticationFilter, JwtEntryPoint jwtEntryPoint, UserDetailsService userDetailsService) {
+    public SecurityConfig(@Lazy JwtFilterChain jwtAuthenticationFilter, JwtEntryPoint jwtEntryPoint) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.jwtEntryPoint = jwtEntryPoint;
-        this.userDetailsService = userDetailsService;
+    }
+    @Bean
+    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+        DefaultHttpFirewall firewall = new DefaultHttpFirewall();
+        // Allow %0A (newline character) in URLs
+        firewall.setAllowUrlEncodedSlash(true);
+        return firewall;
     }
 
     @Bean
@@ -38,9 +46,9 @@ public class SecurityConfig {
                 .antMatchers("/ticket/**").permitAll()
                 .antMatchers("/role/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/route/**").permitAll()
+                .antMatchers("/route/**").hasAuthority(Roles.ADMIN.name())
                 .antMatchers("/booking/**").permitAll()
-                .antMatchers("/seat/**","/route/**","/bus/**","/tickets/**","/reserve/**").permitAll()
+                .antMatchers("/seat/**","/bus/**","/tickets/**","/reserve/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
