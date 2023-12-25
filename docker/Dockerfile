@@ -18,7 +18,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the JAR file from the build stage
-COPY --from=builder /app/target/*.jar /app/
+COPY --from=builder /app/target/transaction-0.0.1-SNAPSHOT.jar /app/
 
 EXPOSE 8080
 
