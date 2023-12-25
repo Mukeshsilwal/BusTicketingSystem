@@ -27,11 +27,18 @@ public class Seat {
     @Enumerated(EnumType.STRING)
     private SeatType seatType;
     private float price;
+    private String seatNumber;
+    private String zone;
 
     public Seat(char row1, int col1, SeatType seatType) {
         this.row1 = row1;
         this.col1 = col1;
         this.seatType = seatType;
+    }
+
+    public Seat(String seatNumber, String zone) {
+        this.seatNumber = seatNumber;
+        this.zone = zone;
     }
 
     @ManyToOne

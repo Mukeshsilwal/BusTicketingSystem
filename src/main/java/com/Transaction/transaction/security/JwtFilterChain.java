@@ -44,7 +44,7 @@ public class JwtFilterChain extends OncePerRequestFilter {
         }
         if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserDetails userDetails=this.userDetailsService.loadUserByUsername(username);
-            Boolean validateToken = this.jwtService.validationToken(jwt, userDetails);
+            Boolean validateToken = this.jwtService.validateToken(jwt, userDetails);
             if (validateToken) {
 
                 UsernamePasswordAuthenticationToken authenticationFilter = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

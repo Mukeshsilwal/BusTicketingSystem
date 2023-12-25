@@ -1,21 +1,21 @@
 package com.Transaction.transaction.service.serviceImpl;
 
+import com.Transaction.transaction.algorithm.FirstInFirstOut;
 import com.Transaction.transaction.algorithm.RandomSeatAllocator;
 import com.Transaction.transaction.entity.BookingTicket;
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Reservation;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
+import com.Transaction.transaction.exception.SeatAlreadyReserved;
 import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.BookingTicketDto;
 import com.Transaction.transaction.payloads.SeatDto;
-import com.Transaction.transaction.repository.BookingRepo;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.ReservationRepo;
 import com.Transaction.transaction.repository.SeatRepo;
 import com.Transaction.transaction.service.SeatReservation;
 import com.Transaction.transaction.service.SeatService;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -28,19 +28,22 @@ public class SeatServiceImpl implements SeatService {
     private final BusInfoRepo busInfoRepo;
     private final SeatReservation seatReservation;
     private final ReservationRepo reservationRepo;
+    private final FirstInFirstOut firstInFirstOut;
 
-    public SeatServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BusInfoRepo busInfoRepo, SeatReservation seatReservation, ReservationRepo reservationRepo) {
+    public SeatServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BusInfoRepo busInfoRepo, SeatReservation seatReservation, ReservationRepo reservationRepo, FirstInFirstOut firstInFirstOut) {
         this.seatRepo = seatRepo;
         this.modelMapper = modelMapper;
         this.busInfoRepo = busInfoRepo;
         this.seatReservation = seatReservation;
         this.reservationRepo = reservationRepo;
+        this.firstInFirstOut = firstInFirstOut;
     }
 
     @Override
     public SeatDto createSeat(SeatDto seatDto) {
         Seat seat=this.dtoToSeat(seatDto);
             Seat seat1=this.seatRepo.save(seat);
+            firstInFirstOut.enqueue(seat1);
             return seatToDto(seat1);
     }
 
@@ -62,6 +65,10 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public SeatDto getSeatById(int id) {
         Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
+        firstInFirstOut.peek();
+        int count=firstInFirstOut.size();
+        System.out.println("Size of the queue is :"+count);
+        firstInFirstOut.dequeue(seat);
         return seatToDto(seat);
     }
 
@@ -92,13 +99,6 @@ public class SeatServiceImpl implements SeatService {
         Seat seat1=this.seatRepo.save(seat);
         return seatToDto(seat1);
     }
-
-//    @Override
-//    public void deleteBookingSeat(int sId, int id) {
-//        Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
-//        BookingTicket bookingTicket=this.bookingRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","id",id));
-//        this.seatRepo.delete(seat);
-//    }
 
     @Override
     public SeatType getSeatType(int id) {

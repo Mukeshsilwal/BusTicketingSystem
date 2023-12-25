@@ -43,7 +43,7 @@ public class SecurityConfig {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/user/**","/busStop/**","/distance/**","/bookSeats/**").permitAll()
-                .antMatchers("/ticket/**").permitAll()
+                .antMatchers("/ticket/**","/bus1/**").permitAll()
                 .antMatchers("/role/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/route/**").hasAuthority(Roles.ADMIN.name())

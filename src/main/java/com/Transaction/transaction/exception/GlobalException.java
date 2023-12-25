@@ -26,4 +26,10 @@ public class GlobalException {
         ApiResponse response=new ApiResponse(message,false,HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(SeatAlreadyReserved.class)
+    public ResponseEntity<ApiResponse> response(SeatAlreadyReserved e){
+        String message=e.getMessage();
+        ApiResponse response=new ApiResponse(message,false,HttpStatus.IM_USED);
+        return new ResponseEntity<>(response,HttpStatus.IM_USED);
+    }
 }

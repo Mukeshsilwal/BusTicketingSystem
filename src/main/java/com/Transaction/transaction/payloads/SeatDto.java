@@ -18,6 +18,8 @@ public class SeatDto {
     private boolean reserved;
     private char row1;
     private int col1;
+    private String seatNumber;
+    private String zone;
     private SeatType seatType;
     private BusInfoDto busInfo;
 
