@@ -52,4 +52,7 @@ public class Seat {
     @ManyToMany(mappedBy = "seats")
     private List<Booking> bookings;
 
+    public Seat(String seatNumber) {
+        this.seatNumber = seatNumber;
+    }
 }
