@@ -122,7 +122,4 @@ public class SeatServiceImpl implements SeatService {
     public SeatDto seatToDto(Seat seat){
         return this.modelMapper.map(seat,SeatDto.class);
     }
-    public BookingTicket dtoToBooking(BookingTicketDto bookingTicketDto){
-        return this.modelMapper.map(bookingTicketDto,BookingTicket.class);
-    }
 }

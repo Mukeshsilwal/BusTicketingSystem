@@ -3,6 +3,7 @@ package com.Transaction.transaction.service.serviceImpl;
 import com.Transaction.transaction.entity.Ticket;
 import com.Transaction.transaction.entity.User;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
+import com.Transaction.transaction.exception.UserAlreadyExistsException;
 import com.Transaction.transaction.payloads.RoleDto;
 import com.Transaction.transaction.payloads.TicketDto;
 import com.Transaction.transaction.payloads.UserDto;
@@ -12,6 +13,7 @@ import com.Transaction.transaction.service.TicketService;
 import com.Transaction.transaction.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,17 +27,21 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final TicketService ticketService;
     private final TicketRepo ticketRepo;
-//    private final RoleRepo roleRepo;
-//    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
 
    @Transactional
     @Override
     public UserDto createUser(UserDto userDto) {
 
-        User user=this.dtoToUser(userDto);
-        User user1=this.userRepo.save(user);
-        return userToDto(user1);
+       User user=this.dtoToUser(userDto);
+       if(!userRepo.existsByEmail(user.getEmail())){
+       user.setPassword(passwordEncoder.encode(user.getPassword()));
+       User user1=this.userRepo.save(user);
+       return userToDto(user1);}
+       else{
+           throw new UserAlreadyExistsException("User Already Registered !");
+       }
     }
 
     @Override
@@ -84,8 +90,5 @@ public class UserServiceImpl implements UserService {
     public TicketDto ticketToDto(Ticket ticket){
         return this.modelMapper.map(ticket, TicketDto.class);
     }
-//    private RoleDto roleToDto(Role role){
-//        return this.modelMapper.map(role,RoleDto.class);
-//    }
 
 }

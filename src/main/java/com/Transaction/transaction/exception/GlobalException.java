@@ -32,4 +32,10 @@ public class GlobalException {
         ApiResponse response=new ApiResponse(message,false,HttpStatus.IM_USED);
         return new ResponseEntity<>(response,HttpStatus.IM_USED);
     }
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ApiResponse> UserNotFound(UserAlreadyExistsException e){
+        String message=e.getMessage();
+        ApiResponse response=new ApiResponse(message,true,HttpStatus.IM_USED);
+        return new ResponseEntity<>(response,HttpStatus.IM_USED);
+    }
 }

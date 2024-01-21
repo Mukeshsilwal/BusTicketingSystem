@@ -62,7 +62,7 @@ public class BookingRequestServiceImpl implements BookingRequestService {
                         reservedSeats.forEach(seat -> seat.setReserved(true));
                         seatRepo.saveAll(reservedSeats);
                         Booking booking = new Booking();
-                        booking.setSeats(reservedSeats);
+//                        booking.setSeats(reservedSeats);
                         bookingSeatsRepo.save(booking);
                     }
                     else{

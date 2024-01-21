@@ -17,12 +17,12 @@ import java.util.Set;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
     @ManyToMany
     @JoinTable(
             name = "booking_seat",
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id1")
+            joinColumns = @JoinColumn(name = "id1"),
+            inverseJoinColumns = @JoinColumn(name = "id2")
     )
-    private Seat seats;
+    private List<Seat> seats;
 }
