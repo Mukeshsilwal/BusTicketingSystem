@@ -38,4 +38,11 @@ public class GlobalException {
         ApiResponse response=new ApiResponse(message,true,HttpStatus.IM_USED);
         return new ResponseEntity<>(response,HttpStatus.IM_USED);
     }
+
+    @ExceptionHandler(PasswordIncorrectException.class)
+    public ResponseEntity<ApiResponse> PasswordIncorrect(PasswordIncorrectException e){
+        String message=e.getMessage();
+        ApiResponse response=new ApiResponse(message,true,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
 }
