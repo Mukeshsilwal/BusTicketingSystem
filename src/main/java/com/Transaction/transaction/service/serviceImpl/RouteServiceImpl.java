@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RouteServiceImpl implements Route12Service {
+public class  RouteServiceImpl implements Route12Service {
     private final RouteRepo routeRepo;
     private final ModelMapper modelMapper;
    private final BusConfig busConfig;
@@ -79,34 +79,56 @@ public class RouteServiceImpl implements Route12Service {
 
     @Override
     public List<Route12Dto> findShortestRoute(int sourceId, int destinationId) {
-        BusStop sourceBusStop = this.busStopRepo.findById(sourceId).orElseThrow(() -> new ResourceNotFoundException("BusStop", "id", sourceId));
-        BusStop destinationBusStop = this.busStopRepo.findById(destinationId).orElseThrow(() -> new ResourceNotFoundException("BusStop", "id1", destinationId));
-        List<BusStop> busStops=this.busStopRepo.findAll();
-        List<Route12> route12s=this.routeRepo.findAll();
-        Graph graph=new Graph();
+        BusStop sourceBusStop = this.busStopRepo.findById(sourceId)
+                .orElseThrow(() -> new ResourceNotFoundException("BusStop", "id", sourceId));
+
+        BusStop destinationBusStop = this.busStopRepo.findById(destinationId)
+                .orElseThrow(() -> new ResourceNotFoundException("BusStop", "id1", destinationId));
+
+        List<BusStop> busStops = this.busStopRepo.findAll();
+        List<Route12> route12s = this.routeRepo.findAll();
+
+        Graph graph = new Graph();
         graph.setRoute12s(route12s);
         graph.setBusStops(busStops);
-        busConfig.dijkstra(graph,sourceBusStop);
-        return retriveShortestPath(sourceBusStop,destinationBusStop);
+
+        try {
+            busConfig.dijkstra(graph, sourceBusStop);
+        } catch (Exception e) {
+            // Handle the case where there is no path between source and destination
+            return Collections.emptyList();
+        }
+
+        List<Route12> shortestPath = retrieveShortestPath(sourceBusStop, destinationBusStop);
+        return shortestPath.stream().map(this::routeToDto).collect(Collectors.toList());
     }
 
-    private List<Route12Dto> retriveShortestPath(BusStop sourceBusStop, BusStop destinationBusStop) {
-        List<Route12Dto> shortestRoute = new ArrayList<>();
+    private List<Route12> retrieveShortestPath(BusStop sourceBusStop, BusStop destinationBusStop) {
+        List<Route12> shortestPath = new ArrayList<>();
         BusStop currentBusStop = destinationBusStop;
-        while (currentBusStop != null) {
+
+        while (currentBusStop != null && currentBusStop != sourceBusStop) {
             List<Route12> routesToCurrentBusStop = getRoutesToBusStop(currentBusStop);
 
             if (!routesToCurrentBusStop.isEmpty()) {
                 Route12 route = routesToCurrentBusStop.get(0);
-                shortestRoute.add(routeToDto(route));
+                shortestPath.add(route);
                 currentBusStop = route.getSourceBusStop();
             } else {
                 break;
             }
         }
-        Collections.reverse(shortestRoute);
-        return shortestRoute;
+
+        // Add the source bus stop if a path is found
+        if (currentBusStop == sourceBusStop) {
+            Collections.reverse(shortestPath);
+        } else {
+            shortestPath.clear();  // No path found, clear the list
+        }
+
+        return shortestPath;
     }
+
 
     private List<Route12> getRoutesToBusStop(BusStop currentBusStop) {
         return currentBusStop.getDestinationRoutes();

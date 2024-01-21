@@ -46,7 +46,7 @@ public class Seat {
     private BusInfo busInfo;
     @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Ticket ticket;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "reserve_id",referencedColumnName = "id")
     private Reservation reservation;
     @ManyToMany(mappedBy = "seats")

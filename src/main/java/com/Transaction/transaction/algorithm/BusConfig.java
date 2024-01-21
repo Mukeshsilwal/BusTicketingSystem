@@ -19,6 +19,7 @@ public class BusConfig {
 
             for (Route12 route : current.getDestinationRoutes()) {
                 int tentativeDistance = current.getDistance() + route.getWeight();
+                System.out.println("tentative distance"+tentativeDistance);
                 if (tentativeDistance < route.getDistance()) {
                     route.setDistance(tentativeDistance);
                 }

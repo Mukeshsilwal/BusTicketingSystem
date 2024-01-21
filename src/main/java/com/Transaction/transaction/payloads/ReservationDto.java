@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class ReservationDto {
     private int id;
-    private List<SeatDto> seatDtos;
+    private List<SeatDto> seatReserve;
 }

@@ -22,7 +22,7 @@ public class Reservation {
     private int numSeat;
     @Enumerated(EnumType.STRING)
     private SeatType preference;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Seat> seatReserve;
 
 }

@@ -48,17 +48,10 @@ public class SeatController {
         SeatDto seatDto1=this.seatService.createSeatForBus(seatDto,id);
         return new ResponseEntity<>(seatDto1,HttpStatus.CREATED);
     }
-//    @DeleteMapping("/seat/{sId}/book/{id}")
-//    public ResponseEntity<ApiResponse> deleteBookedSeat(@PathVariable Integer sId,@PathVariable Integer id){
-//        this.seatService.deleteBookingSeat(sId,id);
-//        return new ResponseEntity<>(new ApiResponse("Booked Seat Has Been Removed",true,HttpStatus.OK),HttpStatus.OK);
-//    }
     @GetMapping("/seatType/{id}")
     public ResponseEntity<SeatType> getSeatType(@PathVariable Integer id) {
         SeatType seatType = this.seatService.getSeatType(id);
         return new ResponseEntity<>(seatType, HttpStatus.OK);
-
-
     }
 
 }

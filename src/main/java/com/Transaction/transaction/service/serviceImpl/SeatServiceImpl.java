@@ -18,6 +18,8 @@ import com.Transaction.transaction.service.SeatReservation;
 import com.Transaction.transaction.service.SeatService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.beans.Transient;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,8 +113,8 @@ public class SeatServiceImpl implements SeatService {
         List<Seat> reservedSeats=this.seatReservation.reserveSeats(numSeat,preference);
         List<SeatDto> reservedSeatDtos=reservedSeats.stream().map(this::seatToDto).collect(Collectors.toList());
         Reservation reservation=new Reservation();
-        reservation.setSeatReserve(reservedSeats);
         reservationRepo.save(reservation);
+        reservation.setSeatReserve(reservedSeats);
         return reservedSeatDtos;
     }
 

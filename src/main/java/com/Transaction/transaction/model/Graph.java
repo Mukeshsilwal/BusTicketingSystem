@@ -21,7 +21,7 @@ public class Graph {
 
     public void resetBusDistance() {
         for (BusStop busStop : busStops) {
-            busStop.setDistance(Integer.MAX_VALUE); // Set to a large value representing infinity
+            busStop.setDistance(Integer.MAX_VALUE);
             busStop.setVisited(false);
         }
     }
