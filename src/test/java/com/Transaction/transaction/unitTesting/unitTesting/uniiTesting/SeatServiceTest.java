@@ -4,6 +4,7 @@ import com.Transaction.transaction.algorithm.FirstInFirstOut;
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.payloads.SeatDto;
+import com.Transaction.transaction.repository.BookingRequestRepo;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.ReservationRepo;
 import com.Transaction.transaction.repository.SeatRepo;
@@ -27,6 +28,7 @@ public class SeatServiceTest {
     private  ReservationRepo reservationRepo;
     private SeatServiceImpl seatService;
     private  FirstInFirstOut firstInFirstOut;
+    private BookingRequestRepo requestRepo;
 
     @BeforeEach
     public void setUp(){
@@ -36,7 +38,7 @@ public class SeatServiceTest {
         modelMapper=new ModelMapper();
         seatReservation=new SeatReservation();
         firstInFirstOut=new FirstInFirstOut();
-        seatService=new SeatServiceImpl(seatRepo,modelMapper,busInfoRepo,seatReservation,reservationRepo,firstInFirstOut);
+        seatService=new SeatServiceImpl(seatRepo,modelMapper,busInfoRepo,seatReservation,reservationRepo,firstInFirstOut, requestRepo);
     }
 
     @Test

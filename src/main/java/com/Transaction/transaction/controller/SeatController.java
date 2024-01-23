@@ -53,5 +53,10 @@ public class SeatController {
         SeatType seatType = this.seatService.getSeatType(id);
         return new ResponseEntity<>(seatType, HttpStatus.OK);
     }
+    @PostMapping("/save/{id}")
+    public ResponseEntity<SeatDto> Save(@RequestBody SeatDto seatDto,@PathVariable int id){
+        SeatDto seatDto1=this.seatService.createReservedSeat(seatDto,id);
+        return  new ResponseEntity<>(seatDto1,HttpStatus.CREATED);
+    }
 
 }

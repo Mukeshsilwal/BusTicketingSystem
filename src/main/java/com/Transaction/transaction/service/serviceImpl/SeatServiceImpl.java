@@ -2,15 +2,11 @@ package com.Transaction.transaction.service.serviceImpl;
 
 import com.Transaction.transaction.algorithm.FirstInFirstOut;
 import com.Transaction.transaction.algorithm.RandomSeatAllocator;
-import com.Transaction.transaction.entity.BookingTicket;
-import com.Transaction.transaction.entity.BusInfo;
-import com.Transaction.transaction.entity.Reservation;
-import com.Transaction.transaction.entity.Seat;
+import com.Transaction.transaction.entity.*;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
-import com.Transaction.transaction.exception.SeatAlreadyReserved;
 import com.Transaction.transaction.model.SeatType;
-import com.Transaction.transaction.payloads.BookingTicketDto;
 import com.Transaction.transaction.payloads.SeatDto;
+import com.Transaction.transaction.repository.BookingRequestRepo;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.ReservationRepo;
 import com.Transaction.transaction.repository.SeatRepo;
@@ -19,7 +15,6 @@ import com.Transaction.transaction.service.SeatService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,14 +26,16 @@ public class SeatServiceImpl implements SeatService {
     private final SeatReservation seatReservation;
     private final ReservationRepo reservationRepo;
     private final FirstInFirstOut firstInFirstOut;
+    private final BookingRequestRepo requestRepo;
 
-    public SeatServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BusInfoRepo busInfoRepo, SeatReservation seatReservation, ReservationRepo reservationRepo, FirstInFirstOut firstInFirstOut) {
+    public SeatServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BusInfoRepo busInfoRepo, SeatReservation seatReservation, ReservationRepo reservationRepo, FirstInFirstOut firstInFirstOut, BookingRequestRepo requestRepo) {
         this.seatRepo = seatRepo;
         this.modelMapper = modelMapper;
         this.busInfoRepo = busInfoRepo;
         this.seatReservation = seatReservation;
         this.reservationRepo = reservationRepo;
         this.firstInFirstOut = firstInFirstOut;
+        this.requestRepo = requestRepo;
     }
 
     @Override
@@ -116,6 +113,15 @@ public class SeatServiceImpl implements SeatService {
         reservationRepo.save(reservation);
         reservation.setSeatReserve(reservedSeats);
         return reservedSeatDtos;
+    }
+
+    @Override
+    public SeatDto createReservedSeat(SeatDto seatDto, int id) {
+        Seat seat=this.dtoToSeat(seatDto);
+        BookingRequest request=this.requestRepo.findById(id).orElseThrow();
+        seat.setBooking(request);
+        seatRepo.save(seat);
+        return seatToDto(seat);
     }
 
     public Seat dtoToSeat(SeatDto seatDto){

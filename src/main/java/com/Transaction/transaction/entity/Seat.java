@@ -41,6 +41,10 @@ public class Seat {
         this.zone = zone;
     }
 
+    public void cancelRequest(){
+        this.reserved=false;
+    }
+
     @ManyToOne
     @JoinColumn(name = "fid",referencedColumnName = "id")
     private BusInfo busInfo;
@@ -51,6 +55,9 @@ public class Seat {
     private Reservation reservation;
     @ManyToMany(mappedBy = "seats")
     private List<Booking> bookings;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="id1")
+    private BookingRequest booking;
 
     public Seat(String seatNumber) {
         this.seatNumber = seatNumber;

@@ -5,21 +5,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name="booked")
 public class BookingRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int noOfSeats;
     private String seatClass;
+    @OneToMany(mappedBy = "booking",fetch = FetchType.EAGER)
+    private List<Seat> seats;
 
 }

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class SeatReservation {
-    private List<Seat> availableSeat;
+    private final List<Seat> availableSeat;
     private List<Seat> reservedSeat;
 
     public SeatReservation() {

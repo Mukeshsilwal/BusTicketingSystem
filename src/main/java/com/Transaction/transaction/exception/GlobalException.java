@@ -45,4 +45,11 @@ public class GlobalException {
         ApiResponse response=new ApiResponse(message,true,HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(BookingNotFoundException.class)
+    public ResponseEntity<ApiResponse>  BookingExc(BookingNotFoundException e){
+        String message=e.getMessage();
+        ApiResponse response=new ApiResponse(message,false,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+    }
 }
