@@ -28,12 +28,12 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Roles roles;
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(roles.name()));
+        return roles.stream().map((role)->new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
     @Override

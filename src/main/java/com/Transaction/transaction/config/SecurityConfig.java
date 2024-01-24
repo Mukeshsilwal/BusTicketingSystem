@@ -1,6 +1,5 @@
 package com.Transaction.transaction.config;
 
-import com.Transaction.transaction.entity.Roles;
 import com.Transaction.transaction.security.CustomUserDetailsService;
 import com.Transaction.transaction.security.JwtEntryPoint;
 import com.Transaction.transaction.security.JwtFilterChain;
@@ -46,7 +45,7 @@ public class SecurityConfig {
                 .antMatchers("/ticket/**","/bus1/**").permitAll()
                 .antMatchers("/role/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/route/**").hasAuthority(Roles.ADMIN.name())
+                .antMatchers("/route/**").hasAuthority("ADMIN")
                 .antMatchers("/booking/**").permitAll()
                 .antMatchers("/seat/**","/bus/**","/tickets/**","/reserve/**").permitAll()
                 .anyRequest()

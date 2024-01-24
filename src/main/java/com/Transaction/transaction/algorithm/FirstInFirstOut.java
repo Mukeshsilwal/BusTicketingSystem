@@ -16,8 +16,7 @@ public class FirstInFirstOut {
     public void dequeue(Seat seat){
         seatQueue.poll();
     }
-    public Seat peek() {
-        return seatQueue.peek();
+    public void peek() {
     }
 
     // Check if the queue is empty

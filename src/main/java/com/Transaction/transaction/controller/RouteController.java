@@ -7,6 +7,7 @@ import com.Transaction.transaction.service.Route12Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public class RouteController {
         Route12Dto route12Dto1=this.route12Service.updateRoute(route12Dto,id);
         return new ResponseEntity<>(route12Dto1,HttpStatus.OK);
     }
+
     @PostMapping("/busStop/{id}/{id1}")
     public ResponseEntity<Route12Dto> createRouteWithBusStop(@RequestBody Route12Dto route12Dto,@PathVariable int
                                                              id, @PathVariable int id1){

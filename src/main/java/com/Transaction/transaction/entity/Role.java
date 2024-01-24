@@ -6,24 +6,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Bus")
-public class BusInfo {
+@Entity
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String busName;
-    private String busType;
-    private double price;
-    private Date time;
+    private String name;
+
+
     @ManyToOne
-    @JoinColumn(name = "fid")
-    private Route12 route12;
+    @JoinColumn(name="id1")
+    private User user;
 }

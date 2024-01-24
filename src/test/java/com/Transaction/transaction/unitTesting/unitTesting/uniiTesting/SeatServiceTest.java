@@ -22,23 +22,19 @@ import static org.mockito.Mockito.*;
 
 public class SeatServiceTest {
     private SeatRepo seatRepo;
-    private ModelMapper modelMapper;
     private  BusInfoRepo busInfoRepo;
-    private  SeatReservation seatReservation;
-    private  ReservationRepo reservationRepo;
     private SeatServiceImpl seatService;
-    private  FirstInFirstOut firstInFirstOut;
     private BookingRequestRepo requestRepo;
 
     @BeforeEach
     public void setUp(){
         seatRepo=mock(SeatRepo.class);
         busInfoRepo=mock(BusInfoRepo.class);
-        reservationRepo=mock(ReservationRepo.class);
-        modelMapper=new ModelMapper();
-        seatReservation=new SeatReservation();
-        firstInFirstOut=new FirstInFirstOut();
-        seatService=new SeatServiceImpl(seatRepo,modelMapper,busInfoRepo,seatReservation,reservationRepo,firstInFirstOut, requestRepo);
+        ReservationRepo reservationRepo = mock(ReservationRepo.class);
+        ModelMapper modelMapper = new ModelMapper();
+        SeatReservation seatReservation = new SeatReservation();
+        FirstInFirstOut firstInFirstOut = new FirstInFirstOut();
+        seatService=new SeatServiceImpl(seatRepo, modelMapper,busInfoRepo, seatReservation, reservationRepo, firstInFirstOut, requestRepo);
     }
 
     @Test

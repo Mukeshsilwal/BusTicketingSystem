@@ -20,7 +20,6 @@ public class RouteClassTest {
 
     private RouteRepo routeRepo;
 
-    private ModelMapper modelMapper;
     private RouteServiceImpl routeService;
     private BusStopRepo busStopRepo;
     private BusStopDistanceRepo busStopDistanceRepo;
@@ -28,8 +27,8 @@ public class RouteClassTest {
     @BeforeEach
     public  void setUp(){
         routeRepo=mock(RouteRepo.class);
-        modelMapper=new ModelMapper();
-        routeService=new RouteServiceImpl(routeRepo,modelMapper, busConfig, busStopRepo, busStopDistanceRepo);
+        ModelMapper modelMapper = new ModelMapper();
+        routeService=new RouteServiceImpl(routeRepo, modelMapper, busConfig, busStopRepo, busStopDistanceRepo);
     }
     @Test
     public void testForDeleteMethod(){
