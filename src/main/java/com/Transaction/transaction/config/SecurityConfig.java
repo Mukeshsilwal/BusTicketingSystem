@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/user/**","/busStop/**","/distance/**","/bookSeats/**").permitAll()
                 .antMatchers("/ticket/**","/bus1/**").permitAll()
-                .antMatchers("/role/**").permitAll()
+                .antMatchers("/role/**").hasAuthority("SUPER_ADMIN")
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/route/**").hasAuthority("ADMIN")
                 .antMatchers("/booking/**").permitAll()
