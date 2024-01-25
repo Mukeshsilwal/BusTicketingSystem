@@ -118,7 +118,7 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public SeatDto createReservedSeat(SeatDto seatDto, int id) {
         Seat seat=this.dtoToSeat(seatDto);
-        BookingRequest request=this.requestRepo.findById(id).orElseThrow();
+        BookingRequest request=this.requestRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Booking request","id",id));
         seat.setBooking(request);
         seatRepo.save(seat);
         return seatToDto(seat);

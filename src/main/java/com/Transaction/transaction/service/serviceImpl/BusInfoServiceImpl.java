@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +44,6 @@ public class BusInfoServiceImpl implements BusInfoService {
         busInfo.setBusType(busInfoDto.getBusType());
         busInfo.setRoute12(route12);
         busInfo.setPrice(busInfoDto.getPrice());
-        busInfo.setTime(busInfoDto.getTime());
         BusInfo busInfo1=this.busInfoRepo.save(busInfo);
         return busInfoToDto(busInfo1);
     }
@@ -74,16 +75,13 @@ public class BusInfoServiceImpl implements BusInfoService {
     @Override
     public List<BusInfoDto> getAllBusInfo() {
         List<BusInfo> busInfos=this.busInfoRepo.findAll();
-        List<BusInfoDto> busInfoDtos=busInfos.stream().map((bus)->this.busInfoToDto(bus)).collect(Collectors.toList());
-        return busInfoDtos;
+        return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
     }
 
     public BusInfo dtoToBusInfo(BusInfoDto busInfoDto){
-        BusInfo busInfo=this.modelMapper.map(busInfoDto, BusInfo.class);
-        return busInfo;
+        return this.modelMapper.map(busInfoDto, BusInfo.class);
     }
     public BusInfoDto busInfoToDto(BusInfo busInfo){
-        BusInfoDto busInfoDto=this.modelMapper.map(busInfo,BusInfoDto.class);
-        return busInfoDto;
+        return this.modelMapper.map(busInfo,BusInfoDto.class);
     }
 }

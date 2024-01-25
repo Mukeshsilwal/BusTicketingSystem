@@ -18,7 +18,4 @@ public class BusStopDto {
     private int distance;
     private boolean visited;
 
-//    private List<BusStopDistanceDto> sourceBusStop1;
-//    private List<BusStopDistanceDto> destinationBusStop1;
-
 }

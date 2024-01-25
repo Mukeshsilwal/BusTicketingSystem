@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,8 +24,9 @@ public class BusInfo {
     private String busName;
     private String busType;
     private double price;
-    private Date time;
     @ManyToOne
     @JoinColumn(name = "fid")
     private Route12 route12;
+    @OneToMany(mappedBy = "busInfo",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    List<Seat> seats;
 }

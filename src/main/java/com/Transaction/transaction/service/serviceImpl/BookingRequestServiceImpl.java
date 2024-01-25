@@ -22,15 +22,12 @@ import java.util.Optional;
 @Service
 public  class BookingRequestServiceImpl implements BookingRequestService {
     private final SeatRepo seatRepo;
-//    private final BookingRequestRepo requestRepo;
     private final ModelMapper modelMapper;
-    private final BookingSeatsRepo bookingSeatsRepo;
     private final BookingRequestRepo requestRepo;
 
-    public BookingRequestServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BookingSeatsRepo bookingSeatsRepo, BookingRequestRepo requestRepo) {
+    public BookingRequestServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper,BookingRequestRepo requestRepo) {
         this.seatRepo = seatRepo;
         this.modelMapper = modelMapper;
-        this.bookingSeatsRepo = bookingSeatsRepo;
         this.requestRepo = requestRepo;
     }
 
@@ -63,25 +60,12 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
 
             // Save the updated booking entity
             requestRepo.delete(booking);
-            // Perform cancellation logic
-//            cancelSeats(booking.getSeats());
-//            List<Seat> reservedSeats = booking.getSeats();
-//            System.out.println("seat"+reservedSeats.toString());
-//            reservedSeats.forEach(seat -> {
-//                seat.setReserved(false);
-//                seat.setBooking(null); // You may need to disassociate the seat from the booking
-//            });
 
         } else {
             // Handle the case where the booking with the given ID is not found
             throw new BookingNotFoundException("Booking not found for ID: " + bookingId);
         }
     }
-//    private void cancelSeats(List<Seat> seats) {
-//        // Implement the logic to mark seats as not reserved
-//        seats.forEach(seat -> seat.setReserved(false));
-//        seatRepo.saveAll(seats);
-//    }
 
     private boolean areSeatsAvailable(BookingRequest request) {
         long count1=seatRepo.count();

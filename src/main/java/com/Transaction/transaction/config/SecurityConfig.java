@@ -41,11 +41,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/**","/busStop/**","/distance/**","/bookSeats/**").permitAll()
+                .antMatchers("/user/**","/busStop/**","/distance/**","/bookSeats/**","/seat/**").permitAll()
                 .antMatchers("/ticket/**","/bus1/**").permitAll()
                 .antMatchers("/role/**").hasAuthority("SUPER_ADMIN")
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/route/**").hasAuthority("ADMIN")
+                .antMatchers("/route/**").permitAll()
                 .antMatchers("/booking/**").permitAll()
                 .antMatchers("/seat/**","/bus/**","/tickets/**","/reserve/**").permitAll()
                 .anyRequest()

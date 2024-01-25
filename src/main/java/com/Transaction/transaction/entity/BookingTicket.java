@@ -20,12 +20,15 @@ import java.util.Set;
 public class BookingTicket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookingId;
+    private int id;
     private Date bookingDate;
     private String fullName;
     private String email;
     private int seatNo;
     @OneToMany(mappedBy = "bookingTicket",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Ticket> ticket;
+    @ManyToOne
+    @JoinColumn(name = "id1")
+    private User user;
 
 }

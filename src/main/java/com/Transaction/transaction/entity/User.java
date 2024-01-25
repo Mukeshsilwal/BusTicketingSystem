@@ -7,12 +7,10 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -30,6 +28,8 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<Role> roles;
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<BookingTicket> tickets;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,36 +1,45 @@
 package com.Transaction.transaction.service.serviceImpl;
 
+import com.Transaction.transaction.entity.BookingRequest;
 import com.Transaction.transaction.entity.BookingTicket;
+import com.Transaction.transaction.entity.User;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
+import com.Transaction.transaction.payloads.BookingRequestDto;
 import com.Transaction.transaction.payloads.BookingTicketDto;
 import com.Transaction.transaction.repository.BookingRepo;
-import com.Transaction.transaction.service.BookingService;
+import com.Transaction.transaction.repository.UserRepo;
+import com.Transaction.transaction.service.BookingTicketService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class BookingServiceImpl implements BookingService {
+public class BookingTicketServiceImpl implements BookingTicketService {
     private final BookingRepo bookingRepo;
+    private final UserRepo userRepo;
     private final ModelMapper modelMapper;
 
 
     @Override
-    public List<BookingTicketDto> getAllBookingWithUserAndTicket() {
-        return null;
+    public List<BookingTicketDto> getAllBookingWithUser() {
+        List<BookingTicket> requests=this.bookingRepo.findAll();
+        return requests.stream().map(this::bookingToDto).collect(Collectors.toList());
     }
 
     @Override
-    public BookingTicketDto getTicketByBookingTicketNo(int bookingId) {
+    public BookingTicketDto getBooking(int bookingId) {
         BookingTicket bookingTicket=this.bookingRepo.findById(bookingId).orElseThrow(()->new ResourceNotFoundException("BookingTicket","bookingId",bookingId));
         return bookingToDto(bookingTicket);
     }
 
     @Override
-    public BookingTicketDto createBooking(BookingTicketDto bookingTicketDto) {
+    public BookingTicketDto createBookingWithUser(BookingTicketDto bookingTicketDto,int id) {
         BookingTicket bookingTicket=this.dtoToBooking(bookingTicketDto);
+        User user=this.userRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("User","id",id));
+        bookingTicket.setUser(user);
         BookingTicket bookingTicket1=this.bookingRepo.save(bookingTicket);
         return bookingToDto(bookingTicket1);
     }

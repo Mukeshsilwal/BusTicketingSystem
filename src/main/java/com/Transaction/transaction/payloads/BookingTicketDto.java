@@ -1,6 +1,7 @@
 package com.Transaction.transaction.payloads;
 
 
+import com.Transaction.transaction.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,5 @@ public class BookingTicketDto {
     private String fullName;
     private String email;
     private int seatNo;
+    private UserDto user;
 }
