@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-public class BusConfig {
+public class AlgorithmShortestPath {
     public void dijkstra(Graph graph, BusStop source) {
         source.setDistance(0);
         List<BusStop> unvisitedNodes = new ArrayList<>(graph.getBusStops());

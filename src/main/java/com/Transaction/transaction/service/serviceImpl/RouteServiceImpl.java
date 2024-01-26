@@ -1,6 +1,6 @@
 package com.Transaction.transaction.service.serviceImpl;
 
-import com.Transaction.transaction.algorithm.BusConfig;
+import com.Transaction.transaction.algorithm.AlgorithmShortestPath;
 import com.Transaction.transaction.entity.BusStop;
 import com.Transaction.transaction.entity.Route12;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
@@ -22,14 +22,14 @@ import java.util.stream.Collectors;
 public class  RouteServiceImpl implements Route12Service {
     private final RouteRepo routeRepo;
     private final ModelMapper modelMapper;
-   private final BusConfig busConfig;
+   private final AlgorithmShortestPath algorithmShortestPath;
    private final BusStopRepo busStopRepo;
    private final BusStopDistanceRepo busStopDistanceRepo;
 
-    public RouteServiceImpl(RouteRepo routeRepo, ModelMapper modelMapper, BusConfig busConfig, BusStopRepo busStopRepo, BusStopDistanceRepo busStopDistanceRepo) {
+    public RouteServiceImpl(RouteRepo routeRepo, ModelMapper modelMapper, AlgorithmShortestPath algorithmShortestPath, BusStopRepo busStopRepo, BusStopDistanceRepo busStopDistanceRepo) {
         this.routeRepo = routeRepo;
         this.modelMapper = modelMapper;
-        this.busConfig = busConfig;
+        this.algorithmShortestPath = algorithmShortestPath;
         this.busStopRepo = busStopRepo;
         this.busStopDistanceRepo = busStopDistanceRepo;
     }
@@ -93,7 +93,7 @@ public class  RouteServiceImpl implements Route12Service {
         graph.setBusStops(busStops);
 
         try {
-            busConfig.dijkstra(graph, sourceBusStop);
+            algorithmShortestPath.dijkstra(graph, sourceBusStop);
         } catch (Exception e) {
             // Handle the case where there is no path between source and destination
             return Collections.emptyList();

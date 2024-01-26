@@ -1,10 +1,8 @@
 package com.Transaction.transaction.unitTesting.unitTesting.uniiTesting;
 
-import com.Transaction.transaction.algorithm.FirstInFirstOut;
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.payloads.SeatDto;
-import com.Transaction.transaction.repository.BookingRequestRepo;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.ReservationRepo;
 import com.Transaction.transaction.repository.SeatRepo;
@@ -24,7 +22,6 @@ public class SeatServiceTest {
     private SeatRepo seatRepo;
     private  BusInfoRepo busInfoRepo;
     private SeatServiceImpl seatService;
-    private BookingRequestRepo requestRepo;
 
     @BeforeEach
     public void setUp(){
@@ -33,8 +30,7 @@ public class SeatServiceTest {
         ReservationRepo reservationRepo = mock(ReservationRepo.class);
         ModelMapper modelMapper = new ModelMapper();
         SeatReservation seatReservation = new SeatReservation();
-        FirstInFirstOut firstInFirstOut = new FirstInFirstOut();
-        seatService=new SeatServiceImpl(seatRepo, modelMapper,busInfoRepo, seatReservation, reservationRepo, firstInFirstOut, requestRepo);
+        seatService=new SeatServiceImpl(seatRepo, modelMapper,busInfoRepo, seatReservation, reservationRepo);
     }
 
     @Test

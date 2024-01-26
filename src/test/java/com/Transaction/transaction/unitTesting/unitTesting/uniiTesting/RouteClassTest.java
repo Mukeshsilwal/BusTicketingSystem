@@ -1,6 +1,6 @@
 package com.Transaction.transaction.unitTesting.unitTesting.uniiTesting;
 
-import com.Transaction.transaction.algorithm.BusConfig;
+import com.Transaction.transaction.algorithm.AlgorithmShortestPath;
 import com.Transaction.transaction.entity.Route12;
 import com.Transaction.transaction.payloads.Route12Dto;
 import com.Transaction.transaction.repository.BusStopDistanceRepo;
@@ -23,12 +23,12 @@ public class RouteClassTest {
     private RouteServiceImpl routeService;
     private BusStopRepo busStopRepo;
     private BusStopDistanceRepo busStopDistanceRepo;
-    private BusConfig busConfig;
+    private AlgorithmShortestPath algorithmShortestPath;
     @BeforeEach
     public  void setUp(){
         routeRepo=mock(RouteRepo.class);
         ModelMapper modelMapper = new ModelMapper();
-        routeService=new RouteServiceImpl(routeRepo, modelMapper, busConfig, busStopRepo, busStopDistanceRepo);
+        routeService=new RouteServiceImpl(routeRepo, modelMapper, algorithmShortestPath, busStopRepo, busStopDistanceRepo);
     }
     @Test
     public void testForDeleteMethod(){

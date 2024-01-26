@@ -1,12 +1,10 @@
 package com.Transaction.transaction.service.serviceImpl;
 
-import com.Transaction.transaction.algorithm.FirstInFirstOut;
 import com.Transaction.transaction.algorithm.RandomSeatAllocator;
 import com.Transaction.transaction.entity.*;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
-import com.Transaction.transaction.repository.BookingRequestRepo;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.ReservationRepo;
 import com.Transaction.transaction.repository.SeatRepo;
@@ -25,24 +23,19 @@ public class SeatServiceImpl implements SeatService {
     private final BusInfoRepo busInfoRepo;
     private final SeatReservation seatReservation;
     private final ReservationRepo reservationRepo;
-    private final FirstInFirstOut firstInFirstOut;
-    private final BookingRequestRepo requestRepo;
 
-    public SeatServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BusInfoRepo busInfoRepo, SeatReservation seatReservation, ReservationRepo reservationRepo, FirstInFirstOut firstInFirstOut, BookingRequestRepo requestRepo) {
+    public SeatServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BusInfoRepo busInfoRepo, SeatReservation seatReservation, ReservationRepo reservationRepo) {
         this.seatRepo = seatRepo;
         this.modelMapper = modelMapper;
         this.busInfoRepo = busInfoRepo;
         this.seatReservation = seatReservation;
         this.reservationRepo = reservationRepo;
-        this.firstInFirstOut = firstInFirstOut;
-        this.requestRepo = requestRepo;
     }
 
     @Override
     public SeatDto createSeat(SeatDto seatDto) {
         Seat seat=this.dtoToSeat(seatDto);
             Seat seat1=this.seatRepo.save(seat);
-            firstInFirstOut.enqueue(seat1);
             return seatToDto(seat1);
     }
 
@@ -64,10 +57,6 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public SeatDto getSeatById(int id) {
         Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
-        firstInFirstOut.peek();
-        int count=firstInFirstOut.size();
-        System.out.println("Size of the queue is :"+count);
-        firstInFirstOut.dequeue(seat);
         return seatToDto(seat);
     }
 
