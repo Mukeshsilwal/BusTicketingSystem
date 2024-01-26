@@ -52,4 +52,10 @@ public class GlobalException {
         ApiResponse response=new ApiResponse(message,false,HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(SeatOrBookingRequestNotFoundException.class)
+    public ResponseEntity<ApiResponse> seatNotFound(SeatOrBookingRequestNotFoundException e){
+        String message=e.getMessage();
+        ApiResponse response=new ApiResponse(message,true,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+    }
 }
