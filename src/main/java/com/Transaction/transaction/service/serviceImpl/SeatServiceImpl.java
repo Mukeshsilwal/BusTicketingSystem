@@ -1,7 +1,10 @@
 package com.Transaction.transaction.service.serviceImpl;
 
 import com.Transaction.transaction.algorithm.RandomSeatAllocator;
-import com.Transaction.transaction.entity.*;
+import com.Transaction.transaction.entity.BookingTicket;
+import com.Transaction.transaction.entity.BusInfo;
+import com.Transaction.transaction.entity.Reservation;
+import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
