@@ -1,17 +1,13 @@
 package com.Transaction.transaction.service.serviceImpl;
 
 import com.Transaction.transaction.algorithm.RandomSeatAllocator;
-import com.Transaction.transaction.entity.BookingTicket;
 import com.Transaction.transaction.entity.BusInfo;
-import com.Transaction.transaction.entity.Reservation;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
 import com.Transaction.transaction.repository.BusInfoRepo;
-import com.Transaction.transaction.repository.ReservationRepo;
 import com.Transaction.transaction.repository.SeatRepo;
-import com.Transaction.transaction.service.SeatReservation;
 import com.Transaction.transaction.service.SeatService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -24,15 +20,11 @@ public class SeatServiceImpl implements SeatService {
     private final SeatRepo seatRepo;
     private final ModelMapper modelMapper;
     private final BusInfoRepo busInfoRepo;
-    private final SeatReservation seatReservation;
-    private final ReservationRepo reservationRepo;
 
-    public SeatServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BusInfoRepo busInfoRepo, SeatReservation seatReservation, ReservationRepo reservationRepo) {
+    public SeatServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BusInfoRepo busInfoRepo) {
         this.seatRepo = seatRepo;
         this.modelMapper = modelMapper;
         this.busInfoRepo = busInfoRepo;
-        this.seatReservation = seatReservation;
-        this.reservationRepo = reservationRepo;
     }
 
     @Override
@@ -97,15 +89,7 @@ public class SeatServiceImpl implements SeatService {
         return seat.getSeatType();
     }
 
-    @Override
-    public List<SeatDto> reserveSeat(int numSeat, SeatType preference) {
-        List<Seat> reservedSeats=this.seatReservation.reserveSeats(numSeat,preference);
-        List<SeatDto> reservedSeatDtos=reservedSeats.stream().map(this::seatToDto).collect(Collectors.toList());
-        Reservation reservation=new Reservation();
-        reservationRepo.save(reservation);
-        reservation.setSeatReserve(reservedSeats);
-        return reservedSeatDtos;
-    }
+
 
 
 

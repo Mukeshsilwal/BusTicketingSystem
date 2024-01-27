@@ -38,6 +38,7 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
         if (areSeatsAvailable(request)) {
             // Reserve seats and confirm the booking
             reserveSeatsAndUpdateDatabase(request);
+            requestRepo.save(request);
             return new ReservationResponse(true, "Booking confirmed");
         } else {
             // Provide alternative options or notify the user of unavailability

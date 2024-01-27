@@ -15,6 +15,5 @@ List<SeatDto> getAllSeat();
 SeatDto createSeatForBus(SeatDto seatDto,int id);
 //void deleteBookingSeat(int sId,int id);
 SeatType getSeatType(int id);
-List<SeatDto> reserveSeat(int numSeat,SeatType preference);
 
 }

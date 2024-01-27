@@ -4,9 +4,7 @@ import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.payloads.SeatDto;
 import com.Transaction.transaction.repository.BusInfoRepo;
-import com.Transaction.transaction.repository.ReservationRepo;
 import com.Transaction.transaction.repository.SeatRepo;
-import com.Transaction.transaction.service.SeatReservation;
 import com.Transaction.transaction.service.serviceImpl.SeatServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,10 +25,8 @@ public class SeatServiceTest {
     public void setUp(){
         seatRepo=mock(SeatRepo.class);
         busInfoRepo=mock(BusInfoRepo.class);
-        ReservationRepo reservationRepo = mock(ReservationRepo.class);
         ModelMapper modelMapper = new ModelMapper();
-        SeatReservation seatReservation = new SeatReservation();
-        seatService=new SeatServiceImpl(seatRepo, modelMapper,busInfoRepo, seatReservation, reservationRepo);
+        seatService=new SeatServiceImpl(seatRepo, modelMapper,busInfoRepo);
     }
 
     @Test
