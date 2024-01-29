@@ -30,10 +30,6 @@ public class BookingController {
         BookingTicketDto ticketDto=this.bookingTicketService.createBookingWithUser(bookingTicketDto,id);
         return new ResponseEntity<>(ticketDto,HttpStatus.CREATED);
     }
-
-
-
-
     @GetMapping("/book/{id}")
     public ResponseEntity<BookingTicketDto> getSeat(@PathVariable Integer id){
        BookingTicketDto ticketDto=this.bookingTicketService.getBookById(id);

@@ -1,11 +1,9 @@
 package com.Transaction.transaction.payloads;
 
 import com.Transaction.transaction.entity.BusStopDistance;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Getter
@@ -14,8 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 public class BusStopDto {
     private int id;
+    @NonNull
+    @NotEmpty
     private String name;
+    @NonNull
+    @NotEmpty
     private int distance;
+    @NonNull
+    @NotEmpty
     private boolean visited;
 
 }

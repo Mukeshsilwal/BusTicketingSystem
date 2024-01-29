@@ -2,7 +2,6 @@ package com.Transaction.transaction.controller;
 
 import com.Transaction.transaction.exception.ApiResponse;
 import com.Transaction.transaction.model.SeatType;
-import com.Transaction.transaction.payloads.ReservationDto;
 import com.Transaction.transaction.payloads.SeatDto;
 import com.Transaction.transaction.service.SeatService;
 import lombok.RequiredArgsConstructor;

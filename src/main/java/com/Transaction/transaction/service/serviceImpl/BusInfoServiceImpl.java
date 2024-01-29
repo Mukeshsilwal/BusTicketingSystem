@@ -58,6 +58,7 @@ public class BusInfoServiceImpl implements BusInfoService {
     public BusInfoDto createBusForRoute(BusInfoDto busInfoDto, int id) {
         BusInfo busInfo=this.dtoToBusInfo(busInfoDto);
         Route12 route12=this.routeRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Route12","routeIs",id));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         busInfo.setRoute12(route12);
         BusInfo busInfo1=this.busInfoRepo.save(busInfo);
         return busInfoToDto(busInfo1);
@@ -75,6 +76,12 @@ public class BusInfoServiceImpl implements BusInfoService {
     @Override
     public List<BusInfoDto> getAllBusInfo() {
         List<BusInfo> busInfos=this.busInfoRepo.findAll();
+        return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BusInfoDto> getBusByDestination(String source, String destination) {
+        List<BusInfo> busInfos=this.busInfoRepo.findBySourceAndDestination(source,destination);
         return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
     }
 

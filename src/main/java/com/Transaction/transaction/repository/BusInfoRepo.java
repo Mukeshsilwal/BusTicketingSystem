@@ -8,5 +8,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface BusInfoRepo extends JpaRepository<BusInfo,Integer> {
-   List<BusInfo> findByRoute12(Route12 route12);
+   List<BusInfo> findBySourceAndDestination(String source, String destination);
 }

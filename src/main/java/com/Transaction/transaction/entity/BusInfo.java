@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,10 @@ public class BusInfo {
     private String busName;
     private String busType;
     private double price;
+    private String source;
+    private String destination;
+    @Column(name = "departure_datetime", columnDefinition = "DATETIME")
+    private LocalDateTime departureDateTime;
     @ManyToOne
     @JoinColumn(name = "fid")
     private Route12 route12;

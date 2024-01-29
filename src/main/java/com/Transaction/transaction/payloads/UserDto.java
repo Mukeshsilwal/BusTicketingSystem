@@ -18,8 +18,7 @@ public class UserDto {
     @NotNull
     @NotEmpty
     private String email;
-    @NotNull
-    @NotEmpty
+//    @NotNull
+//    @NotEmpty
     private String password;
-//    private List<RoleDto> roles;
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -18,5 +19,8 @@ public class BusInfoDto {
     private String busName;
     private String busType;
     private double price;
+    private LocalDateTime departureDateTime;
+    private String source;
+    private String destination;
     private Route12Dto route12;
 }

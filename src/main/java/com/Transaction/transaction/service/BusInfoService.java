@@ -1,5 +1,6 @@
 package com.Transaction.transaction.service;
 
+import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.payloads.BusInfoDto;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface BusInfoService {
     BusInfoDto createBusForRoute(BusInfoDto busInfoDto,int id);
     void deleteBusInfoWithRoute(int id,int routeId);
     List<BusInfoDto> getAllBusInfo();
+    List<BusInfoDto> getBusByDestination(String source, String destination);
+
 }

@@ -41,4 +41,9 @@ public class BusInfoController {
         this.busInfoService.deleteBusInfoWithRoute(id,routeId);
         return new ResponseEntity<>(new ApiResponse("Bus With Route Hass Been Deleted",true,HttpStatus.OK),HttpStatus.OK);
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<BusInfoDto>> search(@RequestParam String source,@RequestParam String destination){
+        List<BusInfoDto> busInfoDtos=this.busInfoService.getBusByDestination(source,destination);
+        return new ResponseEntity<>(busInfoDtos,HttpStatus.OK);
+    }
 }
