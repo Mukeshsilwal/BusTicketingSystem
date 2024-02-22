@@ -1,5 +1,5 @@
 # Build Stage
-FROM maven:3.8.3-openjdk-11 as build
+FROM maven:3.6.3-openjdk-11 as build
 WORKDIR /app
 COPY pom.xml .
 RUN mvn clean install -DskipTests
