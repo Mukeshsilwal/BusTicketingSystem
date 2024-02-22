@@ -14,6 +14,10 @@
 	<name>transaction</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
+
+			<maven.compiler.source>11</maven.compiler.source>
+			<maven.compiler.target>11</maven.compiler.target>
+
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
@@ -118,6 +122,18 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.2</version> <!-- Use the latest version -->
+				<configuration>
+					<!-- your compiler configuration -->
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
 			</plugin>
 		</plugins>
 		<finalName>spring-boot-docker</finalName>

@@ -16,7 +16,7 @@ services:
       - ./mysql-data:/var/lib/mysql
 
   app:
-    image: busticket
+    image: busticketsystem
     ports:
       - "8081:8080"
     depends_on:
