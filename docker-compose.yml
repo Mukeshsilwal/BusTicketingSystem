@@ -1,22 +1,27 @@
-version: '3'
+version: '3.8'
 
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:8.0.30
     environment:
-      MYSQL_ROOT_PASSWORD: $@31Brother
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: ss
+      MYSQL_USER: new_username
       MYSQL_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    volumes:
+      - ./mysql-data:/var/lib/mysql
 
   app:
-    image: ticket1
+    image: busticket
     ports:
       - "8081:8080"
     depends_on:
       - mysql
     environment:
-      - DB_HOST=mysql
-      - DB_PORT=3306
-      - DB_NAME=ccc
-      - DB_USERNAME=new_username
-      - DB_PASSWORD=password
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ss?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=new_username
+      - SPRING_DATASOURCE_PASSWORD=password
