@@ -11,4 +11,4 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar /app/app.jar
 EXPOSE 8080
 ENV PORT 8080
-CMD ["sh", "-c", "until curl -s mysql:3306; do sleep 1; done; java -jar app.jar"]
+CMD ["sh", "-c", "until curl -s http://mysql:3306; do sleep 1; done; java -jar app.jar"]
