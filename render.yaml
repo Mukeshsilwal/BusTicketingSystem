@@ -1,0 +1,5 @@
+services:
+  - name: spring-boot-app
+    type: web
+    buildCommand: ./mvnw clean install
+    startCommand: java -jar target/spring-boot-docker.jar

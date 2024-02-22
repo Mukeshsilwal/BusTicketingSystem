@@ -20,8 +20,6 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String seatName;
-    private char row1;
-    private int col1;
     private boolean reserved;
     @Enumerated(EnumType.STRING)
     private SeatType seatType;
@@ -29,11 +27,6 @@ public class Seat {
     private String seatNumber;
     private String zone;
 
-    public Seat(char row1, int col1, SeatType seatType) {
-        this.row1 = row1;
-        this.col1 = col1;
-        this.seatType = seatType;
-    }
 
     public Seat(String seatNumber, String zone) {
         this.seatNumber = seatNumber;

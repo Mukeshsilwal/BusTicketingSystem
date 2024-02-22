@@ -1,22 +1,22 @@
-version: '3'
-
-services:
-  mysql:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: $@31Brother
-      MYSQL_DATABASE: ccc
-      MYSQL_PASSWORD: password
-
-  app:
-    image: ticket1
-    ports:
-      - "8081:8080"
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_PORT=3306
-      - DB_NAME=ccc
-      - DB_USERNAME=new_username
-      - DB_PASSWORD=password
+#version: '3'
+#
+#services:
+#  mysql:
+#    image: mysql:latest
+#    environment:
+#      MYSQL_ROOT_PASSWORD: $@31Brother
+#      MYSQL_DATABASE: ss
+#      MYSQL_PASSWORD: password
+#
+#  app:
+#    image: ticket1
+#    ports:
+#      - "8081:8080"
+#    depends_on:
+#      - mysql
+#    environment:
+#      - DB_HOST=mysql
+#      - DB_PORT=3306
+#      - DB_NAME=ccc
+#      - DB_USERNAME=new_username
+#      - DB_PASSWORD=password
