@@ -1,27 +1,27 @@
-#version: '3.8'
-#
-#services:
-#  mysql:
-#    image: mysql:8.0.30
-#    environment:
-#      MYSQL_ROOT_PASSWORD: password
-#      MYSQL_DATABASE: ss
-#      MYSQL_USER: new_username
-#      MYSQL_PASSWORD: password
-#    healthcheck:
-#      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-#      timeout: 20s
-#      retries: 10
-##    volumes:
-##      - ./mysql-data:/var/lib/mysql
-#
-#  app:
-#    image: busticketsystem
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - mysql
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ss?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
-#      - SPRING_DATASOURCE_USERNAME=new_username
-#      - SPRING_DATASOURCE_PASSWORD=password
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0.30
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: ss
+      MYSQL_USER: new_username
+      MYSQL_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+#    volumes:
+#      - ./mysql-data:/var/lib/mysql
+
+  app:
+    image: busticketsystem
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ss?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=new_username
+      - SPRING_DATASOURCE_PASSWORD=password
