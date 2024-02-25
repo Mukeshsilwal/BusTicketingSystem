@@ -1,15 +1,8 @@
-# Build Stage
-FROM maven:3.6.3 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src src
+FROM maven:3.8-openjdk-11 AS build
+COPY . .
 RUN mvn clean package -DskipTests
 
-# Production Stage
-FROM adoptopenjdk:11-jre-hotspot
-WORKDIR /app
-COPY --from=build /app/target/*.jar /app/app.jar
-EXPOSE 5432
-ENV PORT 8080
-RUN apt-get update && apt-get install -y curl
-CMD ["sh", "-c", "until curl -s http://localhost:$PORT; do sleep 1; done; java -jar app.jar"]
+FROM openjdk:11-jdk-slim
+COPY --from=build /target/spring-boot-docker.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]
