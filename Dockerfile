@@ -12,4 +12,4 @@ COPY --from=build /app/target/*.jar /app/app.jar
 EXPOSE 5432
 ENV PORT 8080
 RUN apt-get update && apt-get install -y curl
-CMD ["sh", "-c", "until curl -s mysql:3306; do sleep 1; done; java -jar app.jar"]
+CMD ["sh", "-c", "until curl -s http://localhost:$PORT; do sleep 1; done; java -jar app.jar"]
