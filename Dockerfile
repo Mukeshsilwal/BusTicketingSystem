@@ -1,14 +1,15 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:11
-
-# Set the working directory inside the container
+# Build Stage
+FROM maven:3.6.3 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src src
+RUN mvn clean package -DskipTests
 
-# Copy the application JAR file into the container at /app
-COPY target/spring-boot-docker.jar /app/
-
-# Expose the port the application runs on
-EXPOSE 8080
-
-# Command to run the application
-CMD ["java", "-jar", "spring-boot-docker.jar"]
+# Production Stage
+FROM adoptopenjdk:11-jre-hotspot
+WORKDIR /app
+COPY --from=build /app/target/*.jar /app/app.jar
+EXPOSE 5432
+ENV PORT 8080
+RUN apt-get update && apt-get install -y curl
+CMD ["sh", "-c", "until curl -s http://localhost:$PORT; do sleep 1; done; java -jar app.jar"]
