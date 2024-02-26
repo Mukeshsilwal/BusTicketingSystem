@@ -11,15 +11,21 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class BusStop {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private int distance;
     private boolean visited;
+
+    public BusStop(String name, int distance, boolean visited) {
+        this.name = name;
+        this.distance = Integer.MAX_VALUE;
+        this.visited = false;
+    }
+
     @OneToMany(mappedBy = "sourceBusStop",cascade = CascadeType.ALL)
     List<BusStopDistance> sourceBusStop1;
     @OneToMany(mappedBy = "destinationBusStop",cascade = CascadeType.ALL)
