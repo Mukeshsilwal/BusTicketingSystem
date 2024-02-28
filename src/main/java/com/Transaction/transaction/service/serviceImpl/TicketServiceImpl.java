@@ -23,11 +23,19 @@ public class TicketServiceImpl implements TicketService {
     private final ModelMapper modelMapper;
     private final BookingRepo bookingRepo;
     private final SeatRepo seatRepo;
+    private final EmailService emailService;
     @Override
     public void deleteTicket(int id) {
         Ticket ticket=this.ticketRepo.findById(id).orElseThrow();
         this.ticketRepo.delete(ticket);
+    }
+    @Override
+    public void sendBookingConfirmationEmail(String userEmail,byte[] pdfContent) {
+        String subject = "Booking Confirmation";
+        String body = "Thank you for booking! Your booking details: " ;
+        String attachmentName = "ticket.pdf";
 
+        emailService.sendEmail(userEmail, subject,body,pdfContent, attachmentName);
     }
 
     @Override

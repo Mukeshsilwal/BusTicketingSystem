@@ -28,6 +28,7 @@ public class BookingController {
     @PostMapping("/post/{id}")
     public ResponseEntity<BookingTicketDto> createBooking(@RequestBody BookingTicketDto bookingTicketDto,@PathVariable int id){
         BookingTicketDto ticketDto=this.bookingTicketService.createBookingWithUser(bookingTicketDto,id);
+
         return new ResponseEntity<>(ticketDto,HttpStatus.CREATED);
     }
     @GetMapping("/book/{id}")

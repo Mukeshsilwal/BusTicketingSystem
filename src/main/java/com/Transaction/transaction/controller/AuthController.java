@@ -4,7 +4,6 @@ import com.Transaction.transaction.exception.PasswordIncorrectException;
 import com.Transaction.transaction.model.JwtRequest;
 import com.Transaction.transaction.model.JwtResponse;
 import com.Transaction.transaction.payloads.UserDto;
-import com.Transaction.transaction.repository.UserRepo;
 import com.Transaction.transaction.security.JwtService;
 import com.Transaction.transaction.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,6 @@ public class AuthController {
     private final UserService userService;
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
-    private final UserRepo user1;
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest user) {
         JwtResponse jwtResponse;
@@ -50,6 +48,7 @@ public class AuthController {
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
 
     }
+
 
 
 }

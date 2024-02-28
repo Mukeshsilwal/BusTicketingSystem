@@ -1,16 +1,21 @@
 package com.Transaction.transaction.controller;
 
 import com.Transaction.transaction.exception.ApiResponse;
+import com.Transaction.transaction.payloads.BookingTicketDto;
 import com.Transaction.transaction.payloads.TicketDto;
+import com.Transaction.transaction.service.BookingRequestService;
 import com.Transaction.transaction.service.TicketPDFService;
 import com.Transaction.transaction.service.TicketService;
 import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/tickets")
@@ -22,19 +27,21 @@ public class TicketController {
 
 
 
+
     @GetMapping("/generate")
     public ResponseEntity<byte[]> generateTicket(@RequestParam Integer ticketId) throws DocumentException {
 
         TicketDto ticket = ticketService.getTicketById(ticketId);
         byte[] pdfData = ticketPDFService.generateTicketPDF(ticket);
-
+        String userEmail =ticket.getEmail();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.setContentDispositionFormData("attachment", "ticket.pdf");
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-
+        ticketService.sendBookingConfirmationEmail(userEmail,pdfData);
         return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
     }
+
     @PostMapping("/")
     public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto){
         TicketDto ticketDto1 =this.ticketService.createTicket(ticketDto);

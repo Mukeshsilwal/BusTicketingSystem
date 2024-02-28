@@ -24,7 +24,7 @@ public class BookingTicket {
     private String fullName;
     private String email;
     private int seatNo;
-    @OneToMany(mappedBy = "bookingTicket",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bookingTicket",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     private Set<Ticket> ticket;
     @ManyToOne
     @JoinColumn(name = "id1")

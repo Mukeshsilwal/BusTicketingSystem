@@ -18,7 +18,8 @@ public class Role {
     private int id;
     private String name;
 
-
+    @Enumerated(EnumType.STRING)
+    public Role1 role;
     @ManyToOne
     @JoinColumn(name="id1")
     private User user;

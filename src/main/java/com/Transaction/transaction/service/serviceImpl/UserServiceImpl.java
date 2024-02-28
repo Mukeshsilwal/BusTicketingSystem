@@ -24,7 +24,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
 
-   @Transactional
     @Override
     public UserDto createUser(UserDto userDto) {
 

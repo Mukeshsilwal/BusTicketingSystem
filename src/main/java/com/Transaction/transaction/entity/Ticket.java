@@ -22,6 +22,7 @@ public class Ticket {
     private String seatNo;
     private Date departureDate;
     private double price;
+    private String email;
     @OneToOne
     @JoinColumn(name="seat_Id",referencedColumnName = "id")
     private Seat seat;

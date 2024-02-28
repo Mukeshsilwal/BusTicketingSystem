@@ -25,11 +25,13 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
     private final SeatRepo seatRepo;
     private final ModelMapper modelMapper;
     private final BookingRequestRepo requestRepo;
+    private final EmailService emailService;
 
-    public BookingRequestServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper,BookingRequestRepo requestRepo) {
+    public BookingRequestServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BookingRequestRepo requestRepo, EmailService emailService) {
         this.seatRepo = seatRepo;
         this.modelMapper = modelMapper;
         this.requestRepo = requestRepo;
+        this.emailService = emailService;
     }
 
     @Override
@@ -122,7 +124,6 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
                 throw new SeatsNotAvailableException("Requested seats are not available.");
             }
         }
-
     public BookingRequest toRequest(BookingRequestDto bookingDto){
         return modelMapper.map(bookingDto,BookingRequest.class);
     }

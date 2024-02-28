@@ -23,6 +23,7 @@ public class TicketDto {
     @NotBlank(message = "Name cannot be blank")
     private Date departureDate;
     private SeatDto seat;
+    private String email;
     private BookingTicketDto bookingTicket;
 
 }

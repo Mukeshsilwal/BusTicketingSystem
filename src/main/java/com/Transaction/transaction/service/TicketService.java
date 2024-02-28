@@ -16,4 +16,5 @@ public interface TicketService {
     void deleteSeatWithTicket(int tId,int id);
     TicketDto getTicketById(int tId);
     TicketDto createTicket(TicketDto ticketDto);
+    public void sendBookingConfirmationEmail(String userEmail,byte[] pdfContent);
 }

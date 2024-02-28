@@ -1,5 +1,6 @@
 package com.Transaction.transaction.config;
 
+import com.Transaction.transaction.entity.Role1;
 import com.Transaction.transaction.security.CustomUserDetailsService;
 import com.Transaction.transaction.security.JwtEntryPoint;
 import com.Transaction.transaction.security.JwtFilterChain;
@@ -29,25 +30,26 @@ public class SecurityConfig {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.jwtEntryPoint = jwtEntryPoint;
     }
-    @Bean
-    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
-        DefaultHttpFirewall firewall = new DefaultHttpFirewall();
-        // Allow %0A (newline character) in URLs
-        firewall.setAllowUrlEncodedSlash(true);
-        return firewall;
-    }
+//    @Bean
+//    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+//        DefaultHttpFirewall firewall = new DefaultHttpFirewall();
+//        // Allow %0A (newline character) in URLs
+//        firewall.setAllowUrlEncodedSlash(true);
+//        return firewall;
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/**","/busStop/**","/distance/**","/bookSeats/**","/seat/**").permitAll()
+                .antMatchers("/user/**","/auth/**","/distance/**","/bookSeats/**").permitAll()
                 .antMatchers("/ticket/**","/bus1/**").permitAll()
-                .antMatchers("/role/**").hasAuthority("SUPER_ADMIN")
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/busStop/**").hasAuthority("ADMIN")
+                .antMatchers("/seat/**").hasAuthority(Role1.ADMIN.name())
+                .antMatchers("/role/**").permitAll()
                 .antMatchers("/route/**").permitAll()
                 .antMatchers("/booking/**").permitAll()
-                .antMatchers("/seat/**","/bus/**","/tickets/**","/reserve/**").permitAll()
+                .antMatchers("/bus/**","/tickets/**","/reserve/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

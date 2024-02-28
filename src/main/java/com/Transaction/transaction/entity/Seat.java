@@ -40,7 +40,7 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name = "fid",referencedColumnName = "id")
     private BusInfo busInfo;
-    @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     private Ticket ticket;
     @ManyToMany(mappedBy = "seats")
     private List<Booking> bookings;
