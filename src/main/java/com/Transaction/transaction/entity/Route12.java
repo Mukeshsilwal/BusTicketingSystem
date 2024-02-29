@@ -24,9 +24,9 @@ public class Route12 {
     private double distance;
     private int weight;
     private Date date;
-    @OneToMany(mappedBy = "route12",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "route12",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
     Set<BusInfo> busInfos;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="source_id")
     private BusStop sourceBusStop;
     @ManyToOne

@@ -36,10 +36,8 @@ public class BookingTicketServiceImpl implements BookingTicketService {
     }
 
     @Override
-    public BookingTicketDto createBookingWithUser(BookingTicketDto bookingTicketDto,int id) {
+    public BookingTicketDto createBookingWithUser(BookingTicketDto bookingTicketDto) {
         BookingTicket bookingTicket=this.dtoToBooking(bookingTicketDto);
-        User user=this.userRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("User","id",id));
-        bookingTicket.setUser(user);
         BookingTicket bookingTicket1=this.bookingRepo.save(bookingTicket);
         return bookingToDto(bookingTicket1);
     }

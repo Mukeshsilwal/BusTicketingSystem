@@ -10,7 +10,6 @@ public interface BusInfoService {
     BusInfoDto updateBusInfo(BusInfoDto busInfoDto,int id,int routeId);
     void deleteBusInfo(Integer id);
     BusInfoDto createBusForRoute(BusInfoDto busInfoDto,int id);
-    void deleteBusInfoWithRoute(int id,int routeId);
     List<BusInfoDto> getAllBusInfo();
     List<BusInfoDto> getBusByDestination(String source, String destination);
 

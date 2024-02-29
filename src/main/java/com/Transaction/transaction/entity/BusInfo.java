@@ -32,6 +32,6 @@ public class BusInfo {
     @ManyToOne
     @JoinColumn(name = "fid")
     private Route12 route12;
-    @OneToMany(mappedBy = "busInfo",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "busInfo",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
     List<Seat> seats;
 }

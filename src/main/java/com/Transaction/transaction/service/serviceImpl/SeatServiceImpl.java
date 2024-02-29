@@ -38,15 +38,24 @@ public class SeatServiceImpl implements SeatService {
     public SeatDto updateSeat(SeatDto seatDto, int id) {
         Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
             seat.setSeatName(seatDto.getSeatName());
+            seat.setSeatType(seatDto.getSeatType());
+            seat.setSeatNumber(seatDto.getSeatNumber());
+            seat.setBusName(seatDto.getBusName());
+            seat.setPrice(seatDto.getPrice());
+            seat.setZone(seatDto.getZone());
             Seat seat1=this.seatRepo.save(seat);
             return seatToDto(seat1);
     }
 
     @Override
     public void deleteSeat(int id) {
-        Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
+        Seat seat = this.seatRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Seat", "id", id));
+        BusInfo busInfo = seat.getBusInfo();
+        if (busInfo != null) {
+            busInfo.getSeats().remove(seat);
+            busInfoRepo.save(busInfo);
+        }
         this.seatRepo.delete(seat);
-
     }
 
     @Override
@@ -89,8 +98,11 @@ public class SeatServiceImpl implements SeatService {
         return seat.getSeatType();
     }
 
-
-
+    @Override
+    public List<SeatDto> findSeatRelatedToBus(String busName) {
+        List<Seat> seats=seatRepo.findByBusName(busName);
+        return seats.stream().map(this::seatToDto).collect(Collectors.toList());
+    }
 
 
     public Seat dtoToSeat(SeatDto seatDto){

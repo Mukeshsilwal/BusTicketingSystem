@@ -14,6 +14,7 @@ import lombok.Setter;
 public class SeatDto {
     private int id;
     private String seatName;
+    private String busName;
     private float price;
     private boolean reserved;
     private String seatNumber;

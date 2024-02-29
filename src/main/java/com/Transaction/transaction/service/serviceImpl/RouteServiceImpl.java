@@ -7,7 +7,6 @@ import com.Transaction.transaction.entity.Route12;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.model.Graph;
 import com.Transaction.transaction.payloads.Route12Dto;
-import com.Transaction.transaction.repository.BusStopDistanceRepo;
 import com.Transaction.transaction.repository.BusStopRepo;
 import com.Transaction.transaction.repository.RouteRepo;
 import com.Transaction.transaction.service.Route12Service;
@@ -25,14 +24,13 @@ public class  RouteServiceImpl implements Route12Service {
     private final ModelMapper modelMapper;
    private final AlgorithmShortestPath algorithmShortestPath;
    private final BusStopRepo busStopRepo;
-   private final BusStopDistanceRepo busStopDistanceRepo;
 
-    public RouteServiceImpl(RouteRepo routeRepo, ModelMapper modelMapper, AlgorithmShortestPath algorithmShortestPath, BusStopRepo busStopRepo, BusStopDistanceRepo busStopDistanceRepo) {
+    public RouteServiceImpl(RouteRepo routeRepo, ModelMapper modelMapper, AlgorithmShortestPath algorithmShortestPath, BusStopRepo busStopRepo) {
         this.routeRepo = routeRepo;
         this.modelMapper = modelMapper;
         this.algorithmShortestPath = algorithmShortestPath;
         this.busStopRepo = busStopRepo;
-        this.busStopDistanceRepo = busStopDistanceRepo;
+
     }
     @Override
     public Route12Dto createRoute(Route12Dto route12Dto) {
@@ -52,6 +50,16 @@ public class  RouteServiceImpl implements Route12Service {
     @Override
     public void deleteRoute(int id) {
         Route12 route12=this.routeRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Route12","id",id));
+        BusStop busStop=route12.getDestinationBusStop();
+        if(busStop!=null){
+            busStop.getDestinationRoutes().remove(route12);
+            busStopRepo.save(busStop);
+        }
+        BusStop busStop1=route12.getSourceBusStop();
+        if(busStop1!=null){
+            busStop1.getSourceRoutes().remove(route12);
+            busStopRepo.save(busStop1);
+        }
         this.routeRepo.delete(route12);
     }
 

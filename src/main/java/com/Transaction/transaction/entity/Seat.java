@@ -21,6 +21,7 @@ public class Seat {
     private int id;
     private String seatName;
     private boolean reserved;
+    private String busName;
     @Enumerated(EnumType.STRING)
     private SeatType seatType;
     private float price;
@@ -40,11 +41,11 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name = "fid",referencedColumnName = "id")
     private BusInfo busInfo;
-    @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER)
     private Ticket ticket;
     @ManyToMany(mappedBy = "seats")
     private List<Booking> bookings;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="id1")
     private BookingRequest booking;
 

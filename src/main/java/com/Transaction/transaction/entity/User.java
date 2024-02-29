@@ -28,7 +28,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<Role> roles;
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<BookingTicket> tickets;
 
     @Override

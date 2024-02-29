@@ -78,18 +78,18 @@ public class BusInfoServiceTest {
         verify(routeRepo,times(1)).findById(id1);
 
     }
-    @Test
-    public void deleteBusInfoWithRouteTest(){
-        int id1=1;
-        int id2=2;
-        BusInfo busInfo=new BusInfo();
-        Route12 route12=new Route12();
-        when(busInfoRepo.findById(id1)).thenReturn(Optional.of(busInfo));
-        when(routeRepo.findById(id2)).thenReturn(Optional.of(route12));
-        busInfoService.deleteBusInfoWithRoute(id1,id2);
-        verify(busInfoRepo,times(1)).findById(id1);
-        verify(routeRepo,times(1)).findById(id2);
-    }
+
+//    public void deleteBusInfoWithRouteTest(){
+//        int id1=1;
+//        int id2=2;
+//        BusInfo busInfo=new BusInfo();
+//        Route12 route12=new Route12();
+//        when(busInfoRepo.findById(id1)).thenReturn(Optional.of(busInfo));
+//        when(routeRepo.findById(id2)).thenReturn(Optional.of(route12));
+//        busInfoService.deleteBusInfoWithRoute(id1,id2);
+//        verify(busInfoRepo,times(1)).findById(id1);
+//        verify(routeRepo,times(1)).findById(id2);
+//    }
     @Test
     public void getAllBusInfoTest(){
         List<BusInfo> busInfos=new ArrayList<>();

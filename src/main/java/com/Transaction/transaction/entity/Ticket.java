@@ -23,7 +23,7 @@ public class Ticket {
     private Date departureDate;
     private double price;
     private String email;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name="seat_Id",referencedColumnName = "id")
     private Seat seat;
     @ManyToOne

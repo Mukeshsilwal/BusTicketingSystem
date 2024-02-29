@@ -42,7 +42,7 @@ public class SeatController {
         this.seatService.deleteSeat(id);
         return new ResponseEntity<>(new ApiResponse("Seat Has Been Deleted Successfully",true,HttpStatus.OK),HttpStatus.OK);
     }
-    @PostMapping("/book/{id}")
+    @PostMapping("/post/{id}")
     public ResponseEntity<SeatDto> createSeatForBus(@RequestBody SeatDto seatDto,@PathVariable Integer id){
         SeatDto seatDto1=this.seatService.createSeatForBus(seatDto,id);
         return new ResponseEntity<>(seatDto1,HttpStatus.CREATED);
@@ -51,6 +51,11 @@ public class SeatController {
     public ResponseEntity<SeatType> getSeatType(@PathVariable Integer id) {
         SeatType seatType = this.seatService.getSeatType(id);
         return new ResponseEntity<>(seatType, HttpStatus.OK);
+    }
+    @GetMapping("/name")
+    public ResponseEntity<List<SeatDto>> getBusByBusName(@RequestParam String busName){
+        List<SeatDto> dtos=this.seatService.findSeatRelatedToBus(busName);
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
 

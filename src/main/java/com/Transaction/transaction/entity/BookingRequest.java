@@ -20,7 +20,7 @@ public class BookingRequest {
     private int id;
     private int noOfSeats;
     private String seatClass;
-    @OneToMany(mappedBy = "booking",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "booking",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
     private List<Seat> seats;
 
 }

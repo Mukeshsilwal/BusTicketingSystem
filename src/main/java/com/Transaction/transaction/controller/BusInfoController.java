@@ -36,14 +36,14 @@ public class BusInfoController {
         BusInfoDto busInfoDto1=this.busInfoService.updateBusInfo(busInfoDto,id,routeId);
         return new ResponseEntity<>(busInfoDto1,HttpStatus.OK);
     }
-    @DeleteMapping("/bus/{id}/route/{routeId}")
-    public ResponseEntity<ApiResponse> deleteBusWithRoute(@PathVariable Integer id,@PathVariable Integer routeId){
-        this.busInfoService.deleteBusInfoWithRoute(id,routeId);
-        return new ResponseEntity<>(new ApiResponse("Bus With Route Hass Been Deleted",true,HttpStatus.OK),HttpStatus.OK);
-    }
     @GetMapping("/search")
     public ResponseEntity<List<BusInfoDto>> search(@RequestParam String source,@RequestParam String destination){
         List<BusInfoDto> busInfoDtos=this.busInfoService.getBusByDestination(source,destination);
         return new ResponseEntity<>(busInfoDtos,HttpStatus.OK);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteBus(@PathVariable int id){
+        busInfoService.deleteBusInfo(id);
+        return new ResponseEntity<>(new ApiResponse("Bus deleted",true,HttpStatus.OK),HttpStatus.OK);
     }
 }

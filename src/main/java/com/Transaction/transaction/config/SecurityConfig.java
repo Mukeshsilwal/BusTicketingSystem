@@ -30,13 +30,6 @@ public class SecurityConfig {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.jwtEntryPoint = jwtEntryPoint;
     }
-//    @Bean
-//    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
-//        DefaultHttpFirewall firewall = new DefaultHttpFirewall();
-//        // Allow %0A (newline character) in URLs
-//        firewall.setAllowUrlEncodedSlash(true);
-//        return firewall;
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,8 +37,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/user/**","/auth/**","/distance/**","/bookSeats/**").permitAll()
                 .antMatchers("/ticket/**","/bus1/**").permitAll()
-                .antMatchers("/busStop/**").hasAuthority("ADMIN")
-                .antMatchers("/seat/**").hasAuthority(Role1.ADMIN.name())
+                .antMatchers("/busStop/**").permitAll()
+                .antMatchers("/seat/**").permitAll()
                 .antMatchers("/role/**").permitAll()
                 .antMatchers("/route/**").permitAll()
                 .antMatchers("/booking/**").permitAll()

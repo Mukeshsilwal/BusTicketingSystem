@@ -18,6 +18,5 @@ public class BookingTicketDto {
     private Date bookingDate;
     private String fullName;
     private String email;
-    private int seatNo;
     private UserDto user;
 }

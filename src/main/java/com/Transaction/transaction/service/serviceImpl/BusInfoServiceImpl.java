@@ -51,6 +51,12 @@ public class BusInfoServiceImpl implements BusInfoService {
     @Override
     public void deleteBusInfo(Integer id) {
         BusInfo busInfo=this.busInfoRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("BusInfo","id",id));
+        Route12 route12=busInfo.getRoute12();
+        if (route12 != null) {
+            route12.getBusInfos().remove(busInfo);
+            // Optionally, update the BusInfo if needed
+            routeRepo.save(route12);
+        }
         this.busInfoRepo.delete(busInfo);
     }
 
@@ -62,15 +68,6 @@ public class BusInfoServiceImpl implements BusInfoService {
         busInfo.setRoute12(route12);
         BusInfo busInfo1=this.busInfoRepo.save(busInfo);
         return busInfoToDto(busInfo1);
-    }
-
-    @Override
-    public void deleteBusInfoWithRoute(int id, int routeId) {
-        BusInfo busInfo=this.busInfoRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("BusInfo","id",id));
-        Route12 route12=this.routeRepo.findById(routeId).orElseThrow(()->new ResourceNotFoundException("Route12","routeIs",routeId));
-        this.busInfoRepo.delete(busInfo);
-        this.routeRepo.delete(route12);
-
     }
 
     @Override

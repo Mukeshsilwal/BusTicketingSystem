@@ -9,17 +9,17 @@ import java.util.List;
 
 @Component
 public class SeatAllocationService {
-    private List<Seat> availableSeats = new ArrayList<>();
+    private final List<Seat> availableSeats = new ArrayList<>();
 
     // Initialize seats with zones
     public SeatAllocationService() {
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 11; i++) {
             availableSeats.add(new Seat("Seat" + i, "FrontZone"));
         }
-        for (int i = 11; i <= 20; i++) {
-            availableSeats.add(new Seat("Seat" + i, "MiddleZone"));
+        for (int i = 11; i <= 22; i++) {
+            availableSeats.add(new Seat("Seat" + i, "MidZone"));
         }
-        for (int i = 21; i <= 30; i++) {
+        for (int i = 21; i <= 33; i++) {
             availableSeats.add(new Seat("Seat" + i, "BackZone"));
         }
     }
