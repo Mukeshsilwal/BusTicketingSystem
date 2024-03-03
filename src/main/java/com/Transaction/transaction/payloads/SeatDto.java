@@ -17,8 +17,7 @@ public class SeatDto {
     private String busName;
     private boolean reserved;
     private String seatNumber;
-    private String zone;
-    private SeatType seatType;
+    private int capacity;
     private BusInfoDto busInfo;
 
 

@@ -5,6 +5,7 @@ import com.Transaction.transaction.algorithm.RandomSeatAllocator;
 import com.Transaction.transaction.entity.AvailableSeat;
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Seat;
+import com.Transaction.transaction.exception.ResourceNotFound;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
@@ -32,10 +33,8 @@ public class SeatServiceImpl implements SeatService {
 
 
     @Override
-    public SeatDto createSeat(SeatDto seatDto,int id) {
+    public SeatDto createSeat(SeatDto seatDto) {
         Seat seat=this.dtoToSeat(seatDto);
-        double price= pricingService.calculateDemandFactor(id);
-        seat.setPrice(price);
         Seat seat1=this.seatRepo.save(seat);
         return seatToDto(seat1);
     }
@@ -44,10 +43,8 @@ public class SeatServiceImpl implements SeatService {
     public SeatDto updateSeat(SeatDto seatDto, int id) {
         Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
             seat.setSeatName(seatDto.getSeatName());
-            seat.setSeatType(seatDto.getSeatType());
             seat.setSeatNumber(seatDto.getSeatNumber());
             seat.setBusName(seatDto.getBusName());
-            seat.setZone(seatDto.getZone());
             Seat seat1=this.seatRepo.save(seat);
             return seatToDto(seat1);
     }
@@ -88,19 +85,16 @@ public class SeatServiceImpl implements SeatService {
         return seats.stream().map(this::seatToDto).collect(Collectors.toList());
     }
 
+
     @Override
-    public SeatDto createSeatForBus(SeatDto seatDto, int id) {
+    public SeatDto createSeatForBus(SeatDto seatDto, int id,int id1) {
         Seat seat=this.dtoToSeat(seatDto);
-       BusInfo busInfo=this.busInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo","id",id));
+        BusInfo busInfo=this.busInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo","id",id));
+        double price= pricingService.calculateDemandFactor(id1);
+        seat.setPrice(price);
         seat.setBusInfo(busInfo);
         Seat seat1=this.seatRepo.save(seat);
         return seatToDto(seat1);
-    }
-
-    @Override
-    public SeatType getSeatType(int id) {
-        Seat seat = this.seatRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Seat", "id", id));
-        return seat.getSeatType();
     }
 
     @Override

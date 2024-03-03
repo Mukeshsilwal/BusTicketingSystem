@@ -22,18 +22,10 @@ public class Seat {
     private String seatName;
     private boolean reserved;
     private String busName;
-    @Enumerated(EnumType.STRING)
-    private SeatType seatType;
     private double price;
     private String seatNumber;
-    private String zone;
+    private int capacity;
 
-
-
-    public Seat(String seatNumber, String zone) {
-        this.seatNumber = seatNumber;
-        this.zone = zone;
-    }
 
     public void cancelRequest(){
         this.reserved=false;

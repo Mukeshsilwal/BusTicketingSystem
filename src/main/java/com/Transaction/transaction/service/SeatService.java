@@ -7,14 +7,13 @@ import com.Transaction.transaction.payloads.SeatDto;
 import java.util.List;
 
 public interface SeatService {
-SeatDto createSeat(SeatDto seatDto,int id);
+SeatDto createSeat(SeatDto seatDto);
 SeatDto updateSeat(SeatDto seatDto,int id);
 void deleteSeat(int id);
 SeatDto getSeatById(int id);
 List<SeatDto> getAllSeat();
-SeatDto createSeatForBus(SeatDto seatDto,int id);
-//void deleteBookingSeat(int sId,int id);
-SeatType getSeatType(int id);
+SeatDto createSeatForBus(SeatDto seatDto,int id,int id1);
 List<SeatDto> findSeatRelatedToBus(String busName);
+
 
 }
