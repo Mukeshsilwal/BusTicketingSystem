@@ -19,12 +19,6 @@ public class BusStop {
     private String name;
     private int distance;
     private boolean visited;
-
-    public BusStop(String name, int distance, boolean visited) {
-        this.name = name;
-        this.distance = Integer.MAX_VALUE;
-        this.visited = false;
-    }
     @OneToMany(mappedBy = "sourceBusStop",cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
     List<Route12> sourceRoutes;
     @OneToMany(mappedBy = "destinationBusStop",cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)

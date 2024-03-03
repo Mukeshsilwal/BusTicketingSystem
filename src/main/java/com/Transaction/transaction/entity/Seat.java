@@ -24,9 +24,10 @@ public class Seat {
     private String busName;
     @Enumerated(EnumType.STRING)
     private SeatType seatType;
-    private float price;
+    private double price;
     private String seatNumber;
     private String zone;
+
 
 
     public Seat(String seatNumber, String zone) {

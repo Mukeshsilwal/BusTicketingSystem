@@ -5,8 +5,10 @@ import com.Transaction.transaction.entity.Route12;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BusInfoRepo extends JpaRepository<BusInfo,Integer> {
-   List<BusInfo> findBySourceAndDestination(String source, String destination);
+   List<BusInfo> findByDepartureDateTimeAfterAndSourceAndDestination(LocalDateTime departureDateTime, String source, String destination);
+
 }

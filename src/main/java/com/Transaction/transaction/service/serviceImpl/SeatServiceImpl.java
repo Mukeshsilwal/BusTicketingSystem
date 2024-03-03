@@ -1,6 +1,8 @@
 package com.Transaction.transaction.service.serviceImpl;
 
+import com.Transaction.transaction.algorithm.DynamicPricingAlgorithm;
 import com.Transaction.transaction.algorithm.RandomSeatAllocator;
+import com.Transaction.transaction.entity.AvailableSeat;
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
@@ -8,30 +10,34 @@ import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.SeatRepo;
+import com.Transaction.transaction.service.PricingService;
 import com.Transaction.transaction.service.SeatService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class SeatServiceImpl implements SeatService {
     private final SeatRepo seatRepo;
     private final ModelMapper modelMapper;
     private final BusInfoRepo busInfoRepo;
+    private final DynamicPricingAlgorithm algorithm;
+    private final PricingService pricingService;
 
-    public SeatServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BusInfoRepo busInfoRepo) {
-        this.seatRepo = seatRepo;
-        this.modelMapper = modelMapper;
-        this.busInfoRepo = busInfoRepo;
-    }
+
 
     @Override
-    public SeatDto createSeat(SeatDto seatDto) {
+    public SeatDto createSeat(SeatDto seatDto,int id) {
         Seat seat=this.dtoToSeat(seatDto);
-            Seat seat1=this.seatRepo.save(seat);
-            return seatToDto(seat1);
+        double price= pricingService.calculateDemandFactor(id);
+        seat.setPrice(price);
+        Seat seat1=this.seatRepo.save(seat);
+        return seatToDto(seat1);
     }
 
     @Override
@@ -41,7 +47,6 @@ public class SeatServiceImpl implements SeatService {
             seat.setSeatType(seatDto.getSeatType());
             seat.setSeatNumber(seatDto.getSeatNumber());
             seat.setBusName(seatDto.getBusName());
-            seat.setPrice(seatDto.getPrice());
             seat.setZone(seatDto.getZone());
             Seat seat1=this.seatRepo.save(seat);
             return seatToDto(seat1);
@@ -103,6 +108,8 @@ public class SeatServiceImpl implements SeatService {
         List<Seat> seats=seatRepo.findByBusName(busName);
         return seats.stream().map(this::seatToDto).collect(Collectors.toList());
     }
+
+
 
 
     public Seat dtoToSeat(SeatDto seatDto){

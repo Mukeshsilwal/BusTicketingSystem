@@ -6,11 +6,14 @@ import com.Transaction.transaction.entity.BusStop;
 import com.Transaction.transaction.entity.Route12;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.model.Graph;
+import com.Transaction.transaction.payloads.BusStopDto;
 import com.Transaction.transaction.payloads.Route12Dto;
 import com.Transaction.transaction.repository.BusStopRepo;
 import com.Transaction.transaction.repository.RouteRepo;
 import com.Transaction.transaction.service.Route12Service;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +27,8 @@ public class  RouteServiceImpl implements Route12Service {
     private final ModelMapper modelMapper;
    private final AlgorithmShortestPath algorithmShortestPath;
    private final BusStopRepo busStopRepo;
+    private static final Logger logger = LoggerFactory.getLogger(RouteServiceImpl.class);
+    private static final int INFINITY = Integer.MAX_VALUE;
 
     public RouteServiceImpl(RouteRepo routeRepo, ModelMapper modelMapper, AlgorithmShortestPath algorithmShortestPath, BusStopRepo busStopRepo) {
         this.routeRepo = routeRepo;
@@ -31,12 +36,6 @@ public class  RouteServiceImpl implements Route12Service {
         this.algorithmShortestPath = algorithmShortestPath;
         this.busStopRepo = busStopRepo;
 
-    }
-    @Override
-    public Route12Dto createRoute(Route12Dto route12Dto) {
-        Route12 route12=this.dtoToRoute(route12Dto);
-        Route12 route121=this.routeRepo.save(route12);
-        return routeToDto(route121);
     }
 
     @Override
@@ -102,6 +101,7 @@ public class  RouteServiceImpl implements Route12Service {
         graph.setBusStops(busStops);
 
         try {
+            initializeDistances(graph);
             algorithmShortestPath.dijkstra(graph, sourceBusStop);
         } catch (Exception e) {
             // Handle the case where there is no path between source and destination
@@ -139,12 +139,13 @@ public class  RouteServiceImpl implements Route12Service {
     }
 
 
-
-
-
-
     private List<Route12> getRoutesToBusStop(BusStop currentBusStop) {
         return currentBusStop.getDestinationRoutes();
+    }
+    private void initializeDistances(Graph graph) {
+        for (BusStop busStop : graph.getBusStops()) {
+            busStop.setDistance(INFINITY);
+        }
     }
 
 
@@ -155,5 +156,11 @@ public class  RouteServiceImpl implements Route12Service {
             return this.modelMapper.map(route12, Route12Dto.class);
         }
 
+    public List<Route12Dto> routeToDto1 (List<Route12> route12){
+        return Collections.singletonList(this.modelMapper.map(route12, Route12Dto.class));
+    }
+    public BusStop dtoToBusStop(BusStopDto busStopDto){
+        return this.modelMapper.map(busStopDto, BusStop.class);
+    }
 
 }

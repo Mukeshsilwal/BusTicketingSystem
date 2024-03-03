@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -25,15 +26,18 @@ public class User implements UserDetails {
     private int id;
     private String email;
     private String password;
+    private Role1 role;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
-    private List<Role> roles;
+
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<BookingTicket> tickets;
+    @Enumerated(EnumType.STRING)
+    private Role1 role1;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map((role)->new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+
+        return role1.getAuthorities();
     }
 
     @Override

@@ -21,7 +21,6 @@ public class Route12 {
     private int id;
     private String fro;
     private String too;
-    private double distance;
     private int weight;
     private Date date;
     @OneToMany(mappedBy = "route12",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
@@ -32,5 +31,6 @@ public class Route12 {
     @ManyToOne
     @JoinColumn(name="destination_id")
     private BusStop destinationBusStop;
+
 
 }

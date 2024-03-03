@@ -5,10 +5,12 @@ import com.Transaction.transaction.payloads.BusInfoDto;
 import com.Transaction.transaction.payloads.Route12Dto;
 import com.Transaction.transaction.service.BusInfoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,8 +39,8 @@ public class BusInfoController {
         return new ResponseEntity<>(busInfoDto1,HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<BusInfoDto>> search(@RequestParam String source,@RequestParam String destination){
-        List<BusInfoDto> busInfoDtos=this.busInfoService.getBusByDestination(source,destination);
+    public ResponseEntity<List<BusInfoDto>> search(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureDateTime,@RequestParam String source, @RequestParam String destination){
+        List<BusInfoDto> busInfoDtos=this.busInfoService.getBusByDestination(departureDateTime,source,destination);
         return new ResponseEntity<>(busInfoDtos,HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")

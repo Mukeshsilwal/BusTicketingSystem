@@ -7,6 +7,7 @@ import com.Transaction.transaction.service.Route12Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RouteController {
     private final Route12Service route12Service;
-    @PostMapping("/post")
-    public ResponseEntity<Route12Dto> createRoute(@RequestBody Route12Dto route12Dto){
-        Route12Dto route12Dto1=this.route12Service.createRoute(route12Dto);
-        return new ResponseEntity<>(route12Dto1,HttpStatus.CREATED);
-    }
+
     @GetMapping("/get/{id}")
     public ResponseEntity<Route12Dto> getRouteById(@PathVariable int id){
         Route12Dto route12Dto=this.route12Service.getRouteById(id);

@@ -18,11 +18,4 @@ import java.util.List;
 public class Graph {
     List<BusStop> busStops;
     List<Route12> route12s;
-
-    public void resetBusDistance() {
-        for (BusStop busStop : busStops) {
-            busStop.setDistance(Integer.MAX_VALUE);
-            busStop.setVisited(false);
-        }
-    }
 }

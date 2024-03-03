@@ -7,12 +7,11 @@ import com.Transaction.transaction.payloads.BusInfoDto;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.RouteRepo;
 import com.Transaction.transaction.service.BusInfoService;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,9 +75,12 @@ public class BusInfoServiceImpl implements BusInfoService {
         return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
     }
 
+
+
+
     @Override
-    public List<BusInfoDto> getBusByDestination(String source, String destination) {
-        List<BusInfo> busInfos=this.busInfoRepo.findBySourceAndDestination(source,destination);
+    public List<BusInfoDto> getBusByDestination(LocalDateTime time, String source, String destination) {
+        List<BusInfo> busInfos=this.busInfoRepo.findByDepartureDateTimeAfterAndSourceAndDestination(time, source,destination);
         return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
     }
 

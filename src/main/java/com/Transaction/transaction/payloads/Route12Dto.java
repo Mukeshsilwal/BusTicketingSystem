@@ -19,7 +19,6 @@ public class Route12Dto {
     private String too;
     private Date date;
     private int weight;
-    private double distance;
     private BusStopDto sourceBusStop;
     private BusStopDto destinationBusStop;
 }

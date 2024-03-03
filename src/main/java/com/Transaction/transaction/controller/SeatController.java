@@ -22,14 +22,14 @@ public class SeatController {
         List<SeatDto> seatDto=this.seatService.getAllSeat();
         return new ResponseEntity<>(seatDto, HttpStatus.OK);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<SeatDto> getSeatById(@PathVariable Integer id){
         SeatDto seatDto=this.seatService.getSeatById(id);
         return new ResponseEntity<>(seatDto,HttpStatus.OK);
     }
-    @PostMapping("/post")
-    public ResponseEntity<SeatDto> createSeat(@RequestBody SeatDto seatDto){
-        SeatDto seatDto1=this.seatService.createSeat(seatDto);
+    @PostMapping("/post1/{id}")
+    public ResponseEntity<SeatDto> createSeat(@RequestBody SeatDto seatDto,@PathVariable int id){
+        SeatDto seatDto1=this.seatService.createSeat(seatDto,id);
         return new ResponseEntity<>(seatDto1,HttpStatus.CREATED);
     }
     @PutMapping("/update/{id}")

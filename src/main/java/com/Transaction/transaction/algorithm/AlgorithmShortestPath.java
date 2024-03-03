@@ -20,8 +20,8 @@ public class AlgorithmShortestPath {
             for (Route12 route : current.getDestinationRoutes()) {
                 int tentativeDistance = current.getDistance() + route.getWeight();
                 System.out.println("tentative distance"+tentativeDistance);
-                if (tentativeDistance < route.getDistance()) {
-                    route.setDistance(tentativeDistance);
+                if (tentativeDistance < route.getDestinationBusStop().getDistance()) {
+                    route.getDestinationBusStop().setDistance(tentativeDistance);
                 }
             }
 
@@ -44,5 +44,6 @@ public class AlgorithmShortestPath {
 
         return closest;
     }
+
 
 }
