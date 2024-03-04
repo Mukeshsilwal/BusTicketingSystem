@@ -17,12 +17,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    private int id;
+    private int id1;
     @NotNull
     @NotEmpty
     private String email;
-//    @NotNull
-//    @NotEmpty
+    @NotNull
+    @NotEmpty
     private String password;
     private Role1 role;
 }

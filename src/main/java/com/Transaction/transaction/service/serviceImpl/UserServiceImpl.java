@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UserDto userDto, Integer id) {
         User user=this.userRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("User","id",id));
-        user.setId(userDto.getId());
+        user.setId1(userDto.getId1());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         User user1=this.userRepo.save(user);
