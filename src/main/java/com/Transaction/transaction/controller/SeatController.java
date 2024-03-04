@@ -42,9 +42,9 @@ public class SeatController {
         this.seatService.deleteSeat(id);
         return new ResponseEntity<>(new ApiResponse("Seat Has Been Deleted Successfully",true,HttpStatus.OK),HttpStatus.OK);
     }
-    @PostMapping("/post/{id}/{id1}")
-    public ResponseEntity<SeatDto> createSeatForBus(@RequestBody SeatDto seatDto,@PathVariable Integer id,@PathVariable int id1){
-        SeatDto seatDto1=this.seatService.createSeatForBus(seatDto,id,id1);
+    @PostMapping("/post/{id}")
+    public ResponseEntity<SeatDto> createSeatForBus(@RequestBody SeatDto seatDto,@PathVariable Integer id){
+        SeatDto seatDto1=this.seatService.createSeatForBus(seatDto,id);
         return new ResponseEntity<>(seatDto1,HttpStatus.CREATED);
     }
     @GetMapping("/name")

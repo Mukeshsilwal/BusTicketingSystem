@@ -87,13 +87,17 @@ public class SeatServiceImpl implements SeatService {
 
 
     @Override
-    public SeatDto createSeatForBus(SeatDto seatDto, int id,int id1) {
-        Seat seat=this.dtoToSeat(seatDto);
-        BusInfo busInfo=this.busInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo","id",id));
-        double price= pricingService.calculateDemandFactor(id1);
+    public SeatDto createSeatForBus(SeatDto seatDto, int id) {
+        Seat seat = this.dtoToSeat(seatDto);
+        BusInfo busInfo = this.busInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo", "id", id));
+        int count = 0;
+        if (!seat.isReserved()) {
+            count = (int) seatRepo.count();
+        }
+        double price = algorithm.calculateDynamicPrice(busInfo.getDepartureDateTime(), count);
         seat.setPrice(price);
         seat.setBusInfo(busInfo);
-        Seat seat1=this.seatRepo.save(seat);
+        Seat seat1 = this.seatRepo.save(seat);
         return seatToDto(seat1);
     }
 

@@ -18,6 +18,7 @@ public class SeatDto {
     private boolean reserved;
     private String seatNumber;
     private int capacity;
+    private double price;
     private BusInfoDto busInfo;
 
 

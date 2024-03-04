@@ -12,7 +12,7 @@ SeatDto updateSeat(SeatDto seatDto,int id);
 void deleteSeat(int id);
 SeatDto getSeatById(int id);
 List<SeatDto> getAllSeat();
-SeatDto createSeatForBus(SeatDto seatDto,int id,int id1);
+SeatDto createSeatForBus(SeatDto seatDto,int id);
 List<SeatDto> findSeatRelatedToBus(String busName);
 
 

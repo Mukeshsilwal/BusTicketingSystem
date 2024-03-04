@@ -8,12 +8,12 @@ import java.util.Date;
 public class DynamicPricingAlgorithm {
 
     // Basic pricing factors
-    private static final double BASE_PRICE = 1500.0;
-    private static final double PRICE_INCREMENT = 5.0;
-    private static final double MAX_PRICE = 6000.0;
+    private static final double BASE_PRICE = 20;
+    private static final double PATROL_PRICE_INCREMENT = 5.0;
+    private static final double MAX_PRICE = 50;
 
     // Pricing factors for dynamic adjustment
-    private static final double DEMAND_FACTOR = 1.1;  // Increase price if demand is high
+    private static final double DEMAND_FACTOR = 1.2;  // Increase price if demand is high
     private static final double TIME_FACTOR = 1.1;    // Increase price during peak hours
 
     public double calculateDynamicPrice(LocalDateTime departureTime, int availableSeats) {
@@ -22,6 +22,7 @@ public class DynamicPricingAlgorithm {
         // Adjust price based on demand
         dynamicPrice *= DEMAND_FACTOR * calculateDemandFactor(availableSeats);
 
+//        dynamicPrice += PATROL_PRICE_INCREMENT * calculatePatrolPriceIncrement(currentPatrolPrice);
         // Adjust price based on time
         dynamicPrice *= TIME_FACTOR * calculateTimeFactor(departureTime);
 
@@ -49,6 +50,11 @@ public class DynamicPricingAlgorithm {
         } else {
             return 1.0;  // Normal pricing for other hours
         }
+    }
+    private double calculatePatrolPriceIncrement(double currentPatrolPrice) {
+        // Adjust the price based on the current patrol price
+        // You can implement your logic here, e.g., higher increment for higher patrol prices
+        return currentPatrolPrice / 10.0;  // Adjust this based on your pricing strategy
     }
 
 }
