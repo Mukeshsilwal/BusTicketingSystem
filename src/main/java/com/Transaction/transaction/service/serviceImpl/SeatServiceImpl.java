@@ -7,6 +7,7 @@ import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.exception.ResourceNotFound;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
+import com.Transaction.transaction.exception.SeatsNotAvailableException;
 import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
 import com.Transaction.transaction.repository.BusInfoRepo;
@@ -28,7 +29,6 @@ public class SeatServiceImpl implements SeatService {
     private final ModelMapper modelMapper;
     private final BusInfoRepo busInfoRepo;
     private final DynamicPricingAlgorithm algorithm;
-    private final PricingService pricingService;
 
 
 
@@ -90,12 +90,15 @@ public class SeatServiceImpl implements SeatService {
     public SeatDto createSeatForBus(SeatDto seatDto, int id) {
         Seat seat = this.dtoToSeat(seatDto);
         BusInfo busInfo = this.busInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo", "id", id));
-        int count = 0;
-        if (!seat.isReserved()) {
-            count = (int) seatRepo.count();
+        if(!seat.isReserved()&&busInfo!=null) {
+            int availableSeats = calculateAvailableSeats(busInfo);
+            System.out.println("available seat" + availableSeats);
+            double price = algorithm.calculateDynamicPrice(busInfo.getDepartureDateTime(), availableSeats);
+            seat.setPrice(price);
         }
-        double price = algorithm.calculateDynamicPrice(busInfo.getDepartureDateTime(), count);
-        seat.setPrice(price);
+        else{
+            throw new  SeatsNotAvailableException("Seat not available :");
+        }
         seat.setBusInfo(busInfo);
         Seat seat1 = this.seatRepo.save(seat);
         return seatToDto(seat1);
@@ -107,6 +110,16 @@ public class SeatServiceImpl implements SeatService {
         return seats.stream().map(this::seatToDto).collect(Collectors.toList());
     }
 
+    private int calculateAvailableSeats(BusInfo busInfo) {
+        // Assuming you have a SeatRepository to query the database
+        List<Seat> reservedSeats = seatRepo.findByBusInfoAndReserved(busInfo, true);
+
+        // Assuming a bus with 50 seats
+        int totalSeats = 33;
+
+        // Calculate the available seats by subtracting the reserved seats from the total seats
+        return totalSeats - reservedSeats.size();
+    }
 
 
 

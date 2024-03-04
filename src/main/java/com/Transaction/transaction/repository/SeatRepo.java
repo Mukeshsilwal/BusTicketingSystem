@@ -15,5 +15,6 @@ public interface SeatRepo extends JpaRepository<Seat,Integer> {
     List<Seat> findFirstNByReservedFalse();
 
     List<Seat> findByBusName(String busName);
+    List<Seat> findByBusInfoAndReserved(BusInfo busInfo, boolean reserved);
 
 }

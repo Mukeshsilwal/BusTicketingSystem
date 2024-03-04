@@ -40,7 +40,7 @@ public class DynamicPricingAlgorithm {
     private double calculateTimeFactor(LocalDateTime departureTime) {
         // Higher time factor during peak hours (e.g., 7 AM - 9 AM)
         int peakStartHour = 7;
-        int peakEndHour = 9;
+        int peakEndHour = 8;
 
         int departureHour = departureTime.getHour();
         System.out.println("Time in hour"+departureHour);
