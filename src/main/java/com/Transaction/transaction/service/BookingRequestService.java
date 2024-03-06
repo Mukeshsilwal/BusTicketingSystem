@@ -4,7 +4,7 @@ import com.Transaction.transaction.model.ReservationResponse;
 import com.Transaction.transaction.payloads.BookingRequestDto;
 
 public interface BookingRequestService {
-ReservationResponse rserveSeats(BookingRequestDto requestDto);
+ReservationResponse rserveSeat(BookingRequestDto requestDto,int seatID);
 void cancelReservation(int bookingId);
 public void associateSeatWithBooking(int seatId, int bookingRequestId);
 }

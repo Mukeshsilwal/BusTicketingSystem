@@ -8,16 +8,15 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Optional;
 
 public interface BookingRequestRepo extends JpaRepository<BookingRequest,Integer> {
-    @Modifying
-    @Transactional
-    @Query("UPDATE BookingRequest t " +
-            "SET t.seatClass = 'CANCELLED' " +
-            "WHERE t.seat.busInfo.route12.date = :date " +
-            "AND t.seat.ticket.ticketNo = :ticketNo " +
-            "AND t.seat.ticket.bookingTicket.email = :email")
-    void cancelTicket(@Param("date") LocalDateTime date,
-                      @Param("ticketNo") int ticketNo,
-                      @Param("email") String email);
+
+    // Example query method to cancel a BookingRequest by ticketId and email
+    void deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmail(int ticketNo, String email);
 }
+
+
+
+

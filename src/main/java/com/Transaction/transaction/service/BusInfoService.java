@@ -12,7 +12,7 @@ public interface BusInfoService {
     BusInfoDto createBusInfo(BusInfoDto busInfoDto);
     BusInfoDto updateBusInfo(BusInfoDto busInfoDto,int id,int routeId);
     void deleteBusInfo(Integer id);
-    BusInfoDto createBusForRoute(BusInfoDto busInfoDto,int id);
+    BusInfoDto createBusForRoute(BusInfoDto busInfoDto,int id,int busId);
     List<BusInfoDto> getAllBusInfo();
     List<BusInfoDto> getBusByRoute(String source,String destination);
 }

@@ -40,7 +40,7 @@ public class PricingServiceImpl implements PricingService {
         if (!seat.isReserved() && seat.getBusInfo() != null) {
             int totalAvailableSeats = 30;
             System.out.println("Seats :"+totalAvailableSeats);
-            LocalDateTime departureTime = seat.getBusInfo().getDepartureDateTime();
+            Date departureTime = seat.getBusInfo().getDepartureDateTime();
             return algorithm.calculateDynamicPrice(departureTime, totalAvailableSeats);
         } else {
             // Default demand factor if the seat is already allocated or bus info is missing

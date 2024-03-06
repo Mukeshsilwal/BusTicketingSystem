@@ -20,7 +20,8 @@ public class BookingRequest {
     private int id;
     private int noOfSeats;
     private String seatClass;
-    @OneToOne(mappedBy = "booking",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
+    @OneToOne
+    @JoinColumn(name="id1")
     private Seat seat;
 
 }

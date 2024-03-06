@@ -23,9 +23,9 @@ public class BusInfoController {
         BusInfoDto busInfoDto1=this.busInfoService.createBusInfo(busInfoDto);
         return new ResponseEntity<>(busInfoDto1, HttpStatus.OK);
     }
-    @PostMapping("/route/{id}")
-    public ResponseEntity<BusInfoDto> createBusInRoute(@RequestBody BusInfoDto busInfoDto,@PathVariable Integer id){
-        BusInfoDto busInfoDto1=this.busInfoService.createBusForRoute(busInfoDto,id);
+    @PostMapping("/route/{id}/{busId}")
+    public ResponseEntity<BusInfoDto> createBusInRoute(@RequestBody BusInfoDto busInfoDto,@PathVariable int id,@PathVariable int busId ){
+        BusInfoDto busInfoDto1=this.busInfoService.createBusForRoute(busInfoDto,id,busId);
         return new ResponseEntity<>(busInfoDto1,HttpStatus.CREATED);
     }
     @GetMapping("/route")

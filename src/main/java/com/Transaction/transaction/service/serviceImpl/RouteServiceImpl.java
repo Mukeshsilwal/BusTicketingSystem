@@ -39,7 +39,6 @@ public class  RouteServiceImpl implements Route12Service {
     @Override
     public Route12Dto updateRoute(Route12Dto route12Dto, int id) {
         Route12 route12=this.routeRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Route12","id",id));
-        route12.setDate(route12Dto.getDate());
         Route12  route121=this.routeRepo.save(route12);
         return routeToDto(route121);
     }

@@ -16,7 +16,7 @@ public class DynamicPricingAlgorithm {
     private static final double DEMAND_FACTOR = 1.2;  // Increase price if demand is high
     private static final double TIME_FACTOR = 1.1;    // Increase price during peak hours
 
-    public double calculateDynamicPrice(LocalDateTime departureTime, int availableSeats) {
+    public double calculateDynamicPrice(Date departureTime, int availableSeats) {
         double dynamicPrice = BASE_PRICE;
 
         // Adjust price based on demand
@@ -37,12 +37,12 @@ public class DynamicPricingAlgorithm {
         return 1.0 + (1.0 - (double) availableSeats / 33);
     }
 
-    private double calculateTimeFactor(LocalDateTime departureTime) {
+    private double calculateTimeFactor(Date departureTime) {
         // Higher time factor during peak hours (e.g., 7 AM - 9 AM)
         int peakStartHour = 7;
         int peakEndHour = 8;
 
-        int departureHour = departureTime.getHour();
+        int departureHour = departureTime.getHours();
         System.out.println("Time in hour"+departureHour);
         if (departureHour >= peakStartHour && departureHour <= peakEndHour) {
 

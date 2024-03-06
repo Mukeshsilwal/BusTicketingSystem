@@ -16,7 +16,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class Route12Dto {
     private int id;
-    private LocalDateTime date;
     private BusStopDto sourceBusStop;
     private BusStopDto destinationBusStop;
 }

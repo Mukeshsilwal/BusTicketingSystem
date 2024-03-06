@@ -25,8 +25,7 @@ public class BusInfo {
     private String busName;
     private String busType;
     private double price;
-    @Column(name = "departure_datetime", columnDefinition = "DATETIME")
-    private LocalDateTime departureDateTime;
+    private Date departureDateTime;
     @ManyToOne
     @JoinColumn(name = "fid")
     private Route12 route12;

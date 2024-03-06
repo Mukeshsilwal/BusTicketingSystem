@@ -18,9 +18,9 @@ public class BookingRequestController {
     public BookingRequestController(BookingRequestService bookingRequestService) {
         this.bookingRequestService = bookingRequestService;
     }
-    @PostMapping("/")
-    public ResponseEntity<ReservationResponse> reserveSeats(@RequestBody BookingRequestDto requestDto){
-        ReservationResponse reservationResponse=bookingRequestService.rserveSeats(requestDto);
+    @PostMapping("/{seatId}")
+    public ResponseEntity<ReservationResponse> reserveSeats(@RequestBody BookingRequestDto requestDto,@PathVariable int seatId){
+        ReservationResponse reservationResponse=bookingRequestService.rserveSeat(requestDto,seatId);
         return new ResponseEntity<>(reservationResponse, HttpStatus.CREATED);
 
     }

@@ -20,7 +20,6 @@ public class Route12 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private LocalDateTime date;
     @OneToMany(mappedBy = "route12",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
     Set<BusInfo> busInfos;
     @ManyToOne

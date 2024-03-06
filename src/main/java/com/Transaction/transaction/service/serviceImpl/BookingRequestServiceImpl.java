@@ -35,18 +35,39 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
     }
 
     @Override
-    public ReservationResponse rserveSeats(BookingRequestDto requestDto) {
-        BookingRequest request=toRequest(requestDto);
-        if (areSeatsAvailable(request)) {
-            // Reserve seats and confirm the booking
-            reserveSeatsAndUpdateDatabase(request);
+    public ReservationResponse rserveSeat(BookingRequestDto requestDto,int seatId) {
+        BookingRequest request = toRequest(requestDto);
+
+        // Retrieve the seat by its ID
+        Seat seat = seatRepo.findById(seatId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seat", "seatId", seatId));
+
+        request.setSeat(seat);
+
+        if (isSeatAvailable(seat)) {
+            // Reserve the seat and confirm the booking
+            reserveSeatAndUpdateDatabase(request);
             requestRepo.save(request);
             return new ReservationResponse(true, "Booking confirmed");
         } else {
             // Provide alternative options or notify the user of unavailability
-            return new ReservationResponse(false, "Seats not available");
+            return new ReservationResponse(false, "Seat not available");
         }
     }
+
+    private boolean isSeatAvailable(Seat seat) {
+        // Check if the seat is available for reservation (add your logic here)
+        return !seat.isReserved();
+    }
+
+    private void reserveSeatAndUpdateDatabase(BookingRequest request) {
+        // Perform seat reservation logic and update the database
+        Seat seat = request.getSeat();
+        seat.setReserved(true);
+        seatRepo.save(seat);
+        // Add any additional logic for seat reservation
+    }
+
 
 
 
@@ -56,22 +77,23 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
     public void cancelReservation(int bookingId) {
         Seat seat = seatRepo.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Seat", "bookingId", bookingId));
         BookingRequest booking = seat.getBooking();
+
         if (booking != null) {
-            // Implementing the JPA query to cancel the ticket
-            requestRepo.cancelTicket(seat.getBusInfo().getRoute12().getDate(),
+            // Cancel the ticket using the repository method
+            requestRepo.deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmail(
                     seat.getTicket().getTicketNo(),
                     seat.getTicket().getBookingTicket().getEmail());
 
+            // Clear the association from Seat and update
             seat.setBooking(null);
             seat.setReserved(false);
             seatRepo.save(seat);
-
-            // No need to delete the booking separately, as it should be cascaded
         } else {
             // Handle the case where the booking with the given ID is not found
             throw new BookingNotFoundException("Booking not found for id: " + bookingId);
         }
     }
+
     @Override
     public void associateSeatWithBooking(int seatId, int bookingRequestId) {
         Optional<Seat> optionalSeat = seatRepo.findById(seatId);

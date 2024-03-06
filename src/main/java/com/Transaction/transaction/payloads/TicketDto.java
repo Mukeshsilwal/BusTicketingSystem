@@ -18,8 +18,6 @@ public class TicketDto {
     @NotBlank(message = "Name cannot be blank")
     private String passengerName;
     private String seatNo;
-    @NotBlank(message = "Price field cannot be blank")
-    private double price;
     @NotBlank(message = "Name cannot be blank")
     private Date departureDate;
     private SeatDto seat;
