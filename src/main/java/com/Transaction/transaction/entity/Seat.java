@@ -38,7 +38,7 @@ public class Seat {
     private Ticket ticket;
     @ManyToMany(mappedBy = "seats")
     private List<Booking> bookings;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="id1")
     private BookingRequest booking;
 

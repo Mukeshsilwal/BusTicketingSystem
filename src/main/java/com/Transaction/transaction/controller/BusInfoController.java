@@ -39,8 +39,8 @@ public class BusInfoController {
         return new ResponseEntity<>(busInfoDto1,HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<BusInfoDto>> search(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureDateTime,@RequestParam String source, @RequestParam String destination){
-        List<BusInfoDto> busInfoDtos=this.busInfoService.getBusByDestination(departureDateTime,source,destination);
+    public ResponseEntity<List<BusInfoDto>> search(@RequestParam String source, @RequestParam String destination){
+        List<BusInfoDto> busInfoDtos=this.busInfoService.getBusByRoute(source,destination);
         return new ResponseEntity<>(busInfoDtos,HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")

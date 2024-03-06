@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -15,10 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Route12Dto {
     private int id;
-    private String fro;
-    private String too;
-    private Date date;
-    private int weight;
+    private LocalDateTime date;
     private BusStopDto sourceBusStop;
     private BusStopDto destinationBusStop;
 }

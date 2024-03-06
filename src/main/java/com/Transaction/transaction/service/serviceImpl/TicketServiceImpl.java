@@ -78,7 +78,6 @@ public class TicketServiceImpl implements TicketService {
         Ticket ticket=this.dtoToTicket(ticketDto);
         BookingTicket bookingTicket=this.bookingRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","id",id));
         ticket.setTicketNo(ticketDto.getTicketNo());
-        ticket.setPrice(ticketDto.getPrice());
         ticket.setPassengerName(ticketDto.getPassengerName());
         ticket.setBookingTicket(bookingTicket);
         ticket.setDepartureDate(ticketDto.getDepartureDate());

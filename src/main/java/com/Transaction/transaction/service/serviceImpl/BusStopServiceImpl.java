@@ -35,7 +35,7 @@ public class BusStopServiceImpl implements BusStopService {
     @Override
     public BusStopDto updateBusStop(BusStopDto busStopDto, int id) {
         BusStop busStop=this.dtoToBusStop(busStopDto);
-        busStop.setDistance(busStopDto.getDistance());
+//        busStop.setDistance(busStopDto.getDistance());
         busStop.setName(busStopDto.getName());
         BusStop busStop1=this.busStopRepo.save(busStop);
         return busStopToDto(busStop1);

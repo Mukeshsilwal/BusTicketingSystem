@@ -17,8 +17,6 @@ public class BusStop {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    private int distance;
-    private boolean visited;
     @OneToMany(mappedBy = "sourceBusStop",cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
     List<Route12> sourceRoutes;
     @OneToMany(mappedBy = "destinationBusStop",cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)

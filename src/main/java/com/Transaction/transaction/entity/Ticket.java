@@ -21,7 +21,6 @@ public class Ticket {
     private String passengerName;
     private String seatNo;
     private Date departureDate;
-    private double price;
     private String email;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name="seat_Id",referencedColumnName = "id")

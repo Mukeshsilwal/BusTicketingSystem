@@ -24,7 +24,7 @@ public class BookingRequestController {
         return new ResponseEntity<>(reservationResponse, HttpStatus.CREATED);
 
     }
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse>  cancelSeat(@PathVariable int id){
        bookingRequestService.cancelReservation(id);
         return new ResponseEntity<>(new ApiResponse("Seat has been canceled",true,HttpStatus.OK),HttpStatus.OK);

@@ -14,6 +14,6 @@ public interface Route12Service {
     Route12Dto getRouteById(int id);
     List<Route12Dto> getAllRoute();
     Route12Dto createRouteWithBusStop(Route12Dto route12Dto,int id,int id1);
-    List<Route12Dto> findShortestRoute(int sourceId, int destinationId);
+//    List<Route12Dto> findShortestRoute(int sourceId, int destinationId);
 
 }

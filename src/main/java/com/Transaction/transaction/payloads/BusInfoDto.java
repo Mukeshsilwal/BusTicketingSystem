@@ -18,9 +18,7 @@ public class BusInfoDto {
     private int id;
     private String busName;
     private String busType;
-    private double price;
     private LocalDateTime departureDateTime;
-    private String source;
-    private String destination;
+    private double price;
     private Route12Dto route12;
 }

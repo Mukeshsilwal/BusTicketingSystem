@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,10 +20,7 @@ public class Route12 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String fro;
-    private String too;
-    private int weight;
-    private Date date;
+    private LocalDateTime date;
     @OneToMany(mappedBy = "route12",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
     Set<BusInfo> busInfos;
     @ManyToOne

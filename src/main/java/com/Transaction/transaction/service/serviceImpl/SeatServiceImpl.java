@@ -1,7 +1,7 @@
 package com.Transaction.transaction.service.serviceImpl;
 
 import com.Transaction.transaction.algorithm.DynamicPricingAlgorithm;
-import com.Transaction.transaction.algorithm.RandomSeatAllocator;
+import com.Transaction.transaction.algorithm.SeatAllocationService;
 import com.Transaction.transaction.entity.AvailableSeat;
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Seat;
@@ -29,6 +29,7 @@ public class SeatServiceImpl implements SeatService {
     private final ModelMapper modelMapper;
     private final BusInfoRepo busInfoRepo;
     private final DynamicPricingAlgorithm algorithm;
+    private final SeatAllocationService allocationService;
 
 
 
@@ -68,22 +69,11 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public List<SeatDto> getAllSeat() {
-        List<Seat> seats=this.seatRepo.findAll();
-        long count=seatRepo.count();
-        System.out.println("Counted seat"+count);
-        RandomSeatAllocator allocator=new RandomSeatAllocator((int) count);
-        allocator.allocateSeat();
-        for(int i=1;i<=count;i++){
-            int allocatedSeat= allocator.allocateSeat();
-            if(allocatedSeat!=-1){
-                System.out.println("Passenger " + i + " allocated to Seat " + allocatedSeat);
-            }
-            else{
-                System.out.println("No available seats for Passenger " + i);
-            }
-        }
-        return seats.stream().map(this::seatToDto).collect(Collectors.toList());
+        List<Seat> seats = this.seatRepo.findAll();
+       List<Seat> seats1=this.allocationService.allocateRandomSeats(seats,2);
+       return seats1.stream().map(this::seatToDto).collect(Collectors.toList());
     }
+
 
 
     @Override
@@ -108,6 +98,13 @@ public class SeatServiceImpl implements SeatService {
     public List<SeatDto> findSeatRelatedToBus(String busName) {
         List<Seat> seats=seatRepo.findByBusName(busName);
         return seats.stream().map(this::seatToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SeatDto> allocateRandomSeats(List<SeatDto> seats, int numberOfSeatsToAllocate) {
+        List<Seat> seats1=seats.stream().map(this::dtoToSeat).collect(Collectors.toList());
+        List<Seat> seats2=this.allocationService.allocateRandomSeats(seats1,numberOfSeatsToAllocate);
+        return seats2.stream().map(this::seatToDto).collect(Collectors.toList());
     }
 
     private int calculateAvailableSeats(BusInfo busInfo) {

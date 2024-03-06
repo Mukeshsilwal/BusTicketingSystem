@@ -1,11 +1,16 @@
 package com.Transaction.transaction.service.serviceImpl;
 
+import com.Transaction.transaction.algorithm.DynamicPricingAlgorithm;
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Route12;
+import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
+import com.Transaction.transaction.exception.SeatsNotAvailableException;
 import com.Transaction.transaction.payloads.BusInfoDto;
+import com.Transaction.transaction.payloads.Route12Dto;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.RouteRepo;
+import com.Transaction.transaction.repository.SeatRepo;
 import com.Transaction.transaction.service.BusInfoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -21,11 +26,15 @@ public class BusInfoServiceImpl implements BusInfoService {
     private final BusInfoRepo busInfoRepo;
     private final ModelMapper modelMapper;
     private final RouteRepo routeRepo;
+    private final SeatRepo seatRepo;
+    private final DynamicPricingAlgorithm algorithm;
 
-    public BusInfoServiceImpl(BusInfoRepo busInfoRepo, ModelMapper modelMapper, RouteRepo routeRepo) {
+    public BusInfoServiceImpl(BusInfoRepo busInfoRepo, ModelMapper modelMapper, RouteRepo routeRepo, SeatRepo seatRepo, DynamicPricingAlgorithm algorithm) {
         this.busInfoRepo = busInfoRepo;
         this.modelMapper = modelMapper;
         this.routeRepo = routeRepo;
+        this.seatRepo = seatRepo;
+        this.algorithm = algorithm;
     }
 
     @Override
@@ -42,7 +51,6 @@ public class BusInfoServiceImpl implements BusInfoService {
         busInfo.setBusName(busInfoDto.getBusName());
         busInfo.setBusType(busInfoDto.getBusType());
         busInfo.setRoute12(route12);
-        busInfo.setPrice(busInfoDto.getPrice());
         BusInfo busInfo1=this.busInfoRepo.save(busInfo);
         return busInfoToDto(busInfo1);
     }
@@ -63,10 +71,30 @@ public class BusInfoServiceImpl implements BusInfoService {
     public BusInfoDto createBusForRoute(BusInfoDto busInfoDto, int id) {
         BusInfo busInfo=this.dtoToBusInfo(busInfoDto);
         Route12 route12=this.routeRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Route12","routeIs",id));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        BusInfo busInfo1 = this.busInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo", "id", id));
+        Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
+        if(!seat.isReserved()&&busInfo1!=null) {
+            int availableSeats = calculateAvailableSeats(busInfo1);
+            System.out.println("available seat" + availableSeats);
+            double price = algorithm.calculateDynamicPrice(busInfo1.getDepartureDateTime(), availableSeats);
+            busInfo.setPrice(price);
+        }
+        else{
+            throw new SeatsNotAvailableException("Seat not available :");
+        }
         busInfo.setRoute12(route12);
-        BusInfo busInfo1=this.busInfoRepo.save(busInfo);
-        return busInfoToDto(busInfo1);
+        BusInfo busInfo2=this.busInfoRepo.save(busInfo);
+        return busInfoToDto(busInfo2);
+    }
+    private int calculateAvailableSeats(BusInfo busInfo) {
+        // Assuming you have a SeatRepository to query the database
+        List<Seat> reservedSeats = seatRepo.findByBusInfoAndReserved(busInfo, true);
+
+        // Assuming a bus with 50 seats
+        int totalSeats = 33;
+
+        // Calculate the available seats by subtracting the reserved seats from the total seats
+        return totalSeats - reservedSeats.size();
     }
 
     @Override
@@ -75,19 +103,20 @@ public class BusInfoServiceImpl implements BusInfoService {
         return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
     }
 
-
-
-
     @Override
-    public List<BusInfoDto> getBusByDestination(LocalDateTime time, String source, String destination) {
-        List<BusInfo> busInfos=this.busInfoRepo.findByDepartureDateTimeAfterAndSourceAndDestination(time, source,destination);
+    public List<BusInfoDto> getBusByRoute(String source,String destination) {
+        List<BusInfo> busInfos=this.busInfoRepo.findByRoute12SourceBusStopNameAndRoute12DestinationBusStopName(source,destination);
         return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
     }
+
 
     public BusInfo dtoToBusInfo(BusInfoDto busInfoDto){
         return this.modelMapper.map(busInfoDto, BusInfo.class);
     }
     public BusInfoDto busInfoToDto(BusInfo busInfo){
         return this.modelMapper.map(busInfo,BusInfoDto.class);
+    }
+    public Route12 dtoToRoute (Route12Dto route12Dto){
+        return this.modelMapper.map(route12Dto, Route12.class);
     }
 }

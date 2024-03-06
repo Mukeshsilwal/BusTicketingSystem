@@ -13,11 +13,5 @@ public class BusStopDto {
     @NonNull
     @NotEmpty
     private String name;
-    @NonNull
-    @NotEmpty
-    private int distance;
-    @NonNull
-    @NotEmpty
-    private boolean visited;
 
 }

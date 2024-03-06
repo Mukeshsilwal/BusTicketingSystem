@@ -25,8 +25,6 @@ public class BusInfo {
     private String busName;
     private String busType;
     private double price;
-    private String source;
-    private String destination;
     @Column(name = "departure_datetime", columnDefinition = "DATETIME")
     private LocalDateTime departureDateTime;
     @ManyToOne

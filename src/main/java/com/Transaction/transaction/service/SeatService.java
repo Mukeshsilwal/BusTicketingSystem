@@ -14,6 +14,7 @@ SeatDto getSeatById(int id);
 List<SeatDto> getAllSeat();
 SeatDto createSeatForBus(SeatDto seatDto,int id);
 List<SeatDto> findSeatRelatedToBus(String busName);
+List<SeatDto> allocateRandomSeats(List<SeatDto> seats, int numberOfSeatsToAllocate);
 
 
 }

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Table(name="User")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id1;
     private String email;
     private String password;
