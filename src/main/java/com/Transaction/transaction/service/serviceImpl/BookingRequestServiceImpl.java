@@ -54,15 +54,19 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
     @Transactional
     @Override
     public void cancelReservation(int bookingId) {
-        Seat seat=this.seatRepo.findById(bookingId).orElseThrow(()->new ResourceNotFoundException("Seat","bookingId",bookingId));
+        Seat seat = seatRepo.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Seat", "bookingId", bookingId));
         BookingRequest booking = seat.getBooking();
-        if (booking!=null) {
-           seat.setBooking(null);
-           seat.setReserved(false);
+        if (booking != null) {
+            // Implementing the JPA query to cancel the ticket
+            requestRepo.cancelTicket(seat.getBusInfo().getRoute12().getDate(),
+                    seat.getTicket().getTicketNo(),
+                    seat.getTicket().getBookingTicket().getEmail());
+
+            seat.setBooking(null);
+            seat.setReserved(false);
             seatRepo.save(seat);
 
-            requestRepo.delete(booking);
-
+            // No need to delete the booking separately, as it should be cascaded
         } else {
             // Handle the case where the booking with the given ID is not found
             throw new BookingNotFoundException("Booking not found for id: " + bookingId);

@@ -18,6 +18,6 @@ public interface BookingRequestRepo extends JpaRepository<BookingRequest,Integer
             "AND t.seat.ticket.ticketNo = :ticketNo " +
             "AND t.seat.ticket.bookingTicket.email = :email")
     void cancelTicket(@Param("date") LocalDateTime date,
-                      @Param("ticketNo") String ticketNo,
+                      @Param("ticketNo") int ticketNo,
                       @Param("email") String email);
 }
