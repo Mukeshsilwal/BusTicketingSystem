@@ -1,6 +1,8 @@
 package com.Transaction.transaction.controller;
 
 import com.Transaction.transaction.exception.ApiResponse;
+import com.Transaction.transaction.exception.ResourceNotFound;
+import com.Transaction.transaction.model.CustomerPreferences;
 import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
 import com.Transaction.transaction.service.SeatService;
@@ -53,6 +55,16 @@ public class SeatController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
-
+    @PostMapping("/allocate")
+    public ResponseEntity<List<SeatDto>> allocateSeats(@RequestBody CustomerPreferences preferences,
+                                                    @RequestParam int numberOfSeatsToAllocate) {
+        try {
+            List<SeatDto> list=this.seatService.getAllSeat();
+            List<SeatDto> allocatedSeats = seatService.allocateSeatsWithPreferences(list,numberOfSeatsToAllocate,preferences);
+            return new ResponseEntity<>(allocatedSeats, HttpStatus.OK);
+        } catch (ResourceNotFound e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

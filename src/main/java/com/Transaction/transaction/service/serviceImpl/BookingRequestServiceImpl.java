@@ -16,7 +16,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,7 +67,6 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
         Seat seat = request.getSeat();
         seat.setReserved(true);
         seatRepo.save(seat);
-        // Add any additional logic for seat reservation
     }
 
 
@@ -74,15 +75,15 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
 
     @Transactional
     @Override
-    public void cancelReservation(int bookingId) {
+    public void cancelReservation(String email, int ticketNo, Date date, int bookingId) {
         Seat seat = seatRepo.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Seat", "bookingId", bookingId));
         BookingRequest booking = seat.getBooking();
 
         if (booking != null) {
             // Cancel the ticket using the repository method
-            requestRepo.deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmail(
-                    seat.getTicket().getTicketNo(),
-                    seat.getTicket().getBookingTicket().getEmail());
+            requestRepo.deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmailAndSeatBusInfoDepartureDateTime(
+                    ticketNo,
+                    email,date);
 
             // Clear the association from Seat and update
             seat.setBooking(null);

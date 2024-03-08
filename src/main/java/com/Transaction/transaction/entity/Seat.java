@@ -21,10 +21,10 @@ public class Seat {
     private int id;
     private String seatName;
     private boolean reserved;
-    private String busName;
     private double price;
     private String seatNumber;
     private int capacity;
+    private SeatType seatType;
 
 
     public void cancelRequest(){

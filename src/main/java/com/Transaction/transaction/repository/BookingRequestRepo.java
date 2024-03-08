@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
@@ -14,7 +15,8 @@ import java.util.Optional;
 public interface BookingRequestRepo extends JpaRepository<BookingRequest,Integer> {
 
     // Example query method to cancel a BookingRequest by ticketId and email
-    void deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmail(int ticketNo, String email);
+    void deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmailAndSeatBusInfoDepartureDateTime(
+            int ticketNo, String email, Date date);
 }
 
 

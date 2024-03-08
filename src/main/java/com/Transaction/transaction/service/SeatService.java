@@ -1,6 +1,7 @@
 package com.Transaction.transaction.service;
 
 
+import com.Transaction.transaction.model.CustomerPreferences;
 import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
 
@@ -14,7 +15,7 @@ SeatDto getSeatById(int id);
 List<SeatDto> getAllSeat();
 SeatDto createSeatForBus(SeatDto seatDto,int id);
 List<SeatDto> findSeatRelatedToBus(String busName);
-List<SeatDto> allocateRandomSeats(List<SeatDto> seats, int numberOfSeatsToAllocate);
+List<SeatDto> allocateSeatsWithPreferences(List<SeatDto> seats, int numberOfSeatsToAllocate, CustomerPreferences preferences);
 
 
 }
