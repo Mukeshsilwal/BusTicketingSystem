@@ -19,7 +19,7 @@ public class SeatDto {
     private int capacity;
     private double price;
     private SeatType seatType;
-    private BusInfoDto busInfo;
+//    private BusInfoDto busInfo;
 
 
 }

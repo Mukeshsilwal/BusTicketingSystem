@@ -1,5 +1,6 @@
 package com.Transaction.transaction.payloads;
 
+import com.Transaction.transaction.entity.Seat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 
 
 @Getter
@@ -21,4 +23,5 @@ public class BusInfoDto {
     private Date departureDateTime;
     private double price;
     private Route12Dto route12;
+    List<SeatDto> seats;
 }

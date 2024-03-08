@@ -26,7 +26,7 @@ public class TicketPDFService {
         document.add(new Paragraph("Seat Number: " + ticket.getSeatNo()));
         document.add(new Paragraph("Full Name: " + ticket.getBookingTicket().getFullName()));
         document.add(new Paragraph("Email: " + ticket.getBookingTicket().getEmail()));
-        document.add(new Paragraph("Departure Date: " + ticket.getSeat().getBusInfo().getDepartureDateTime()));
+//        document.add(new Paragraph("Departure Date: " + ticket.getSeat().getBusInfo().getDepartureDateTime()));
         document.close();
 
         return outputStream.toByteArray();
