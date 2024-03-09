@@ -6,6 +6,7 @@ import com.Transaction.transaction.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class UserController {
         return new ResponseEntity<>(new ApiResponse("User has been deleted",true,HttpStatus.OK),HttpStatus.OK);
     }
     @PostMapping("/")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> createUser(@Validated @RequestBody UserDto userDto){
         UserDto userDto1=this.userService.createUser(userDto);
         return new ResponseEntity<>(userDto1,HttpStatus.CREATED);
     }

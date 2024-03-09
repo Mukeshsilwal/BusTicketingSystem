@@ -30,18 +30,9 @@ public class SeatServiceImpl implements SeatService {
     private final SeatAllocationService allocationService;
 
 
-
-    @Override
-    public SeatDto createSeat(SeatDto seatDto) {
-        Seat seat=this.dtoToSeat(seatDto);
-        Seat seat1=this.seatRepo.save(seat);
-        return seatToDto(seat1);
-    }
-
     @Override
     public SeatDto updateSeat(SeatDto seatDto, int id) {
         Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
-            seat.setSeatName(seatDto.getSeatName());
             seat.setSeatNumber(seatDto.getSeatNumber());
             Seat seat1=this.seatRepo.save(seat);
             return seatToDto(seat1);
@@ -69,9 +60,6 @@ public class SeatServiceImpl implements SeatService {
         List<Seat> seats = this.seatRepo.findAll();
        return seats.stream().map(this::seatToDto).collect(Collectors.toList());
     }
-
-
-
     @Override
     public SeatDto createSeatForBus(SeatDto seatDto, int id) {
         Seat seat = this.dtoToSeat(seatDto);
@@ -158,7 +146,7 @@ public class SeatServiceImpl implements SeatService {
         // Assuming you have a SeatRepository to query the database
         List<Seat> reservedSeats = seatRepo.findByBusInfoAndReserved(busInfo, true);
 
-        // Assuming a bus with 50 seats
+        // Assuming a bus with 33 seats
         int totalSeats = 33;
 
         // Calculate the available seats by subtracting the reserved seats from the total seats

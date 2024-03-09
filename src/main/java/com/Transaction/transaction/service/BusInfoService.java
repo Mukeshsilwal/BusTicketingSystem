@@ -6,6 +6,7 @@ import com.Transaction.transaction.payloads.BusInfoDto;
 import com.Transaction.transaction.payloads.Route12Dto;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public interface BusInfoService {
@@ -14,5 +15,5 @@ public interface BusInfoService {
     void deleteBusInfo(Integer id);
     BusInfoDto createBusForRoute(BusInfoDto busInfoDto,int id,int busId);
     List<BusInfoDto> getAllBusInfo();
-    List<BusInfoDto> getBusByRoute(String source,String destination);
+    List<BusInfoDto> getBusByRoute(String source, String destination, Date date);
 }

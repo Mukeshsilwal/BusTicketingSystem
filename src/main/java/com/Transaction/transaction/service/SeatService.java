@@ -8,7 +8,6 @@ import com.Transaction.transaction.payloads.SeatDto;
 import java.util.List;
 
 public interface SeatService {
-SeatDto createSeat(SeatDto seatDto);
 SeatDto updateSeat(SeatDto seatDto,int id);
 void deleteSeat(int id);
 SeatDto getSeatById(int id);

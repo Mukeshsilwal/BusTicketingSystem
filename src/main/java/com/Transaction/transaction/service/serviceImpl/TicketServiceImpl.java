@@ -51,30 +51,10 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketDto createTicketWithBooking(TicketDto ticketDto, int id) {
-        Ticket ticket=this.dtoToTicket(ticketDto);
-        BookingTicket bookingTicket=this.bookingRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","id",id));
-        ticket.setBookingTicket(bookingTicket);
-        Ticket ticket1=this.ticketRepo.save(ticket);
-        return ticketToDto(ticket1);
-    }
-
-    @Override
-    public TicketDto updateTicketWithBooking(TicketDto ticketDto, int id) {
-        Ticket ticket=this.dtoToTicket(ticketDto);
-        BookingTicket bookingTicket=this.bookingRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","id",id));
-        ticket.setTicketNo(ticketDto.getTicketNo());
-        ticket.setBookingTicket(bookingTicket);
-        ticket.setSeatNo(ticketDto.getSeatNo());
-        Ticket ticket1=this.ticketRepo.save(ticket);
-        return ticketToDto(ticket1);
-    }
-
-    @Override
-    public TicketDto createSeatWithTicket(TicketDto ticketDto, int id,int bId) {
+    public TicketDto createSeatWithTicket(TicketDto ticketDto, int id,int bookId) {
       try{  Ticket ticket=this.dtoToTicket(ticketDto);
         Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
-        BookingTicket bookingTicket=this.bookingRepo.findById(bId).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","bId",bId));
+        BookingTicket bookingTicket=this.bookingRepo.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","bId",bookId));
         ticket.setSeat(seat);
         ticket.setBookingTicket(bookingTicket);
         Ticket ticket1=this.ticketRepo.save(ticket);
@@ -108,16 +88,9 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketDto getTicketById(int tId) {
+    public Ticket getTicketById(int tId) {
         Ticket ticket=this.ticketRepo.findById(tId).orElseThrow(()->new ResourceNotFoundException("Ticket","tId",tId));
-        return ticketToDto(ticket);
-    }
-
-    @Override
-    public TicketDto createTicket(TicketDto ticketDto) {
-        Ticket ticket=this.dtoToTicket(ticketDto);
-        Ticket ticket1=this.ticketRepo.save(ticket);
-        return ticketToDto(ticket1);
+        return ticket;
     }
 
     public Ticket dtoToTicket(TicketDto ticketDto){

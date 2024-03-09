@@ -29,11 +29,6 @@ public class SeatController {
         SeatDto seatDto=this.seatService.getSeatById(id);
         return new ResponseEntity<>(seatDto,HttpStatus.OK);
     }
-    @PostMapping("/post1")
-    public ResponseEntity<SeatDto> createSeat(@RequestBody SeatDto seatDto){
-        SeatDto seatDto1=this.seatService.createSeat(seatDto);
-        return new ResponseEntity<>(seatDto1,HttpStatus.CREATED);
-    }
     @PutMapping("/update/{id}")
     public ResponseEntity<SeatDto> updateSeat(@RequestBody SeatDto seatDto,@PathVariable Integer id){
         SeatDto seatDto1=this.seatService.updateSeat(seatDto,id);

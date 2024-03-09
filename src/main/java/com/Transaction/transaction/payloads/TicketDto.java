@@ -1,6 +1,7 @@
 package com.Transaction.transaction.payloads;
 
 
+import com.Transaction.transaction.entity.Seat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

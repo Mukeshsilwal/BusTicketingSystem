@@ -5,9 +5,9 @@ import com.Transaction.transaction.payloads.BookingTicketDto;
 import java.util.List;
 
 public interface BookingTicketService {
-    List<BookingTicketDto> getAllBookingWithUser();
-    BookingTicketDto getBooking(int bokingId);
-    BookingTicketDto createBookingWithUser(BookingTicketDto bookingTicketDto);
+    List<BookingTicketDto> getAllBooking();
+    BookingTicketDto getBooking(int bookingId);
+    BookingTicketDto createBooking(BookingTicketDto bookingTicketDto);
     BookingTicketDto getBookById(int id);
 
 }

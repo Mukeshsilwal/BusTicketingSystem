@@ -20,7 +20,6 @@ public class BookingTicket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Date bookingDate;
     private String fullName;
     private String email;
     @OneToMany(mappedBy = "bookingTicket",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)

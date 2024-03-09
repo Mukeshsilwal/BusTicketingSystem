@@ -13,12 +13,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SeatDto {
     private int id;
-    private String seatName;
     private boolean reserved;
     private String seatNumber;
     private double price;
     private SeatType seatType;
-//    private BusInfoDto busInfo;
 
 
 }

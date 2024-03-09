@@ -1,5 +1,6 @@
 package com.Transaction.transaction.controller;
 
+import com.Transaction.transaction.entity.Ticket;
 import com.Transaction.transaction.exception.ApiResponse;
 import com.Transaction.transaction.payloads.BookingTicketDto;
 import com.Transaction.transaction.payloads.TicketDto;
@@ -31,7 +32,7 @@ public class TicketController {
     @GetMapping("/generate")
     public ResponseEntity<byte[]> generateTicket(@RequestParam Integer ticketId) throws DocumentException {
 
-        TicketDto ticket = ticketService.getTicketById(ticketId);
+        Ticket ticket = ticketService.getTicketById(ticketId);
         byte[] pdfData = ticketPDFService.generateTicketPDF(ticket);
         String userEmail =ticket.getBookingTicket().getEmail();
         HttpHeaders headers = new HttpHeaders();
@@ -40,12 +41,6 @@ public class TicketController {
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         ticketService.sendBookingConfirmationEmail(userEmail,pdfData);
         return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
-    }
-
-    @PostMapping("/")
-    public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto){
-        TicketDto ticketDto1 =this.ticketService.createTicket(ticketDto);
-        return new ResponseEntity<>(ticketDto1, HttpStatus.CREATED);
     }
     @PutMapping("/put/{id}")
     public ResponseEntity<TicketDto> updateTicket(@RequestBody TicketDto ticketDto,@PathVariable Integer id){
@@ -63,19 +58,9 @@ public class TicketController {
         this.ticketService.deleteSeatWithTicket(tId);
         return new ResponseEntity<>(new ApiResponse("Tickete Has Been Removed successfully",true,HttpStatus.OK),HttpStatus.OK);
     }
-    @PostMapping("/book/{id}")
-    public ResponseEntity<TicketDto> createTicketForBooking(@RequestBody TicketDto ticketDto,@PathVariable Integer id){
-        TicketDto ticketDto1=this.ticketService.createTicketWithBooking(ticketDto,id);
-        return new ResponseEntity<>(ticketDto1,HttpStatus.CREATED);
-    }
-    @PutMapping("/book/{id}")
-    public ResponseEntity<TicketDto> updateTicketWithBooking(@RequestBody TicketDto ticketDto,@PathVariable Integer id){
-        TicketDto ticketDto1=this.ticketService.updateTicketWithBooking(ticketDto,id);
-        return new ResponseEntity<>(ticketDto1,HttpStatus.OK);
-    }
    @GetMapping("/get/{id}")
-    public ResponseEntity<TicketDto> getAllTicket(@PathVariable Integer id){
-        TicketDto ticketDto=this.ticketService.getTicketById(id);
+    public ResponseEntity<Ticket> getAllTicket(@PathVariable Integer id){
+        Ticket ticketDto=this.ticketService.getTicketById(id);
         return new ResponseEntity<>(ticketDto,HttpStatus.OK);
    }
 

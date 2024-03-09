@@ -10,7 +10,7 @@ import java.awt.print.Pageable;
 import java.util.List;
 
 public interface SeatRepo extends JpaRepository<Seat,Integer> {
-    Seat findBySeatNameContaining(String seatName);
+
     @Query("SELECT s FROM Seat s WHERE s.reserved = false ORDER BY s.id ASC")
     List<Seat> findFirstNByReservedFalse();
 

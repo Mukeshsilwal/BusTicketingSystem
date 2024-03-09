@@ -10,5 +10,4 @@ public interface UserService {
     UserDto updateUser(UserDto userDto,Integer id);
     UserDto getUserById(Integer id);
     List<UserDto> getAllUser();
-    boolean isUserAvailable(String email);
 }

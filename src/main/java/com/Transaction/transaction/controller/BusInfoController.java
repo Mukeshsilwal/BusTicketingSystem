@@ -10,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -39,9 +42,13 @@ public class BusInfoController {
         return new ResponseEntity<>(busInfoDto1,HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<BusInfoDto>> search(@RequestParam String source, @RequestParam String destination){
-        List<BusInfoDto> busInfoDtos=this.busInfoService.getBusByRoute(source,destination);
-        return new ResponseEntity<>(busInfoDtos,HttpStatus.OK);
+    public ResponseEntity<List<BusInfoDto>> search(@RequestParam String source, @RequestParam String destination,@RequestParam String date) throws ParseException {
+
+           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+           Date date1 = format.parse(date);
+           List<BusInfoDto> busInfoDtos = this.busInfoService.getBusByRoute(source, destination,date1);
+           return new ResponseEntity<>(busInfoDtos,HttpStatus.OK);
+
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse> deleteBus(@PathVariable int id){

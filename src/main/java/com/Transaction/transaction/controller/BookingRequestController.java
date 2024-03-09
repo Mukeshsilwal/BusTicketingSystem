@@ -6,6 +6,7 @@ import com.Transaction.transaction.model.ReservationResponse;
 import com.Transaction.transaction.payloads.BookingRequestDto;
 import com.Transaction.transaction.payloads.BookingTicketDto;
 import com.Transaction.transaction.service.BookingRequestService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,10 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/bookSeats")
 public class BookingRequestController {
     private final BookingRequestService bookingRequestService;
-
-    public BookingRequestController(BookingRequestService bookingRequestService) {
-        this.bookingRequestService = bookingRequestService;
-    }
     @PostMapping("/{seatId}")
     public ResponseEntity<ReservationResponse> reserveSeats(@RequestBody BookingRequestDto requestDto,@PathVariable int seatId){
         ReservationResponse reservationResponse=bookingRequestService.rserveSeat(requestDto,seatId);

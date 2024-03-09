@@ -27,13 +27,11 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
     private final SeatRepo seatRepo;
     private final ModelMapper modelMapper;
     private final BookingRequestRepo requestRepo;
-    private final EmailService emailService;
 
-    public BookingRequestServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BookingRequestRepo requestRepo, EmailService emailService) {
+    public BookingRequestServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BookingRequestRepo requestRepo) {
         this.seatRepo = seatRepo;
         this.modelMapper = modelMapper;
         this.requestRepo = requestRepo;
-        this.emailService = emailService;
     }
 
     @Override
@@ -68,11 +66,6 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
         seat.setReserved(true);
         seatRepo.save(seat);
     }
-
-
-
-
-
     @Transactional
     @Override
     public void cancelReservation(String email, int ticketNo, Date date, int bookingId) {
@@ -120,37 +113,6 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
         long count = request.getNoOfSeats();
         return count <= count1;
     }
-
-    private void reserveSeatsAndUpdateDatabase(BookingRequest request) {
-
-            if(areSeatsAvailable(request)){
-                int count= request.getNoOfSeats();
-                List<Seat> reservedSeats=seatRepo.findFirstNByReservedFalse();
-                if (reservedSeats.size() >= count) {
-                    // Check if all the seats are not already reserved
-                    boolean allSeatsNotReserved = reservedSeats.stream().noneMatch(Seat::isReserved);
-
-                    if (allSeatsNotReserved) {
-                        reservedSeats = reservedSeats.subList(0, count);
-                        reservedSeats.forEach(seat -> seat.setReserved(true));
-                        seatRepo.saveAll(reservedSeats);
-                        BookingRequest booking = new BookingRequest();
-                        requestRepo.save(booking);
-                    }
-                    else{
-                        throw new SeatsNotAvailableException("Some of the requested seats are already reserved");
-                    }
-                }
-                else {
-
-                    throw new SeatsNotAvailableException("Requested seats are not available");
-                }
-
-            }
-            else {
-                throw new SeatsNotAvailableException("Requested seats are not available.");
-            }
-        }
     public BookingRequest toRequest(BookingRequestDto bookingDto){
         return modelMapper.map(bookingDto,BookingRequest.class);
     }

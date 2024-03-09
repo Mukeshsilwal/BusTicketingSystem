@@ -19,7 +19,6 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String seatName;
     private boolean reserved;
     private double price;
     private String seatNumber;

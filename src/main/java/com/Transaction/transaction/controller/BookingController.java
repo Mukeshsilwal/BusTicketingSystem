@@ -17,7 +17,7 @@ public class BookingController {
     private final BookingTicketService bookingTicketService;
     @GetMapping("/get")
     public ResponseEntity<List<BookingTicketDto>> getAllBookingTicket(){
-        List<BookingTicketDto> bookingTicket=this.bookingTicketService.getAllBookingWithUser();
+        List<BookingTicketDto> bookingTicket=this.bookingTicketService.getAllBooking();
         return new ResponseEntity<>(bookingTicket, HttpStatus.OK);
     }
     @GetMapping("/{id}")
@@ -27,7 +27,7 @@ public class BookingController {
     }
     @PostMapping("/post")
     public ResponseEntity<BookingTicketDto> createBooking(@RequestBody BookingTicketDto bookingTicketDto){
-        BookingTicketDto ticketDto=this.bookingTicketService.createBookingWithUser(bookingTicketDto);
+        BookingTicketDto ticketDto=this.bookingTicketService.createBooking(bookingTicketDto);
 
         return new ResponseEntity<>(ticketDto,HttpStatus.CREATED);
     }

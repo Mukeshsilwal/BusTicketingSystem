@@ -66,14 +66,6 @@ public class UserServiceImpl implements UserService {
         return users.stream().map(this::userToDto).collect(Collectors.toList());
     }
 
-
-
-    @Override
-    public boolean isUserAvailable(String email) {
-
-        return true;
-    }
-
     public User dtoToUser(UserDto userDto){
         return this.modelMapper.map(userDto,User.class);
     }
