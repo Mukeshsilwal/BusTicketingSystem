@@ -6,14 +6,12 @@ import java.util.List;
 
 public interface TicketService {
 
-    void deleteTicket(int id);
     TicketDto updateTicket(TicketDto ticketDto,int tId);
     List<TicketDto> getAllTicket();
     TicketDto createTicketWithBooking(TicketDto ticketDto,int id);
-    void deleteTicketWithBooking(int tId,int id,int bId);
     TicketDto updateTicketWithBooking(TicketDto ticketDto,int id);
     TicketDto createSeatWithTicket(TicketDto ticketDto,int id,int bId);
-    void deleteSeatWithTicket(int tId,int id);
+    void deleteSeatWithTicket(int tId);
     TicketDto getTicketById(int tId);
     TicketDto createTicket(TicketDto ticketDto);
     public void sendBookingConfirmationEmail(String userEmail,byte[] pdfContent);

@@ -22,11 +22,10 @@ public class TicketPDFService {
         document.open();
         document.add(new Paragraph("Ticket Information"));
         document.add(new Paragraph("Ticket ID: " + ticket.getTicketNo()));
-        document.add(new Paragraph("Passenger: " + ticket.getPassengerName()));
+        document.add(new Paragraph("Passenger Full Name: " + ticket.getBookingTicket().getFullName()));
         document.add(new Paragraph("Seat Number: " + ticket.getSeatNo()));
-        document.add(new Paragraph("Full Name: " + ticket.getBookingTicket().getFullName()));
+        document.add(new Paragraph(": " + ticket.getBookingTicket().getFullName()));
         document.add(new Paragraph("Email: " + ticket.getBookingTicket().getEmail()));
-//        document.add(new Paragraph("Departure Date: " + ticket.getSeat().getBusInfo().getDepartureDateTime()));
         document.close();
 
         return outputStream.toByteArray();

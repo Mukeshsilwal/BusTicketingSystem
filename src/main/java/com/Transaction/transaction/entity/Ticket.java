@@ -18,11 +18,9 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ticketNo;
-    private String passengerName;
+    @Column(unique = true)
     private String seatNo;
-    private Date departureDate;
-    private String email;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToOne
     @JoinColumn(name="seat_Id",referencedColumnName = "id")
     private Seat seat;
     @ManyToOne

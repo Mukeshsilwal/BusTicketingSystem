@@ -58,4 +58,10 @@ public class GlobalException {
         ApiResponse response=new ApiResponse(message,true,HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(DuplicateEntryException.class)
+    public ResponseEntity<ApiResponse> duplicateTicket(DuplicateEntryException e){
+        String message=e.getMessage();
+        ApiResponse response=new ApiResponse(message,true,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
 }

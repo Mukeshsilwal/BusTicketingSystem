@@ -3,6 +3,7 @@ package com.Transaction.transaction.service.serviceImpl;
 import com.Transaction.transaction.entity.BookingTicket;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.entity.Ticket;
+import com.Transaction.transaction.exception.DuplicateEntryException;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.payloads.TicketDto;
 import com.Transaction.transaction.repository.BookingRepo;
@@ -11,8 +12,10 @@ import com.Transaction.transaction.repository.TicketRepo;
 import com.Transaction.transaction.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,11 +27,6 @@ public class TicketServiceImpl implements TicketService {
     private final BookingRepo bookingRepo;
     private final SeatRepo seatRepo;
     private final EmailService emailService;
-    @Override
-    public void deleteTicket(int id) {
-        Ticket ticket=this.ticketRepo.findById(id).orElseThrow();
-        this.ticketRepo.delete(ticket);
-    }
     @Override
     public void sendBookingConfirmationEmail(String userEmail,byte[] pdfContent) {
         String subject = "Booking Confirmation";
@@ -42,7 +40,6 @@ public class TicketServiceImpl implements TicketService {
     public TicketDto updateTicket(TicketDto ticketDto, int tId) {
         Ticket ticket=this.ticketRepo.findById(tId).orElseThrow(()->new ResourceNotFoundException("Ticket","tId",tId));
         ticket.setTicketNo(ticketDto.getTicketNo());
-        ticket.setPassengerName(ticketDto.getPassengerName());
         ticket.setSeatNo(ticketDto.getSeatNo());
         return ticketToDto(ticket);
     }
@@ -63,24 +60,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void deleteTicketWithBooking(int tId, int id,int bId) {
-        BookingTicket bookingTicket=this.bookingRepo.findById(bId).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","bId",bId));
-        Ticket ticket=this.ticketRepo.findById(tId).orElseThrow(()->new ResourceNotFoundException("Ticket","tId",tId));
-        Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
-        this.ticketRepo.delete(ticket);
-        this.bookingRepo.delete(bookingTicket);
-        this.seatRepo.delete(seat);
-
-    }
-
-    @Override
     public TicketDto updateTicketWithBooking(TicketDto ticketDto, int id) {
         Ticket ticket=this.dtoToTicket(ticketDto);
         BookingTicket bookingTicket=this.bookingRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","id",id));
         ticket.setTicketNo(ticketDto.getTicketNo());
-        ticket.setPassengerName(ticketDto.getPassengerName());
         ticket.setBookingTicket(bookingTicket);
-        ticket.setDepartureDate(ticketDto.getDepartureDate());
         ticket.setSeatNo(ticketDto.getSeatNo());
         Ticket ticket1=this.ticketRepo.save(ticket);
         return ticketToDto(ticket1);
@@ -88,21 +72,39 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public TicketDto createSeatWithTicket(TicketDto ticketDto, int id,int bId) {
-        Ticket ticket=this.dtoToTicket(ticketDto);
+      try{  Ticket ticket=this.dtoToTicket(ticketDto);
         Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
         BookingTicket bookingTicket=this.bookingRepo.findById(bId).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","bId",bId));
         ticket.setSeat(seat);
         ticket.setBookingTicket(bookingTicket);
         Ticket ticket1=this.ticketRepo.save(ticket);
-        return ticketToDto(ticket1);
+        return ticketToDto(ticket1);}
+      catch (DataIntegrityViolationException e) {
+          // Catch the specific exception for duplicate entry
+          if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+              throw new DuplicateEntryException("Ticket with the same entry already exists.");
+          }
+          // Rethrow the exception if it's not related to duplicate entry
+          throw e;
+      }
     }
 
-    @Override
-    public void deleteSeatWithTicket(int tId, int id) {
+  @Transactional
+  @Override
+    public void deleteSeatWithTicket(int tId) {
         Ticket ticket=this.ticketRepo.findById(tId).orElseThrow(()->new ResourceNotFoundException("Ticket","tId",tId));
-        Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
+        Seat seat=ticket.getSeat();
+        if(seat!=null){
+            seat.setTicket(null);
+            ticket.setSeat(null);
+            seatRepo.save(seat);
+        }
+        BookingTicket ticket1=ticket.getBookingTicket();
+        if(ticket1!=null){
+            ticket1.getTicket().remove(ticket);
+            bookingRepo.save(ticket1);
+        }
         this.ticketRepo.delete(ticket);
-        this.seatRepo.delete(seat);
     }
 
     @Override

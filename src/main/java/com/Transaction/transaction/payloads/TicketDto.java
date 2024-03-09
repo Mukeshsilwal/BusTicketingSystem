@@ -15,13 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class TicketDto {
     private int ticketNo;
-    @NotBlank(message = "Name cannot be blank")
-    private String passengerName;
     private String seatNo;
-    @NotBlank(message = "Name cannot be blank")
-    private Date departureDate;
-    private SeatDto seat;
-    private String email;
     private BookingTicketDto bookingTicket;
 
 }

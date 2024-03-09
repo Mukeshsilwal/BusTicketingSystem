@@ -33,7 +33,7 @@ public class TicketController {
 
         TicketDto ticket = ticketService.getTicketById(ticketId);
         byte[] pdfData = ticketPDFService.generateTicketPDF(ticket);
-        String userEmail =ticket.getEmail();
+        String userEmail =ticket.getBookingTicket().getEmail();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.setContentDispositionFormData("attachment", "ticket.pdf");
@@ -52,32 +52,21 @@ public class TicketController {
         TicketDto ticketDto1=this.ticketService.updateTicket(ticketDto,id);
         return new ResponseEntity<>(ticketDto1,HttpStatus.OK);
     }
-    @DeleteMapping("/ticket/{id}")
-    public ResponseEntity<ApiResponse> deleteTicket(@PathVariable Integer id){
-        this.ticketService.deleteTicket(id);
-        return new ResponseEntity<>(new ApiResponse("Ticket Has Been Removed",true,HttpStatus.OK),HttpStatus.OK);
-    }
     @PostMapping("/seat/{id}/book/{bId}")
     public ResponseEntity<TicketDto> createTicketForSeat(@RequestBody TicketDto ticketDto,@PathVariable Integer id,
                                                          @PathVariable Integer bId){
         TicketDto ticketDto1=this.ticketService.createSeatWithTicket(ticketDto,id,bId);
         return new ResponseEntity<>(ticketDto1,HttpStatus.CREATED);
     }
-    @DeleteMapping("/ticket/{tId}/seat/{id}")
-    public ResponseEntity<ApiResponse> deleteTicketOfSeat(@PathVariable Integer tId,@PathVariable Integer id){
-        this.ticketService.deleteSeatWithTicket(tId,id);
+    @DeleteMapping("/ticket/{tId}")
+    public ResponseEntity<ApiResponse> deleteTicketOfSeat(@PathVariable Integer tId){
+        this.ticketService.deleteSeatWithTicket(tId);
         return new ResponseEntity<>(new ApiResponse("Tickete Has Been Removed successfully",true,HttpStatus.OK),HttpStatus.OK);
     }
     @PostMapping("/book/{id}")
     public ResponseEntity<TicketDto> createTicketForBooking(@RequestBody TicketDto ticketDto,@PathVariable Integer id){
         TicketDto ticketDto1=this.ticketService.createTicketWithBooking(ticketDto,id);
         return new ResponseEntity<>(ticketDto1,HttpStatus.CREATED);
-    }
-    @DeleteMapping("/ticket/{tId}/book/{id}/seat/{bId}")
-    public ResponseEntity<ApiResponse> deleteBookedTicket(@PathVariable Integer tId,@PathVariable Integer id,
-                                                          @PathVariable Integer bId){
-        this.ticketService.deleteTicketWithBooking(tId,id,bId);
-        return new ResponseEntity<>(new ApiResponse("Booked Ticket Has Been Removed From The System",true,HttpStatus.OK),HttpStatus.OK);
     }
     @PutMapping("/book/{id}")
     public ResponseEntity<TicketDto> updateTicketWithBooking(@RequestBody TicketDto ticketDto,@PathVariable Integer id){

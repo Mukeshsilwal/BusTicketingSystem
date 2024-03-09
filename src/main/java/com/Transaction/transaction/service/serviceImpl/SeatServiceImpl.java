@@ -2,7 +2,6 @@ package com.Transaction.transaction.service.serviceImpl;
 
 import com.Transaction.transaction.algorithm.DynamicPricingAlgorithm;
 import com.Transaction.transaction.algorithm.SeatAllocationService;
-import com.Transaction.transaction.entity.AvailableSeat;
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.exception.ResourceNotFound;
@@ -13,7 +12,6 @@ import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.SeatRepo;
-import com.Transaction.transaction.service.PricingService;
 import com.Transaction.transaction.service.SeatService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

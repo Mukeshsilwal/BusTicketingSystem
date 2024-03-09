@@ -23,7 +23,6 @@ public class Seat {
     private boolean reserved;
     private double price;
     private String seatNumber;
-    private int capacity;
     private SeatType seatType;
 
 
@@ -34,7 +33,7 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name = "fid",referencedColumnName = "id")
     private BusInfo busInfo;
-    @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Ticket ticket;
     @ManyToMany(mappedBy = "seats")
     private List<Booking> bookings;
