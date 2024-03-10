@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -67,7 +68,7 @@ public class SeatServiceImpl implements SeatService {
         if(!seat.isReserved()&&busInfo!=null) {
             int availableSeats = calculateAvailableSeats(busInfo);
             System.out.println("available seat" + availableSeats);
-            double price = algorithm.calculateDynamicPrice(busInfo.getDepartureDateTime(), availableSeats);
+            BigDecimal price = algorithm.calculateDynamicPrice(busInfo.getDepartureDateTime(), availableSeats);
             seat.setPrice(price);
         }
         else{

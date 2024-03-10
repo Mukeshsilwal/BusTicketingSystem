@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private boolean reserved;
-    private double price;
+    private BigDecimal price;
     private String seatNumber;
     private SeatType seatType;
 

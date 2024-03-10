@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -15,7 +17,7 @@ public class SeatDto {
     private int id;
     private boolean reserved;
     private String seatNumber;
-    private double price;
+    private BigDecimal price;
     private SeatType seatType;
 
 

@@ -24,7 +24,6 @@ public class BusInfo {
     private int id;
     private String busName;
     private String busType;
-    private double price;
     private Date departureDateTime;
     @ManyToOne
     @JoinColumn(name = "fid")

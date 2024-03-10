@@ -27,15 +27,11 @@ public class BusInfoServiceImpl implements BusInfoService {
     private final BusInfoRepo busInfoRepo;
     private final ModelMapper modelMapper;
     private final RouteRepo routeRepo;
-    private final SeatRepo seatRepo;
-    private final DynamicPricingAlgorithm algorithm;
 
-    public BusInfoServiceImpl(BusInfoRepo busInfoRepo, ModelMapper modelMapper, RouteRepo routeRepo, SeatRepo seatRepo, DynamicPricingAlgorithm algorithm) {
+    public BusInfoServiceImpl(BusInfoRepo busInfoRepo, ModelMapper modelMapper, RouteRepo routeRepo) {
         this.busInfoRepo = busInfoRepo;
         this.modelMapper = modelMapper;
         this.routeRepo = routeRepo;
-        this.seatRepo = seatRepo;
-        this.algorithm = algorithm;
     }
 
     @Override
@@ -69,33 +65,12 @@ public class BusInfoServiceImpl implements BusInfoService {
     }
 
     @Override
-    public BusInfoDto createBusForRoute(BusInfoDto busInfoDto, int id,int busId) {
+    public BusInfoDto createBusForRoute(BusInfoDto busInfoDto, int id) {
         BusInfo busInfo=this.dtoToBusInfo(busInfoDto);
         Route12 route12=this.routeRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Route12","routeIs",id));
-        BusInfo busInfo1 = this.busInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo", "id", id));
-        Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
-        if(!seat.isReserved()&&busInfo1!=null) {
-            int availableSeats = calculateAvailableSeats(busInfo1);
-            System.out.println("available seat" + availableSeats);
-            double price = algorithm.calculateDynamicPrice(busInfo1.getDepartureDateTime(), availableSeats);
-            busInfo.setPrice(price);
-        }
-        else{
-            throw new SeatsNotAvailableException("Seat not available :");
-        }
         busInfo.setRoute12(route12);
         BusInfo busInfo2=this.busInfoRepo.save(busInfo);
         return busInfoToDto(busInfo2);
-    }
-    private int calculateAvailableSeats(BusInfo busInfo) {
-        // Assuming you have a SeatRepository to query the database
-        List<Seat> reservedSeats = seatRepo.findByBusInfoAndReserved(busInfo, true);
-
-        // Assuming a bus with 50 seats
-        int totalSeats = 33;
-
-        // Calculate the available seats by subtracting the reserved seats from the total seats
-        return totalSeats - reservedSeats.size();
     }
 
     @Override

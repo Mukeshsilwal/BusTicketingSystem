@@ -21,7 +21,6 @@ public class BusInfoDto {
     private String busName;
     private String busType;
     private Date departureDateTime;
-    private double price;
     private Route12Dto route12;
     List<SeatDto> seats;
 }
