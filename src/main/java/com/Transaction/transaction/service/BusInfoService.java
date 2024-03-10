@@ -15,5 +15,5 @@ public interface BusInfoService {
     void deleteBusInfo(Integer id);
     BusInfoDto createBusForRoute(BusInfoDto busInfoDto,int id);
     List<BusInfoDto> getAllBusInfo();
-    List<BusInfoDto> getBusByRoute(String source, String destination, Date date);
+    List<BusInfoDto> getBusByRoute(String source, String destination);
 }

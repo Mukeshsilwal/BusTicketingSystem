@@ -26,8 +26,8 @@ public class BusInfoController {
         BusInfoDto busInfoDto1=this.busInfoService.createBusInfo(busInfoDto);
         return new ResponseEntity<>(busInfoDto1, HttpStatus.OK);
     }
-    @PostMapping("/route/{id}")
-    public ResponseEntity<BusInfoDto> createBusInRoute(@RequestBody BusInfoDto busInfoDto,@PathVariable int id){
+    @PostMapping("/route/{id}/{busId}")
+    public ResponseEntity<BusInfoDto> createBusInRoute(@RequestBody BusInfoDto busInfoDto,@PathVariable int id ){
         BusInfoDto busInfoDto1=this.busInfoService.createBusForRoute(busInfoDto,id);
         return new ResponseEntity<>(busInfoDto1,HttpStatus.CREATED);
     }
@@ -42,11 +42,8 @@ public class BusInfoController {
         return new ResponseEntity<>(busInfoDto1,HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<BusInfoDto>> search(@RequestParam String source, @RequestParam String destination,@RequestParam String date) throws ParseException {
-
-           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-           Date date1 = format.parse(date);
-           List<BusInfoDto> busInfoDtos = this.busInfoService.getBusByRoute(source, destination,date1);
+    public ResponseEntity<List<BusInfoDto>> search(@RequestParam String source, @RequestParam String destination) throws ParseException {
+           List<BusInfoDto> busInfoDtos = this.busInfoService.getBusByRoute(source, destination);
            return new ResponseEntity<>(busInfoDtos,HttpStatus.OK);
 
     }

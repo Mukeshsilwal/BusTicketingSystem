@@ -27,7 +27,6 @@ public class BusInfoServiceImpl implements BusInfoService {
     private final BusInfoRepo busInfoRepo;
     private final ModelMapper modelMapper;
     private final RouteRepo routeRepo;
-
     public BusInfoServiceImpl(BusInfoRepo busInfoRepo, ModelMapper modelMapper, RouteRepo routeRepo) {
         this.busInfoRepo = busInfoRepo;
         this.modelMapper = modelMapper;
@@ -80,8 +79,8 @@ public class BusInfoServiceImpl implements BusInfoService {
     }
 
     @Override
-    public List<BusInfoDto> getBusByRoute(String source, String destination, Date date) {
-        List<BusInfo> busInfos=this.busInfoRepo.findByRoute12SourceBusStopNameAndRoute12DestinationBusStopNameAndDepartureDateTime(source,destination,date);
+    public List<BusInfoDto> getBusByRoute(String source, String destination) {
+        List<BusInfo> busInfos=this.busInfoRepo.findByRoute12SourceBusStopNameAndRoute12DestinationBusStopName(source,destination);
         return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
     }
 
@@ -91,8 +90,5 @@ public class BusInfoServiceImpl implements BusInfoService {
     }
     public BusInfoDto busInfoToDto(BusInfo busInfo){
         return this.modelMapper.map(busInfo,BusInfoDto.class);
-    }
-    public Route12 dtoToRoute (Route12Dto route12Dto){
-        return this.modelMapper.map(route12Dto, Route12.class);
     }
 }
