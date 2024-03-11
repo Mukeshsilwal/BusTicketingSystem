@@ -44,7 +44,7 @@ public class TicketPDFService {
         addTableCell(detailsTable, "From:", ticket.getSeat().getBusInfo().getRoute12().getSourceBusStop().getName(), labelFont, valueFont);
         addTableCell(detailsTable, "Destination:", ticket.getSeat().getBusInfo().getRoute12().getDestinationBusStop().getName(), labelFont, valueFont);
         addTableCell(detailsTable, "Departure Date:", ticket.getSeat().getBusInfo().getDepartureDateTime().toString(), labelFont, valueFont);
-        addTableCell(detailsTable, "Price:", "NRP" + ticket.getSeat().getPrice(), labelFont, valueFont);
+        addTableCell(detailsTable, "Price:", "Nrs" + ticket.getSeat().getPrice(), labelFont, valueFont);
 
         document.add(detailsTable);
 
