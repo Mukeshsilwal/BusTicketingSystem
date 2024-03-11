@@ -39,9 +39,4 @@ public class BookingRequestController {
         }
         return new ResponseEntity<>(new ApiResponse("Seat has been canceled",true,HttpStatus.OK),HttpStatus.OK);
     }
-    @PostMapping("/seat/{id}/booking/{id1}")
-    public ResponseEntity<ApiResponse> createBookingForSeat(@PathVariable int id, @PathVariable int id1){
-        bookingRequestService.associateSeatWithBooking(id,id1);
-        return new ResponseEntity<>(new ApiResponse("Seat reserved successfully ..Have  a safe journey",true,HttpStatus.CREATED),HttpStatus.CREATED);
-    }
 }

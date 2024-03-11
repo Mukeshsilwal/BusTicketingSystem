@@ -9,5 +9,4 @@ import java.util.Date;
 public interface BookingRequestService {
 ReservationResponse rserveSeat(BookingRequestDto requestDto,int seatID);
 void cancelReservation(String email, int ticketNo, Date date, int bookingId);
-public void associateSeatWithBooking(int seatId, int bookingRequestId);
 }

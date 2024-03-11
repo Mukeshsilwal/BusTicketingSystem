@@ -42,10 +42,9 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
         Seat seat = seatRepo.findById(seatId)
                 .orElseThrow(() -> new ResourceNotFoundException("Seat", "seatId", seatId));
 
-        request.setSeat(seat);
-
         if (isSeatAvailable(seat)) {
             // Reserve the seat and confirm the booking
+            request.setSeat(seat);
             reserveSeatAndUpdateDatabase(request);
             requestRepo.save(request);
             return new ReservationResponse(true, "Booking confirmed");
@@ -86,32 +85,6 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
             // Handle the case where the booking with the given ID is not found
             throw new BookingNotFoundException("Booking not found for id: " + bookingId);
         }
-    }
-
-    @Override
-    public void associateSeatWithBooking(int seatId, int bookingRequestId) {
-        Optional<Seat> optionalSeat = seatRepo.findById(seatId);
-        Optional<BookingRequest> optionalBookingRequest = requestRepo.findById(bookingRequestId);
-
-        if (optionalSeat.isPresent() && optionalBookingRequest.isPresent()) {
-            Seat seat = optionalSeat.get();
-            BookingRequest bookingRequest = optionalBookingRequest.get();
-
-            // Associate the seat with the booking request
-            seat.setBooking(bookingRequest);
-
-            // Save the updated seat in the database
-            seatRepo.save(seat);
-        } else {
-            // Handle the case where the seat or booking request is not found
-            throw new SeatOrBookingRequestNotFoundException("Seat or BookingRequest not found");
-        }
-    }
-
-    private boolean areSeatsAvailable(BookingRequest request) {
-        long count1=seatRepo.count();
-        long count = request.getNoOfSeats();
-        return count <= count1;
     }
     public BookingRequest toRequest(BookingRequestDto bookingDto){
         return modelMapper.map(bookingDto,BookingRequest.class);
