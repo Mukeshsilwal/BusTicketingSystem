@@ -1,14 +1,10 @@
 package com.Transaction.transaction.service.serviceImpl;
 
 import com.Transaction.transaction.algorithm.DynamicPricingAlgorithm;
-import com.Transaction.transaction.algorithm.SeatAllocationService;
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Seat;
-import com.Transaction.transaction.exception.ResourceNotFound;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.exception.SeatsNotAvailableException;
-import com.Transaction.transaction.model.CustomerPreferences;
-import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.SeatRepo;
@@ -28,7 +24,6 @@ public class SeatServiceImpl implements SeatService {
     private final ModelMapper modelMapper;
     private final BusInfoRepo busInfoRepo;
     private final DynamicPricingAlgorithm algorithm;
-    private final SeatAllocationService allocationService;
 
 
     @Override
