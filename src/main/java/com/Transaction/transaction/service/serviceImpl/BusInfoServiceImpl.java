@@ -34,13 +34,6 @@ public class BusInfoServiceImpl implements BusInfoService {
     }
 
     @Override
-    public BusInfoDto createBusInfo(BusInfoDto busInfoDto) {
-        BusInfo busInfo=this.dtoToBusInfo(busInfoDto);
-        BusInfo busInfo1=this.busInfoRepo.save(busInfo);
-        return busInfoToDto(busInfo1);
-    }
-
-    @Override
     public BusInfoDto updateBusInfo(BusInfoDto busInfoDto, int id,int routeId) {
         BusInfo busInfo=this.busInfoRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("BusInfo","id",id));
         Route12 route12=this.routeRepo.findById(routeId).orElseThrow(()->new ResourceNotFoundException("Route12","routeIs",routeId));

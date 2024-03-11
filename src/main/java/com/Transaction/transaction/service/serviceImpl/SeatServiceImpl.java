@@ -85,62 +85,6 @@ public class SeatServiceImpl implements SeatService {
         return seats.stream().map(this::seatToDto).collect(Collectors.toList());
     }
 
-    @Override
-    public List<SeatDto> allocateSeatsWithPreferences(List<SeatDto> seats, int numberOfSeatsToAllocate, CustomerPreferences preferences) {
-        List<Seat> seats1=this.toSeat(seats);
-        List<Seat> availableSeats = filterSeatsByPreferences(seats1, preferences);
-
-        if (availableSeats.size() < numberOfSeatsToAllocate) {
-            throw new ResourceNotFound("Not enough available seats to allocate.");
-        }
-
-        // Shuffle the available seats randomly
-        List<Seat> shuffledSeats = shuffleSeats(availableSeats);
-
-        // Allocate the requested number of seats
-        List<Seat> allocatedSeats = new ArrayList<>();
-        for (int i = 0; i < numberOfSeatsToAllocate; i++) {
-            Seat allocatedSeat = shuffledSeats.get(i);
-
-            // Check if the seat is reserved before allocating
-            if (!allocatedSeat.isReserved()) {
-                allocatedSeat.setReserved(true);  // Mark the seat as reserved
-                allocatedSeats.add(allocatedSeat);
-                // Perform any other necessary operations
-            } else {
-                // Handle the case when the seat is already reserved
-                throw new ResourceNotFound("Seat is already reserved.");
-            }
-        }
-        seatRepo.saveAll(allocatedSeats);
-        return toDto(allocatedSeats);
-    }
-    private List<Seat> filterSeatsByPreferences(List<Seat> seats, CustomerPreferences preferences) {
-        // Implement logic to filter seats based on customer preferences
-        // For example, filter by seat type, location, etc.
-        return seats.stream()
-                .filter(seat -> !seat.isReserved())
-                .filter(seat -> !preferences.isWindowSeatPreferred() || seat.getSeatType() == SeatType.WINDOW)
-                .filter(seat -> !preferences.isMiddleSeatPreferred() || seat.getSeatType() == SeatType.MIDDLE)
-                .filter(seat -> !preferences.isAisleSeatPreferred() || seat.getSeatType() == SeatType.AISLE)
-                .collect(Collectors.toList());
-    }
-    private List<Seat> shuffleSeats(List<Seat> seats) {
-        List<Seat> shuffledSeats = new ArrayList<>(seats);
-        Random rand = new Random();
-
-        for (int i = shuffledSeats.size() - 1; i > 0; i--) {
-            int j = rand.nextInt(i + 1);
-
-            // Swap seats
-            Seat temp = shuffledSeats.get(i);
-            shuffledSeats.set(i, shuffledSeats.get(j));
-            shuffledSeats.set(j, temp);
-        }
-
-        return shuffledSeats;
-    }
-
 
 
     private int calculateAvailableSeats(BusInfo busInfo) {

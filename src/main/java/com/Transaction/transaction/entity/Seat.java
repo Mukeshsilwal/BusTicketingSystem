@@ -35,8 +35,6 @@ public class Seat {
     private BusInfo busInfo;
     @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Ticket ticket;
-    @ManyToMany(mappedBy = "seats")
-    private List<Booking> bookings;
     @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
     private BookingRequest booking;
 

@@ -21,11 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BusInfoController {
     private final BusInfoService busInfoService;
-    @PostMapping("/post")
-    public ResponseEntity<BusInfoDto> createBusInfo(@RequestBody BusInfoDto busInfoDto){
-        BusInfoDto busInfoDto1=this.busInfoService.createBusInfo(busInfoDto);
-        return new ResponseEntity<>(busInfoDto1, HttpStatus.OK);
-    }
     @PostMapping("/route/{id}")
     public ResponseEntity<BusInfoDto> createBusInRoute(@RequestBody BusInfoDto busInfoDto,@PathVariable int id ){
         BusInfoDto busInfoDto1=this.busInfoService.createBusForRoute(busInfoDto,id);

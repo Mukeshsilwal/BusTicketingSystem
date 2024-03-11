@@ -14,7 +14,6 @@ SeatDto getSeatById(int id);
 List<SeatDto> getAllSeat();
 SeatDto createSeatForBus(SeatDto seatDto,int id);
 List<SeatDto> findSeatRelatedToBus(String busName);
-List<SeatDto> allocateSeatsWithPreferences(List<SeatDto> seats, int numberOfSeatsToAllocate, CustomerPreferences preferences);
 
 
 }

@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface BusInfoService {
-    BusInfoDto createBusInfo(BusInfoDto busInfoDto);
     BusInfoDto updateBusInfo(BusInfoDto busInfoDto,int id,int routeId);
     void deleteBusInfo(Integer id);
     BusInfoDto createBusForRoute(BusInfoDto busInfoDto,int id);

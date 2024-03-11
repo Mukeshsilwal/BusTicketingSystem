@@ -4,23 +4,16 @@ import com.Transaction.transaction.entity.BookingRequest;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.exception.BookingNotFoundException;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
-import com.Transaction.transaction.exception.SeatOrBookingRequestNotFoundException;
-import com.Transaction.transaction.exception.SeatsNotAvailableException;
 import com.Transaction.transaction.model.ReservationResponse;
 import com.Transaction.transaction.payloads.BookingRequestDto;
 import com.Transaction.transaction.repository.BookingRequestRepo;
-import com.Transaction.transaction.repository.BookingSeatsRepo;
 import com.Transaction.transaction.repository.SeatRepo;
 import com.Transaction.transaction.service.BookingRequestService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public  class BookingRequestServiceImpl implements BookingRequestService {

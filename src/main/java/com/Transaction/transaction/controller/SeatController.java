@@ -49,17 +49,4 @@ public class SeatController {
         List<SeatDto> dtos=this.seatService.findSeatRelatedToBus(busName);
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
-
-    @PostMapping("/allocate")
-    public ResponseEntity<List<SeatDto>> allocateSeats(@RequestBody CustomerPreferences preferences,
-                                                    @RequestParam int numberOfSeatsToAllocate) {
-        try {
-            List<SeatDto> list=this.seatService.getAllSeat();
-            List<SeatDto> allocatedSeats = seatService.allocateSeatsWithPreferences(list,numberOfSeatsToAllocate,preferences);
-            return new ResponseEntity<>(allocatedSeats, HttpStatus.OK);
-        } catch (ResourceNotFound e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
 }
