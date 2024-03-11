@@ -18,8 +18,6 @@ public class BookingRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int noOfSeats;
-    private String seatClass;
     @OneToOne
     @JoinColumn(name="id1")
     private Seat seat;

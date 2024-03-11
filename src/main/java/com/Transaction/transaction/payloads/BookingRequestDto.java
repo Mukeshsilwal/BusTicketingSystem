@@ -11,7 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BookingRequestDto {
     private int id;
-    private int noOfSeats;
-    private String seatClass;
     private SeatDto seat;
 }
