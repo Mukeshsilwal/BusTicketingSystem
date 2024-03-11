@@ -16,7 +16,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class TicketDto {
     private int ticketNo;
-    private String seatNo;
     private BookingTicketDto bookingTicket;
 
 }

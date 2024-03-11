@@ -23,7 +23,6 @@ public class Seat {
     private boolean reserved;
     private BigDecimal price;
     private String seatNumber;
-    private SeatType seatType;
 
 
     public void cancelRequest(){

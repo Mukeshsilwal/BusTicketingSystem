@@ -19,7 +19,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ticketNo;
     @Column(unique = true)
-    private String seatNo;
+    private String seatNumber;
     @OneToOne
     @JoinColumn(name="seat_Id",referencedColumnName = "id")
     private Seat seat;

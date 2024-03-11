@@ -18,7 +18,4 @@ public class SeatDto {
     private boolean reserved;
     private String seatNumber;
     private BigDecimal price;
-    private SeatType seatType;
-
-
 }

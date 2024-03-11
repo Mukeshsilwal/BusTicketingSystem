@@ -29,25 +29,24 @@ public class TicketPDFService {
         title.setSpacingAfter(20f);
         document.add(title);
 
-        // Ticket details box
-        PdfPTable detailsBox = new PdfPTable(1);
-        detailsBox.setWidthPercentage(100);
-        detailsBox.getDefaultCell().setBorder(Rectangle.BOX);
-        detailsBox.setSpacingAfter(10f);
+        // Ticket details table
+        PdfPTable detailsTable = new PdfPTable(2);
+        detailsTable.setWidthPercentage(100);
+        detailsTable.setSpacingAfter(10f);
 
         // Ticket details
         Font labelFont = FontFactory.getFont(FontFactory.TIMES_BOLD, 14);
         Font valueFont = FontFactory.getFont(FontFactory.TIMES_ROMAN, 14);
 
-        addTableCell(detailsBox, "Ticket Number:", String.valueOf(ticket.getTicketNo()), labelFont, valueFont);
-        addTableCell(detailsBox, "Passenger FullName:", ticket.getBookingTicket().getFullName(), labelFont, valueFont);
-        addTableCell(detailsBox, "Seat Number:", ticket.getSeatNo(), labelFont, valueFont);
-        addTableCell(detailsBox, "From:", ticket.getSeat().getBusInfo().getRoute12().getSourceBusStop().getName(), labelFont, valueFont);
-        addTableCell(detailsBox, "Destination:", ticket.getSeat().getBusInfo().getRoute12().getDestinationBusStop().getName(), labelFont, valueFont);
-        addTableCell(detailsBox, "Departure Date:", ticket.getSeat().getBusInfo().getDepartureDateTime().toString(), labelFont, valueFont);
-        addTableCell(detailsBox, "Price:", "$" + ticket.getSeat().getPrice(), labelFont, valueFont);
+        addTableCell(detailsTable, "Ticket Number:", String.valueOf(ticket.getTicketNo()), labelFont, valueFont);
+        addTableCell(detailsTable, "Passenger FullName:", ticket.getBookingTicket().getFullName(), labelFont, valueFont);
+        addTableCell(detailsTable, "Seat Number:", ticket.getSeatNumber(), labelFont, valueFont);
+        addTableCell(detailsTable, "From:", ticket.getSeat().getBusInfo().getRoute12().getSourceBusStop().getName(), labelFont, valueFont);
+        addTableCell(detailsTable, "Destination:", ticket.getSeat().getBusInfo().getRoute12().getDestinationBusStop().getName(), labelFont, valueFont);
+        addTableCell(detailsTable, "Departure Date:", ticket.getSeat().getBusInfo().getDepartureDateTime().toString(), labelFont, valueFont);
+        addTableCell(detailsTable, "Price:", "NRP" + ticket.getSeat().getPrice(), labelFont, valueFont);
 
-        document.add(detailsBox);
+        document.add(detailsTable);
 
         document.close();
 
@@ -55,9 +54,14 @@ public class TicketPDFService {
     }
 
     private void addTableCell(PdfPTable table, String label, String value, Font labelFont, Font valueFont) {
-        PdfPCell cell = new PdfPCell(new Phrase(label + " " + value, labelFont));
-        cell.setBorder(Rectangle.NO_BORDER);
-        table.addCell(cell);
+        PdfPCell labelCell = new PdfPCell(new Phrase(label, labelFont));
+        PdfPCell valueCell = new PdfPCell(new Phrase(value, valueFont));
+
+        labelCell.setBorder(Rectangle.NO_BORDER);
+        valueCell.setBorder(Rectangle.NO_BORDER);
+
+        table.addCell(labelCell);
+        table.addCell(valueCell);
     }
 }
 

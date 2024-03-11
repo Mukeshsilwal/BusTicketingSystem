@@ -40,7 +40,6 @@ public class TicketServiceImpl implements TicketService {
     public TicketDto updateTicket(TicketDto ticketDto, int tId) {
         Ticket ticket=this.ticketRepo.findById(tId).orElseThrow(()->new ResourceNotFoundException("Ticket","tId",tId));
         ticket.setTicketNo(ticketDto.getTicketNo());
-        ticket.setSeatNo(ticketDto.getSeatNo());
         return ticketToDto(ticket);
     }
 
@@ -56,6 +55,7 @@ public class TicketServiceImpl implements TicketService {
         Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
         BookingTicket bookingTicket=this.bookingRepo.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","bId",bookId));
         ticket.setSeat(seat);
+        ticket.setSeatNumber(seat.getSeatNumber());
         ticket.setBookingTicket(bookingTicket);
         Ticket ticket1=this.ticketRepo.save(ticket);
         return ticketToDto(ticket1);}
