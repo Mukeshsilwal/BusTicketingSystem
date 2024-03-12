@@ -13,8 +13,6 @@ import java.net.*;
 public class TransactionApplication extends Authenticator {
 	public static void main(String[] args){
 		SpringApplication.run(TransactionApplication.class, args);
-
-
 	}
 	@Bean
 	public ModelMapper modelMapper(){

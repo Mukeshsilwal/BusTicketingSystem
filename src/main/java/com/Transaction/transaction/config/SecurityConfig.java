@@ -1,20 +1,16 @@
 package com.Transaction.transaction.config;
 
-import com.Transaction.transaction.entity.Permission;
-import com.Transaction.transaction.entity.Role1;
+
 import com.Transaction.transaction.security.CustomUserDetailsService;
 import com.Transaction.transaction.security.JwtEntryPoint;
 import com.Transaction.transaction.security.JwtFilterChain;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,13 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.firewall.DefaultHttpFirewall;
-import org.springframework.security.web.firewall.HttpFirewall;
-
-import static com.Transaction.transaction.entity.Permission.*;
-import static com.Transaction.transaction.entity.Role1.ADMIN;
-import static com.Transaction.transaction.entity.Role1.SUPER_ADMIN;
-import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 public class SecurityConfig {

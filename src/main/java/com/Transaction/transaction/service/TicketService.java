@@ -2,7 +2,6 @@ package com.Transaction.transaction.service;
 
 import com.Transaction.transaction.entity.Ticket;
 import com.Transaction.transaction.payloads.TicketDto;
-
 import java.util.List;
 
 public interface TicketService {

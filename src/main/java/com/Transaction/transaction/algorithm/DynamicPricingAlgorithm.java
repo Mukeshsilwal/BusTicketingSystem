@@ -60,8 +60,6 @@ public class DynamicPricingAlgorithm {
     }
 
     private BigDecimal calculatePatrolPriceIncrement(BigDecimal currentPatrolPrice) {
-        // Adjust the price based on the current patrol price
-        // You can implement your logic here, e.g., higher increment for higher patrol prices
         return currentPatrolPrice.divide(BigDecimal.valueOf(10));  // Adjust this based on your pricing strategy
     }
 }

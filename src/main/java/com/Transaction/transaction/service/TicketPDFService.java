@@ -2,7 +2,6 @@ package com.Transaction.transaction.service;
 
 
 import com.Transaction.transaction.entity.Ticket;
-import com.Transaction.transaction.payloads.TicketDto;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;

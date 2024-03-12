@@ -1,11 +1,9 @@
 package com.Transaction.transaction.service.serviceImpl;
 
 import com.Transaction.transaction.entity.BusStop;
-import com.Transaction.transaction.entity.Route12;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.payloads.BusStopDto;
 import com.Transaction.transaction.repository.BusStopRepo;
-import com.Transaction.transaction.repository.RouteRepo;
 import com.Transaction.transaction.service.BusStopService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

@@ -3,10 +3,6 @@ package com.Transaction.transaction.entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -23,7 +23,6 @@ public class SignatureServiceImpl implements SignatureService {
             // Encode the bytes to Base64
             return Base64.getEncoder().encodeToString(hashedBytes);
         } catch (Exception e) {
-            // Handle exception (e.g., NoSuchAlgorithmException, InvalidKeyException)
             e.printStackTrace();
             return null;
         }

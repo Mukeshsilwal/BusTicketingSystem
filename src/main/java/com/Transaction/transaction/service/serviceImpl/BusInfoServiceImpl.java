@@ -1,24 +1,15 @@
 package com.Transaction.transaction.service.serviceImpl;
 
-import com.Transaction.transaction.algorithm.DynamicPricingAlgorithm;
+
 import com.Transaction.transaction.entity.BusInfo;
 import com.Transaction.transaction.entity.Route12;
-import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
-import com.Transaction.transaction.exception.SeatsNotAvailableException;
 import com.Transaction.transaction.payloads.BusInfoDto;
-import com.Transaction.transaction.payloads.Route12Dto;
 import com.Transaction.transaction.repository.BusInfoRepo;
 import com.Transaction.transaction.repository.RouteRepo;
-import com.Transaction.transaction.repository.SeatRepo;
 import com.Transaction.transaction.service.BusInfoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 

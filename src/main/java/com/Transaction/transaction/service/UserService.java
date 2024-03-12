@@ -1,7 +1,6 @@
 package com.Transaction.transaction.service;
 
 import com.Transaction.transaction.payloads.UserDto;
-
 import java.util.List;
 
 public interface UserService {

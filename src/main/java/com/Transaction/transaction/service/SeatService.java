@@ -2,7 +2,6 @@ package com.Transaction.transaction.service;
 
 
 import com.Transaction.transaction.payloads.SeatDto;
-
 import java.util.List;
 
 public interface SeatService {
