@@ -12,15 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SignatureController {
     private final SignatureService service;
+
     @GetMapping("/generateSignature")
     public String generateSignature(
-            @RequestParam int total_cost
-    ) {
+            @RequestParam int total_cost, @RequestParam String transaction_uuid) {
         // Construct the input string similar to the JavaScript example
         String inputString = String.format(
-                "total_amount=%d",
-                total_cost
-        );
+                "total_amount=%d,transaction_uuid=%s,product_code=EPAYTEST",
+                total_cost, transaction_uuid);
 
         // Call the createSig function and return the generated signature
         return service.createSig(inputString);

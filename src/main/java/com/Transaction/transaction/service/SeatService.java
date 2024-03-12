@@ -1,8 +1,6 @@
 package com.Transaction.transaction.service;
 
 
-import com.Transaction.transaction.model.CustomerPreferences;
-import com.Transaction.transaction.model.SeatType;
 import com.Transaction.transaction.payloads.SeatDto;
 
 import java.util.List;

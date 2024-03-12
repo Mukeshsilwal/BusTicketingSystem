@@ -5,8 +5,6 @@ package com.Transaction.transaction.service.serviceImpl;
 import com.Transaction.transaction.entity.BusStop;
 import com.Transaction.transaction.entity.Route12;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
-import com.Transaction.transaction.model.Graph;
-import com.Transaction.transaction.payloads.BusStopDto;
 import com.Transaction.transaction.payloads.Route12Dto;
 import com.Transaction.transaction.repository.BusStopRepo;
 import com.Transaction.transaction.repository.RouteRepo;
@@ -16,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

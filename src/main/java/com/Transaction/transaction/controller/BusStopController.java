@@ -25,21 +25,4 @@ public class BusStopController {
         BusStopDto busStopDto=this.busStopService.getBusStopById(id);
         return new ResponseEntity<>(busStopDto,HttpStatus.OK);
     }
-    @PostMapping("/post")
-    public ResponseEntity<BusStopDto> createBusStop(@RequestBody BusStopDto busStopDto) {
-        BusStopDto busStopDto1 = this.busStopService.createBusStop(busStopDto);
-        return new ResponseEntity<>(busStopDto1, HttpStatus.CREATED);
-    }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<BusStopDto> updateBusStop(@RequestBody BusStopDto busStopDto,@PathVariable int id){
-        BusStopDto busStopDto1=this.busStopService.updateBusStop(busStopDto,id);
-        return new ResponseEntity<>(busStopDto1,HttpStatus.OK);
-    }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ApiResponse> deleteBusStop(@PathVariable int id){
-        this.busStopService.deleteBusStop(id);
-        return new ResponseEntity<>(new ApiResponse("BusStop has been deleted",true,HttpStatus.OK),HttpStatus.OK);
-    }
-
-
 }
