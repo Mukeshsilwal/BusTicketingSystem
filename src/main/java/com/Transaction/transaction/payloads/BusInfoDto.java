@@ -20,7 +20,7 @@ public class BusInfoDto {
     private int id;
     private String busName;
     private String busType;
-    private Date departureDateTime;
+    private LocalDateTime departureDateTime;
     private Route12Dto route12;
     List<SeatDto> seats;
 }

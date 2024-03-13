@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Configuration
@@ -19,7 +20,7 @@ public class DynamicPricingAlgorithm {
     private static final BigDecimal LOW_DEMAND_FACTOR = new BigDecimal("0.8");      // Decrease price if demand is low
     private static final BigDecimal TIME_FACTOR = new BigDecimal("1.1");            // Increase price during peak hours
 
-    public BigDecimal calculateDynamicPrice(Date departureTime, int availableSeats) {
+    public BigDecimal calculateDynamicPrice(LocalDateTime departureTime, int availableSeats) {
         BigDecimal dynamicPrice = BASE_PRICE;
 
         // Adjust price based on demand
@@ -45,12 +46,12 @@ public class DynamicPricingAlgorithm {
         return BigDecimal.valueOf(1.0).add(BigDecimal.valueOf(1.0).subtract(BigDecimal.valueOf((double) availableSeats / 33)));
     }
 
-    private BigDecimal calculateTimeFactor(Date departureTime) {
+    private BigDecimal calculateTimeFactor(LocalDateTime departureTime) {
         // Higher time factor during peak hours (e.g., 7 AM - 9 AM)
         int peakStartHour = 7;
         int peakEndHour = 8;
 
-        int departureHour = departureTime.getHours();
+        int departureHour = departureTime.getHour();
         System.out.println("Time in hour" + departureHour);
         if (departureHour >= peakStartHour && departureHour <= peakEndHour) {
             return BigDecimal.valueOf(1.5);  // Increase price during peak hours

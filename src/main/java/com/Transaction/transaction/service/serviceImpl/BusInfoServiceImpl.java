@@ -10,6 +10,9 @@ import com.Transaction.transaction.repository.RouteRepo;
 import com.Transaction.transaction.service.BusInfoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,8 +66,8 @@ public class BusInfoServiceImpl implements BusInfoService {
     }
 
     @Override
-    public List<BusInfoDto> getBusByRoute(String source, String destination) {
-        List<BusInfo> busInfos=this.busInfoRepo.findByRoute12SourceBusStopNameAndRoute12DestinationBusStopName(source,destination);
+    public List<BusInfoDto> getBusByRoute(String source, String destination, LocalDateTime date) {
+        List<BusInfo> busInfos=this.busInfoRepo.findByRoute12SourceBusStopNameAndRoute12DestinationBusStopNameAndDepartureDateTime(source,destination,date);
         return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
     }
 

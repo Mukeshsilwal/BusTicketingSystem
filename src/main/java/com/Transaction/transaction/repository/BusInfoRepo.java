@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface BusInfoRepo extends JpaRepository<BusInfo,Integer> {
-    List<BusInfo> findByRoute12SourceBusStopNameAndRoute12DestinationBusStopName(
-            String source, String destination);
+    List<BusInfo> findByRoute12SourceBusStopNameAndRoute12DestinationBusStopNameAndDepartureDateTime(
+            String source, String destination,LocalDateTime date);
 
 }
