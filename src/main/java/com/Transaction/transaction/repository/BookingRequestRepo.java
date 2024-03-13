@@ -15,8 +15,8 @@ import java.util.Optional;
 public interface BookingRequestRepo extends JpaRepository<BookingRequest,Integer> {
 
     // Example query method to cancel a BookingRequest by ticketId and email and date
-    void deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmailAndSeatBusInfoDepartureDateTime(
-            int ticketNo, String email, LocalDateTime date);
+    void deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmail(
+            int ticketNo, String email);
 }
 
 

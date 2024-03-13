@@ -61,15 +61,15 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
     }
     @Transactional
     @Override
-    public void cancelReservation(String email, int ticketNo, LocalDateTime date, int bookingId) {
+    public void cancelReservation(String email, int ticketNo,  int bookingId) {
         Seat seat = seatRepo.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Seat", "bookingId", bookingId));
         BookingRequest booking = seat.getBooking();
 
         if (booking != null) {
             // Cancel the ticket using the repository method
-            requestRepo.deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmailAndSeatBusInfoDepartureDateTime(
+            requestRepo.deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmail(
                     ticketNo,
-                    email,date);
+                    email);
 
             // Clear the association from Seat and update
             seat.setBooking(null);
