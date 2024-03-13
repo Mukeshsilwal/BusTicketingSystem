@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Service
@@ -60,7 +61,7 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
     }
     @Transactional
     @Override
-    public void cancelReservation(String email, int ticketNo, Date date, int bookingId) {
+    public void cancelReservation(String email, int ticketNo, LocalDateTime date, int bookingId) {
         Seat seat = seatRepo.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Seat", "bookingId", bookingId));
         BookingRequest booking = seat.getBooking();
 

@@ -6,11 +6,13 @@ import com.Transaction.transaction.model.ReservationResponse;
 import com.Transaction.transaction.payloads.BookingRequestDto;
 import com.Transaction.transaction.service.BookingRequestService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @RestController
@@ -25,14 +27,8 @@ public class BookingRequestController {
 
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse>  cancelSeat(@RequestParam String email, @RequestParam int ticketNo, @RequestParam String date, @PathVariable int id){
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date date1 = format.parse(date);
-            bookingRequestService.cancelReservation(email,ticketNo,date1,id);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    public ResponseEntity<ApiResponse>  cancelSeat(@RequestParam String email, @RequestParam int ticketNo, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime, @PathVariable int id){
+            bookingRequestService.cancelReservation(email,ticketNo,dateTime,id);
         return new ResponseEntity<>(new ApiResponse("Seat has been canceled",true,HttpStatus.OK),HttpStatus.OK);
     }
 }
