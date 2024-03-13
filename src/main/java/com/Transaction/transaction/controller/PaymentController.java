@@ -1,5 +1,6 @@
 package com.Transaction.transaction.controller;
 
+import com.Transaction.transaction.model.PaymentData;
 import com.Transaction.transaction.service.PaymentService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,10 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    @GetMapping("/decode")
-    public ResponseEntity<JSONObject> decodePaymentSignature(@RequestParam String encodedSignature) {
+    @PostMapping("/decode")
+    public ResponseEntity<PaymentData> decodePaymentSignature(@RequestParam String paymentRequest) {
         try {
-            JSONObject paymentData = paymentService.decodePaymentSignature(encodedSignature);
+            PaymentData paymentData = paymentService.decodePaymentSignature(paymentRequest);
             return new ResponseEntity<>(paymentData, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
