@@ -25,15 +25,23 @@ public class BusInfoController {
         List<BusInfoDto>  busInfo=this.busInfoService.getAllBusInfo();
         return new ResponseEntity<>(busInfo,HttpStatus.OK);
     }
-    @GetMapping("/search")
-    public ResponseEntity<List<BusInfoDto>> search(
-            @RequestParam String source,
-            @RequestParam String destination,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
+//    @GetMapping("/search")
+//    public ResponseEntity<List<BusInfoDto>> search(
+//            @RequestParam String source,
+//            @RequestParam String destination,
+//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
+//
+//        List<BusInfoDto> busInfoDtos = this.busInfoService.getBusByRoute(source, destination, dateTime);
+//        return new ResponseEntity<>(busInfoDtos, HttpStatus.OK);
+//    }
+@GetMapping("/search")
+public ResponseEntity<List<BusInfoDto>> search(
+        @RequestParam String source,
+        @RequestParam String destination) {
 
-        List<BusInfoDto> busInfoDtos = this.busInfoService.getBusByRoute(source, destination, dateTime);
-        return new ResponseEntity<>(busInfoDtos, HttpStatus.OK);
-    }
+    List<BusInfoDto> busInfoDtos = this.busInfoService.getBusByRoute(source, destination);
+    return new ResponseEntity<>(busInfoDtos, HttpStatus.OK);
+}
 
 
 

@@ -65,7 +65,7 @@ public class SecurityConfig {
 //                .antMatchers("/booking/**").permitAll()
 //                .antMatchers( "/bus1/allocateSeat").permitAll()
 //             .antMatchers("/user/**").permitAll()
-                .antMatchers("/busStop/**","/bus/**","/seat/**","/tickets/**","/route/**","/auth/**","/bookSeats/**","/booking/**","/bus1/**","/user/**","/price/**","/secret/**","/admin/**").permitAll()
+                .antMatchers("/busStop/**","/bus/**","/seat/**","/tickets/**","/route/**","/auth/**","/bookSeats/**","/booking/**","/bus1/**","/user/**","/price/**","/secret/**","/admin/**","/payment/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .authenticationProvider(daoAuthenticationProvider())
