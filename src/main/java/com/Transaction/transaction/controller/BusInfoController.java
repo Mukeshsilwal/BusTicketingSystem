@@ -7,6 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,12 +23,13 @@ public class BusInfoController {
         return new ResponseEntity<>(busInfo,HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<BusInfoDto>> search(
+    public ResponseEntity<List<BusInfoDto>> searchBuses(
             @RequestParam String source,
             @RequestParam String destination,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
-        List<BusInfoDto> busInfoDtos = this.busInfoService.getBusByRoute(source, destination, dateTime);
+        List<BusInfoDto> busInfoDtos = busInfoService.getBusByRoute(source, destination, date);
+
         return new ResponseEntity<>(busInfoDtos, HttpStatus.OK);
     }
 

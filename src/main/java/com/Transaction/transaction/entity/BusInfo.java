@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +24,8 @@ public class BusInfo {
     private int id;
     private String busName;
     private String busType;
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime departureDateTime;
+    private LocalDate date;
     @ManyToOne
     @JoinColumn(name = "fid")
     private Route12 route12;

@@ -11,10 +11,7 @@ import com.Transaction.transaction.repository.SeatRepo;
 import com.Transaction.transaction.service.BookingRequestService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 public  class BookingRequestServiceImpl implements BookingRequestService {

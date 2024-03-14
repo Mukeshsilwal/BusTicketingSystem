@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
@@ -21,6 +22,7 @@ public class BusInfoDto {
     private String busName;
     private String busType;
     private LocalDateTime departureDateTime;
+    private LocalDate date;
     private Route12Dto route12;
     List<SeatDto> seats;
 }

@@ -1,7 +1,6 @@
 package com.Transaction.transaction.algorithm;
 
 import org.springframework.context.annotation.Configuration;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -11,12 +10,11 @@ import java.util.Date;
 public class DynamicPricingAlgorithm {
 
     // Basic pricing factors
-    private static final BigDecimal BASE_PRICE = new BigDecimal("1300.0");
-    private static final BigDecimal PATROL_PRICE_INCREMENT = new BigDecimal("5.0");
-    private static final BigDecimal MAX_PRICE = new BigDecimal("3000.0");
+    private static final BigDecimal BASE_PRICE = new BigDecimal("1800.0");
+    private static final BigDecimal MAX_PRICE = new BigDecimal("2500.0");
 
     // Pricing factors for dynamic adjustment
-    private static final BigDecimal DEMAND_FACTOR = new BigDecimal("1.2");          // Increase price if demand is high
+    private static final BigDecimal HIGH_DEMAND_FACTOR = new BigDecimal("1.2");          // Increase price if demand is high
     private static final BigDecimal LOW_DEMAND_FACTOR = new BigDecimal("0.8");      // Decrease price if demand is low
     private static final BigDecimal TIME_FACTOR = new BigDecimal("1.1");            // Increase price during peak hours
 
@@ -26,9 +24,9 @@ public class DynamicPricingAlgorithm {
         // Adjust price based on demand
         if (availableSeats <= 10) {
             // Apply the low demand factor if available seats are low
-            dynamicPrice = dynamicPrice.multiply(LOW_DEMAND_FACTOR.multiply(calculateDemandFactor(availableSeats)));
+            dynamicPrice = dynamicPrice.multiply(HIGH_DEMAND_FACTOR.multiply(calculateDemandFactor(availableSeats)));
         } else {
-            dynamicPrice = dynamicPrice.multiply(DEMAND_FACTOR.multiply(calculateDemandFactor(availableSeats)));
+            dynamicPrice = dynamicPrice.multiply(LOW_DEMAND_FACTOR.multiply(calculateDemandFactor(availableSeats)));
         }
 
         // Adjust price based on time
@@ -49,7 +47,7 @@ public class DynamicPricingAlgorithm {
     private BigDecimal calculateTimeFactor(LocalDateTime departureTime) {
         // Higher time factor during peak hours (e.g., 7 AM - 9 AM)
         int peakStartHour = 7;
-        int peakEndHour = 8;
+        int peakEndHour = 9;
 
         int departureHour = departureTime.getHour();
         System.out.println("Time in hour" + departureHour);
@@ -58,9 +56,5 @@ public class DynamicPricingAlgorithm {
         } else {
             return BigDecimal.valueOf(1.0);  // Normal pricing for other hours
         }
-    }
-
-    private BigDecimal calculatePatrolPriceIncrement(BigDecimal currentPatrolPrice) {
-        return currentPatrolPrice.divide(BigDecimal.valueOf(10));  // Adjust this based on your pricing strategy
     }
 }
