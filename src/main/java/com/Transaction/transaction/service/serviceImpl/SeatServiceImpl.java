@@ -62,8 +62,8 @@ public class SeatServiceImpl implements SeatService {
         BusInfo busInfo = this.busInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo", "id", id));
         if(!seat.isReserved()&&busInfo!=null) {
             int availableSeats = calculateAvailableSeats(busInfo);
-            System.out.println("available seat" + availableSeats);
-            BigDecimal price = algorithm.calculateDynamicPrice(busInfo.getDepartureDateTime(), availableSeats);
+            System.out.println("available seats :" + availableSeats);
+            BigDecimal price = algorithm.calculateDynamicPrice(availableSeats,busInfo.getDate(),busInfo);
             seat.setPrice(price);
         }
         else{
@@ -83,12 +83,9 @@ public class SeatServiceImpl implements SeatService {
 
 
     private int calculateAvailableSeats(BusInfo busInfo) {
-        // Assuming you have a SeatRepository to query the database
         List<Seat> reservedSeats = seatRepo.findByBusInfoAndReserved(busInfo, true);
-
-        // Assuming a bus with 33 seats
-        int totalSeats = 33;
-
+        int totalSeats = seatRepo.countByBusInfo(busInfo);
+        System.out.println("Total Seats :"+totalSeats);
         // Calculate the available seats by subtracting the reserved seats from the total seats
         return totalSeats - reservedSeats.size();
     }

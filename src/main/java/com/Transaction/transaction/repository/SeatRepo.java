@@ -16,5 +16,6 @@ public interface SeatRepo extends JpaRepository<Seat,Integer> {
 
     List<Seat> findByBusInfoBusName(String busName);
     List<Seat> findByBusInfoAndReserved(BusInfo busInfo, boolean reserved);
+    int countByBusInfo(BusInfo busInfo);
 
 }
