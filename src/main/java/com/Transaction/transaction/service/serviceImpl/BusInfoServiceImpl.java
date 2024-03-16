@@ -28,7 +28,6 @@ public class BusInfoServiceImpl implements BusInfoService {
         this.modelMapper = modelMapper;
         this.routeRepo = routeRepo;
     }
-
     @Override
     public BusInfoDto updateBusInfo(BusInfoDto busInfoDto, int id,int routeId) {
         BusInfo busInfo=this.busInfoRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("BusInfo","id",id));
@@ -39,7 +38,6 @@ public class BusInfoServiceImpl implements BusInfoService {
         BusInfo busInfo1=this.busInfoRepo.save(busInfo);
         return busInfoToDto(busInfo1);
     }
-
     @Override
     public void deleteBusInfo(Integer id) {
         BusInfo busInfo=this.busInfoRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("BusInfo","id",id));
@@ -51,7 +49,6 @@ public class BusInfoServiceImpl implements BusInfoService {
         }
         this.busInfoRepo.delete(busInfo);
     }
-
     @Override
     public BusInfoDto createBusForRoute(BusInfoDto busInfoDto, int id) {
         BusInfo busInfo=this.dtoToBusInfo(busInfoDto);
@@ -60,20 +57,16 @@ public class BusInfoServiceImpl implements BusInfoService {
         BusInfo busInfo2=this.busInfoRepo.save(busInfo);
         return busInfoToDto(busInfo2);
     }
-
     @Override
     public List<BusInfoDto> getAllBusInfo() {
         List<BusInfo> busInfos=this.busInfoRepo.findAll();
         return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
     }
-
     @Override
     public List<BusInfoDto> getBusByRoute(String source, String destination, LocalDate time) {
         List<BusInfo> busInfos=this.busInfoRepo.findByRoute12SourceBusStopNameAndRoute12DestinationBusStopNameAndDate(source,destination,time);
         return busInfos.stream().map(this::busInfoToDto).collect(Collectors.toList());
     }
-
-
     public BusInfo dtoToBusInfo(BusInfoDto busInfoDto){
         return this.modelMapper.map(busInfoDto, BusInfo.class);
     }

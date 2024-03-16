@@ -18,13 +18,13 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
     private final SeatRepo seatRepo;
     private final ModelMapper modelMapper;
     private final BookingRequestRepo requestRepo;
-
-    public BookingRequestServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BookingRequestRepo requestRepo) {
+    private final EmailService emailService;
+    public BookingRequestServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BookingRequestRepo requestRepo, EmailService emailService) {
         this.seatRepo = seatRepo;
         this.modelMapper = modelMapper;
         this.requestRepo = requestRepo;
+        this.emailService = emailService;
     }
-
     @Override
     public ReservationResponse rserveSeat(BookingRequestDto requestDto,int seatId) {
         BookingRequest request = toRequest(requestDto);
@@ -44,12 +44,9 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
             return new ReservationResponse(false, "Seat not available");
         }
     }
-
     private boolean isSeatAvailable(Seat seat) {
-        // Check if the seat is available for reservation (add your logic here)
         return !seat.isReserved();
     }
-
     private void reserveSeatAndUpdateDatabase(BookingRequest request) {
         // Perform seat reservation logic and update the database
         Seat seat = request.getSeat();
@@ -73,10 +70,17 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
             seat.setReserved(false);
             seatRepo.save(seat);
         } else {
-            // Handle the case where the booking with the given ID is not found
             throw new BookingNotFoundException("Booking not found for id: " + bookingId);
         }
     }
+
+    @Override
+    public void cancelNotification(String email) {
+        String subject = "TicketCanceling Confirmation";
+        String body = "Your ticket has been canceled successfully" ;
+        emailService.sendEmailForCancelTicket(email,subject,body);
+    }
+
     public BookingRequest toRequest(BookingRequestDto bookingDto){
         return modelMapper.map(bookingDto,BookingRequest.class);
     }

@@ -17,16 +17,26 @@ public class EmailService {
 
     public void sendEmail(String to, String subject, String body, byte[] attachment,String  attachmentName) {
         MimeMessage message = javaMailSender.createMimeMessage();
-
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(body, true); // Set the second parameter to true to enable HTML content
-
             // Attach the PDF
             helper.addAttachment(attachmentName, new ByteArrayResource(attachment));
-
+            javaMailSender.send(message);
+        } catch (MessagingException e) {
+            // Handle exception
+            e.printStackTrace();
+        }
+    }
+    public void sendEmailForCancelTicket(String to, String subject, String body) {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body, true); // Set the second parameter to true to enable HTML content
             javaMailSender.send(message);
         } catch (MessagingException e) {
             // Handle exception

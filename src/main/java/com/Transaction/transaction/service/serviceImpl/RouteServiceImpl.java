@@ -22,8 +22,6 @@ public class  RouteServiceImpl implements Route12Service {
     private final RouteRepo routeRepo;
     private final ModelMapper modelMapper;
    private final BusStopRepo busStopRepo;
-    private static final Logger logger = LoggerFactory.getLogger(RouteServiceImpl.class);
-    private static final int INFINITY = Integer.MAX_VALUE;
 
     public RouteServiceImpl(RouteRepo routeRepo, ModelMapper modelMapper, BusStopRepo busStopRepo) {
         this.routeRepo = routeRepo;

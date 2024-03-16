@@ -17,20 +17,16 @@ import java.util.stream.Collectors;
 public class BookingTicketServiceImpl implements BookingTicketService {
     private final BookingRepo bookingRepo;
     private final ModelMapper modelMapper;
-
-
     @Override
     public List<BookingTicketDto> getAllBooking() {
         List<BookingTicket> requests=this.bookingRepo.findAll();
         return requests.stream().map(this::bookingToDto).collect(Collectors.toList());
     }
-
     @Override
     public BookingTicketDto getBooking(int bookingId) {
         BookingTicket bookingTicket=this.bookingRepo.findById(bookingId).orElseThrow(()->new ResourceNotFoundException("BookingTicket","bookingId",bookingId));
         return bookingToDto(bookingTicket);
     }
-
     @Override
     public BookingTicketDto createBooking(BookingTicketDto bookingTicketDto) {
         BookingTicket bookingTicket=this.dtoToBooking(bookingTicketDto);

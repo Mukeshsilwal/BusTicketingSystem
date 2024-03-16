@@ -12,7 +12,6 @@ import com.Transaction.transaction.service.SeatService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -73,21 +72,16 @@ public class SeatServiceImpl implements SeatService {
         Seat seat1 = this.seatRepo.save(seat);
         return seatToDto(seat1);
     }
-
-    @Override
-    public List<SeatDto> findSeatRelatedToBus(String busName) {
-        List<Seat> seats=seatRepo.findByBusInfoBusName(busName);
-        return seats.stream().map(this::seatToDto).collect(Collectors.toList());
-    }
-
-
-
     private int calculateAvailableSeats(BusInfo busInfo) {
         List<Seat> reservedSeats = seatRepo.findByBusInfoAndReserved(busInfo, true);
         int totalSeats = seatRepo.countByBusInfo(busInfo);
         System.out.println("Total Seats :"+totalSeats);
-        // Calculate the available seats by subtracting the reserved seats from the total seats
         return totalSeats - reservedSeats.size();
+    }
+    @Override
+    public List<SeatDto> findSeatRelatedToBus(String busName) {
+        List<Seat> seats=seatRepo.findByBusInfoBusName(busName);
+        return seats.stream().map(this::seatToDto).collect(Collectors.toList());
     }
 
 
