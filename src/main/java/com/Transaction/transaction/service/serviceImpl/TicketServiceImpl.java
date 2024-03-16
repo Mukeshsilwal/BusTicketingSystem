@@ -42,13 +42,6 @@ public class TicketServiceImpl implements TicketService {
         ticket.setTicketNo(ticketDto.getTicketNo());
         return ticketToDto(ticket);
     }
-
-    @Override
-    public List<TicketDto> getAllTicket() {
-        List<Ticket> tickets=this.ticketRepo.findAll();
-        return tickets.stream().map(this::ticketToDto).collect(Collectors.toList());
-    }
-
     @Override
     public TicketDto createSeatWithTicket(TicketDto ticketDto, int id,int bookId) {
       try{  Ticket ticket=this.dtoToTicket(ticketDto);

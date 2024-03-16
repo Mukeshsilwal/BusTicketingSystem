@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -26,6 +27,8 @@ public class BusInfo {
     private String busType;
     private LocalDateTime departureDateTime;
     private LocalDate date;
+    private BigDecimal basePrice;
+    private BigDecimal maxPrice;
     @ManyToOne
     @JoinColumn(name = "fid")
     private Route12 route12;

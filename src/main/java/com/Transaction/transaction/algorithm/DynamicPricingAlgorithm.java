@@ -6,20 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Configuration
 public class DynamicPricingAlgorithm {
     private final SeatRepo seatRepo;
 
-    // Basic pricing factors
-    private static final BigDecimal BASE_PRICE = new BigDecimal("2000.0");
-    private static final BigDecimal MAX_PRICE = new BigDecimal("2500.0");
-
     // Pricing factors for dynamic adjustment
     private static final BigDecimal HIGH_DEMAND_FACTOR = new BigDecimal("1.25");          // Increase price if demand is high
-    private static final BigDecimal LOW_DEMAND_FACTOR = new BigDecimal("1.0");      // Decrease price if demand is low
+    private static final BigDecimal LOW_DEMAND_FACTOR = new BigDecimal("0.8");      // Decrease price if demand is low
     private static final BigDecimal TIME_FACTOR = new BigDecimal("1.1");            // Increase price during peak hours
 
     public DynamicPricingAlgorithm(SeatRepo seatRepo) {
@@ -28,7 +22,7 @@ public class DynamicPricingAlgorithm {
 
     public BigDecimal calculateDynamicPrice(int availableSeats, LocalDate date, BusInfo busInfo) {
         int totalSeats=seatRepo.countByBusInfo(busInfo);
-        BigDecimal dynamicPrice = BASE_PRICE;
+        BigDecimal dynamicPrice = busInfo.getBasePrice();
 if(totalSeats!=0) {
     // Adjust price based on demand
     if (availableSeats <= 10) {
@@ -39,14 +33,14 @@ if(totalSeats!=0) {
     }
 }
 else{
-    return BASE_PRICE;
+    return dynamicPrice;
 }
 
         // Adjust price based on time
         dynamicPrice = dynamicPrice.multiply(TIME_FACTOR.multiply(calculateTimeFactor(date)));
 
         // Ensure the price does not exceed the maximum
-        dynamicPrice = dynamicPrice.min(MAX_PRICE);
+        dynamicPrice = dynamicPrice.min(busInfo.getMaxPrice());
         dynamicPrice = dynamicPrice.setScale(2, RoundingMode.HALF_UP);
 
         return dynamicPrice;
