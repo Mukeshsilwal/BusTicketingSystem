@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
-public interface BookingRequestRepo extends JpaRepository<BookingRequest,Integer> {
+public interface BookingRequestRepo extends JpaRepository<BookingRequest, Integer> {
 
     // Example query method to cancel a BookingRequest by ticketId and email and date
     void deleteBySeatTicketTicketNoAndSeatTicketBookingTicketEmail(

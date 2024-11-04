@@ -6,8 +6,11 @@ import java.util.List;
 
 public interface BookingTicketService {
     List<BookingTicketDto> getAllBooking();
+
     BookingTicketDto getBooking(int bookingId);
+
     BookingTicketDto createBooking(BookingTicketDto bookingTicketDto);
+
     BookingTicketDto getBookById(int id);
 
 }

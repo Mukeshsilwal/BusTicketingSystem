@@ -9,13 +9,15 @@ import org.springframework.data.jpa.repository.Query;
 import java.awt.print.Pageable;
 import java.util.List;
 
-public interface SeatRepo extends JpaRepository<Seat,Integer> {
+public interface SeatRepo extends JpaRepository<Seat, Integer> {
 
     @Query("SELECT s FROM Seat s WHERE s.reserved = false ORDER BY s.id ASC")
     List<Seat> findFirstNByReservedFalse();
 
     List<Seat> findByBusInfoBusName(String busName);
+
     List<Seat> findByBusInfoAndReserved(BusInfo busInfo, boolean reserved);
+
     int countByBusInfo(BusInfo busInfo);
 
 }

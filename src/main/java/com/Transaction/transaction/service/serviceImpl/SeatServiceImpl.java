@@ -12,6 +12,7 @@ import com.Transaction.transaction.service.SeatService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,10 +28,10 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public SeatDto updateSeat(SeatDto seatDto, int id) {
-        Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
-            seat.setSeatNumber(seatDto.getSeatNumber());
-            Seat seat1=this.seatRepo.save(seat);
-            return seatToDto(seat1);
+        Seat seat = this.seatRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Seat", "id", id));
+        seat.setSeatNumber(seatDto.getSeatNumber());
+        Seat seat1 = this.seatRepo.save(seat);
+        return seatToDto(seat1);
     }
 
     @Override
@@ -46,52 +47,55 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public SeatDto getSeatById(int id) {
-        Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
+        Seat seat = this.seatRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Seat", "id", id));
         return seatToDto(seat);
     }
 
     @Override
     public List<SeatDto> getAllSeat() {
         List<Seat> seats = this.seatRepo.findAll();
-       return seats.stream().map(this::seatToDto).collect(Collectors.toList());
+        return seats.stream().map(this::seatToDto).collect(Collectors.toList());
     }
+
     @Override
     public SeatDto createSeatForBus(SeatDto seatDto, int id) {
         Seat seat = this.dtoToSeat(seatDto);
         BusInfo busInfo = this.busInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo", "id", id));
-        if(!seat.isReserved()&&busInfo!=null) {
+        if (!seat.isReserved() && busInfo != null) {
             int availableSeats = calculateAvailableSeats(busInfo);
             System.out.println("available seats :" + availableSeats);
-            BigDecimal price = algorithm.calculateDynamicPrice(availableSeats,busInfo.getDate(),busInfo);
+            BigDecimal price = algorithm.calculateDynamicPrice(availableSeats, busInfo.getDate(), busInfo);
             seat.setPrice(price);
-        }
-        else{
-            throw new  SeatsNotAvailableException("Seat not available :");
+        } else {
+            throw new SeatsNotAvailableException("Seat not available :");
         }
         seat.setBusInfo(busInfo);
         Seat seat1 = this.seatRepo.save(seat);
         return seatToDto(seat1);
     }
+
     private int calculateAvailableSeats(BusInfo busInfo) {
         List<Seat> reservedSeats = seatRepo.findByBusInfoAndReserved(busInfo, true);
         int totalSeats = seatRepo.countByBusInfo(busInfo);
-        System.out.println("Total Seats :"+totalSeats);
+        System.out.println("Total Seats :" + totalSeats);
         return totalSeats - reservedSeats.size();
     }
+
     @Override
     public List<SeatDto> findSeatRelatedToBus(String busName) {
-        List<Seat> seats=seatRepo.findByBusInfoBusName(busName);
+        List<Seat> seats = seatRepo.findByBusInfoBusName(busName);
         return seats.stream().map(this::seatToDto).collect(Collectors.toList());
     }
 
 
+    public Seat dtoToSeat(SeatDto seatDto) {
+        return this.modelMapper.map(seatDto, Seat.class);
+    }
 
-    public Seat dtoToSeat(SeatDto seatDto){
-        return this.modelMapper.map(seatDto,Seat.class);
+    public SeatDto seatToDto(Seat seat) {
+        return this.modelMapper.map(seat, SeatDto.class);
     }
-    public SeatDto seatToDto(Seat seat){
-        return this.modelMapper.map(seat,SeatDto.class);
-    }
+
     public List<SeatDto> toDto(List<Seat> seats) {
         return seats.stream()
                 .map(seat -> modelMapper.map(seat, SeatDto.class))

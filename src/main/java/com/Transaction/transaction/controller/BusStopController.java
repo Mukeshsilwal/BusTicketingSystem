@@ -15,14 +15,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BusStopController {
     private final BusStopService busStopService;
+
     @GetMapping("/get")
-    public ResponseEntity<List<BusStopDto>>  getAllBusStops(){
-        List<BusStopDto> busStopDtos=this.busStopService.getAllBusStops();
+    public ResponseEntity<List<BusStopDto>> getAllBusStops() {
+        List<BusStopDto> busStopDtos = this.busStopService.getAllBusStops();
         return new ResponseEntity<>(busStopDtos, HttpStatus.OK);
     }
+
     @GetMapping("/get/{id}")
-    public ResponseEntity<BusStopDto> getById(@PathVariable int id){
-        BusStopDto busStopDto=this.busStopService.getBusStopById(id);
-        return new ResponseEntity<>(busStopDto,HttpStatus.OK);
+    public ResponseEntity<BusStopDto> getById(@PathVariable int id) {
+        BusStopDto busStopDto = this.busStopService.getBusStopById(id);
+        return new ResponseEntity<>(busStopDto, HttpStatus.OK);
     }
 }

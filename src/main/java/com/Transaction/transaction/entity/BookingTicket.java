@@ -13,17 +13,17 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Book")
+@Table(name = "Book")
 public class BookingTicket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String fullName;
     private String email;
-    @OneToMany(mappedBy = "bookingTicket",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
+    @OneToMany(mappedBy = "bookingTicket", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
     private Set<Ticket> ticket;
     @ManyToOne
     @JoinColumn(name = "id1")
-    private User user;
+    private Users user;
 
 }

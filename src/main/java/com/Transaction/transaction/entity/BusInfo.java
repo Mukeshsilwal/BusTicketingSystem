@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Bus")
+@Table(name = "Bus")
 public class BusInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +32,6 @@ public class BusInfo {
     @ManyToOne
     @JoinColumn(name = "fid")
     private Route12 route12;
-    @OneToMany(mappedBy = "busInfo",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
+    @OneToMany(mappedBy = "busInfo", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
     List<Seat> seats;
 }

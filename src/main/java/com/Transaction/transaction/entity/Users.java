@@ -16,17 +16,17 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="User")
-public class User implements UserDetails {
+@Table(name = "Users")
+public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id1;
     private String email;
     private String password;
     private Role1 role;
+    private String otp;
 
-
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<BookingTicket> tickets;
     @Enumerated(EnumType.STRING)
     private Role1 role1;

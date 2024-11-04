@@ -12,13 +12,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="booked")
+@Table(name = "booked")
 public class BookingRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @OneToOne
-    @JoinColumn(name="id1")
+    @JoinColumn(name = "id1")
     private Seat seat;
 
 }

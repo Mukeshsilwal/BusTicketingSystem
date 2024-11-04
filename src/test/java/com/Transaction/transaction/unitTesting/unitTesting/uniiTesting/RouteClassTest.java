@@ -1,7 +1,6 @@
 package com.Transaction.transaction.unitTesting.unitTesting.uniiTesting;
 
 
-
 import com.Transaction.transaction.entity.Route12;
 import com.Transaction.transaction.payloads.Route12Dto;
 import com.Transaction.transaction.repository.BusStopRepo;
@@ -22,32 +21,35 @@ public class RouteClassTest {
 
     private RouteServiceImpl routeService;
     private BusStopRepo busStopRepo;
+
     @BeforeEach
-    public  void setUp(){
-        routeRepo=mock(RouteRepo.class);
+    public void setUp() {
+        routeRepo = mock(RouteRepo.class);
         ModelMapper modelMapper = new ModelMapper();
-        routeService=new RouteServiceImpl(routeRepo, modelMapper,busStopRepo);
+        routeService = new RouteServiceImpl(routeRepo, modelMapper, busStopRepo);
     }
+
     @Test
-    public void testForDeleteMethod(){
-        int id=1;
-        Route12 route12=new Route12();
+    public void testForDeleteMethod() {
+        int id = 1;
+        Route12 route12 = new Route12();
         when(routeRepo.findById(id)).thenReturn(Optional.of(route12));
         routeService.deleteRoute(id);
-        verify(routeRepo,times(1)).findById(id);
-        verify(routeRepo,times(1)).delete(route12);
+        verify(routeRepo, times(1)).findById(id);
+        verify(routeRepo, times(1)).delete(route12);
     }
+
     @Test
-    public void updateRoute(){
-        int id=1;
-        Route12Dto route12Dto=new Route12Dto();
-        Route12 route12=new Route12();
+    public void updateRoute() {
+        int id = 1;
+        Route12Dto route12Dto = new Route12Dto();
+        Route12 route12 = new Route12();
         when(routeRepo.findById(id)).thenReturn(Optional.of(route12));
         when(routeRepo.save(any(Route12.class))).thenReturn(route12);
-        Route12Dto result=routeService.updateRoute(route12Dto,id);
+        Route12Dto result = routeService.updateRoute(route12Dto, id);
         assertNotNull(result);
-        verify(routeRepo,times(1)).findById(id);
-        verify(routeRepo,times(1)).save(any(Route12.class));
+        verify(routeRepo, times(1)).findById(id);
+        verify(routeRepo, times(1)).save(any(Route12.class));
 
     }
 
@@ -59,13 +61,14 @@ public class RouteClassTest {
         assertNotNull(route12Dtos1);
         verify(routeRepo, times(1)).findAll();
     }
+
     @Test
-    public void getRouteById(){
-        int id=1;
-        Route12 route12=new Route12();
+    public void getRouteById() {
+        int id = 1;
+        Route12 route12 = new Route12();
         when(routeRepo.findById(id)).thenReturn(Optional.of(route12));
-        Route12Dto route12Dto=routeService.getRouteById(id);
+        Route12Dto route12Dto = routeService.getRouteById(id);
         assertNotNull(route12Dto);
-        verify(routeRepo,times(1)).findById(id);
+        verify(routeRepo, times(1)).findById(id);
     }
 }

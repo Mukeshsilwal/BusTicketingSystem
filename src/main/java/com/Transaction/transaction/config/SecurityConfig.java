@@ -24,6 +24,7 @@ public class SecurityConfig {
 
     private final JwtFilterChain jwtAuthenticationFilter;
     private final JwtEntryPoint jwtEntryPoint;
+
     public SecurityConfig(@Lazy JwtFilterChain jwtAuthenticationFilter, JwtEntryPoint jwtEntryPoint) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.jwtEntryPoint = jwtEntryPoint;
@@ -40,17 +41,19 @@ public class SecurityConfig {
                 .antMatchers("/admin/postSeat/{id}").hasAuthority("ADMIN_CREATE")
                 .antMatchers("/admin/updateSeat/{id}").hasAuthority("ADMIN_UPDATE")
                 .antMatchers("/admin/deleteSeat/{id}").hasAuthority("ADMIN_DELETE")
-               .antMatchers("/admin/deleteRoute/{id}").hasAuthority("ADMIN_DELETE")
-               .antMatchers("/admin/updateRoute/{id}").hasAuthority("ADMIN_UPDATE")
-               .antMatchers("/admin/busStopRoute/{id}/{id1}").hasAuthority("ADMIN_CREATE")
+                .antMatchers("/admin/deleteRoute/{id}").hasAuthority("ADMIN_DELETE")
+                .antMatchers("/admin/updateRoute/{id}").hasAuthority("ADMIN_UPDATE")
+                .antMatchers("/admin/busStopRoute/{id}/{id1}").hasAuthority("ADMIN_CREATE")
                 .antMatchers("/admin/bus/{id}/route/{routeId}").hasAuthority("ADMIN_UPDATE")
                 .antMatchers("/admin/routeBus/{id}").hasAuthority("ADMIN_CREATE")
                 .antMatchers("/admin/deleteBus/{id}").hasAuthority("ADMIN_DELETE")
-               .antMatchers("/auth/create_user").permitAll()
-               .antMatchers("/auth/login").permitAll()
+                .antMatchers("/auth/create_user").permitAll()
+                .antMatchers("/auth/login").permitAll()
+                .antMatchers("/auth/change-password").permitAll()
+                .antMatchers("/auth/sent-otp").permitAll()
                 /*USER CAN ACCESS EVERY ENDPOINT */
-                .antMatchers("/booking/**","/payment/**","/bookSeats/**","/secret/**","/tickets/**","/user/**",
-                        "/busStop/**","/route/**","/bus/**","/seat/**").permitAll()
+                .antMatchers("/booking/**", "/payment/**", "/bookSeats/**", "/secret/**", "/tickets/**", "/user/**",
+                        "/busStop/**", "/route/**", "/bus/**", "/seat/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .authenticationProvider(daoAuthenticationProvider())
@@ -65,22 +68,26 @@ public class SecurityConfig {
         auth.userDetailsService(userDetailsService())
                 .passwordEncoder(passwordEncoder());
     }
+
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new CustomUserDetailsService();
     }
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
 
-        DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService());
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

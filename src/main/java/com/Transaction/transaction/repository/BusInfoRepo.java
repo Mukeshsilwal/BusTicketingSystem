@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-public interface BusInfoRepo extends JpaRepository<BusInfo,Integer> {
+public interface BusInfoRepo extends JpaRepository<BusInfo, Integer> {
     List<BusInfo> findByRoute12SourceBusStopNameAndRoute12DestinationBusStopNameAndDate(
             String source, String destination, LocalDate time);
 

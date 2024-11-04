@@ -1,6 +1,6 @@
 package com.Transaction.transaction.exception;
 
-public class ResourceNotFound extends RuntimeException{
+public class ResourceNotFound extends RuntimeException {
     private String message;
 
     public ResourceNotFound(String message) {

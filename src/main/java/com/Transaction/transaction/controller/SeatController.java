@@ -16,19 +16,20 @@ public class SeatController {
     private final SeatService seatService;
 
     @GetMapping("/get")
-    public ResponseEntity<List<SeatDto>> getAllSeat(){
-        List<SeatDto> seatDto=this.seatService.getAllSeat();
+    public ResponseEntity<List<SeatDto>> getAllSeat() {
+        List<SeatDto> seatDto = this.seatService.getAllSeat();
         return new ResponseEntity<>(seatDto, HttpStatus.OK);
     }
+
     @GetMapping("/get/{id}")
-    public ResponseEntity<SeatDto> getSeatById(@PathVariable Integer id){
-        SeatDto seatDto=this.seatService.getSeatById(id);
-        return new ResponseEntity<>(seatDto,HttpStatus.OK);
+    public ResponseEntity<SeatDto> getSeatById(@PathVariable Integer id) {
+        SeatDto seatDto = this.seatService.getSeatById(id);
+        return new ResponseEntity<>(seatDto, HttpStatus.OK);
     }
 
     @GetMapping("/name")
-    public ResponseEntity<List<SeatDto>> getBusByBusName(@RequestParam String busName){
-        List<SeatDto> dtos=this.seatService.findSeatRelatedToBus(busName);
-        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    public ResponseEntity<List<SeatDto>> getBusByBusName(@RequestParam String busName) {
+        List<SeatDto> dtos = this.seatService.findSeatRelatedToBus(busName);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 }

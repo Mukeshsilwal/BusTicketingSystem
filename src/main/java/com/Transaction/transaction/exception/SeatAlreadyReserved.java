@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SeatAlreadyReserved extends RuntimeException{
+public class SeatAlreadyReserved extends RuntimeException {
     private String msg;
 
     public SeatAlreadyReserved(String msg) {
-        super(String.format("%s",msg));
+        super(String.format("%s", msg));
         this.msg = msg;
     }
 }

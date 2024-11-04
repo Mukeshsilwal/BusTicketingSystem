@@ -15,26 +15,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingController {
     private final BookingTicketService bookingTicketService;
+
     @GetMapping("/get")
-    public ResponseEntity<List<BookingTicketDto>> getAllBookingTicket(){
-        List<BookingTicketDto> bookingTicket=this.bookingTicketService.getAllBooking();
+    public ResponseEntity<List<BookingTicketDto>> getAllBookingTicket() {
+        List<BookingTicketDto> bookingTicket = this.bookingTicketService.getAllBooking();
         return new ResponseEntity<>(bookingTicket, HttpStatus.OK);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<BookingTicketDto> getBookingTicketById(@PathVariable Integer id){
-        BookingTicketDto ticketDto=this.bookingTicketService.getBooking(id);
-        return new ResponseEntity<>(ticketDto,HttpStatus.OK);
-    }
-    @PostMapping("/post")
-    public ResponseEntity<BookingTicketDto> createBooking(@RequestBody BookingTicketDto bookingTicketDto){
-        BookingTicketDto ticketDto=this.bookingTicketService.createBooking(bookingTicketDto);
 
-        return new ResponseEntity<>(ticketDto,HttpStatus.CREATED);
+    @GetMapping("/{id}")
+    public ResponseEntity<BookingTicketDto> getBookingTicketById(@PathVariable Integer id) {
+        BookingTicketDto ticketDto = this.bookingTicketService.getBooking(id);
+        return new ResponseEntity<>(ticketDto, HttpStatus.OK);
     }
+
+    @PostMapping("/post")
+    public ResponseEntity<BookingTicketDto> createBooking(@RequestBody BookingTicketDto bookingTicketDto) {
+        BookingTicketDto ticketDto = this.bookingTicketService.createBooking(bookingTicketDto);
+
+        return new ResponseEntity<>(ticketDto, HttpStatus.CREATED);
+    }
+
     @GetMapping("/book/{id}")
-    public ResponseEntity<BookingTicketDto> getSeat(@PathVariable Integer id){
-       BookingTicketDto ticketDto=this.bookingTicketService.getBookById(id);
-        return new ResponseEntity<>(ticketDto,HttpStatus.OK);
+    public ResponseEntity<BookingTicketDto> getSeat(@PathVariable Integer id) {
+        BookingTicketDto ticketDto = this.bookingTicketService.getBookById(id);
+        return new ResponseEntity<>(ticketDto, HttpStatus.OK);
     }
 
 }

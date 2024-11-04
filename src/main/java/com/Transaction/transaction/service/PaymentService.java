@@ -4,5 +4,5 @@ import com.Transaction.transaction.model.PaymentData;
 import net.minidev.json.JSONObject;
 
 public interface PaymentService {
-     PaymentData decodePaymentSignature(String paymentRequest);
+    PaymentData decodePaymentSignature(String paymentRequest);
 }

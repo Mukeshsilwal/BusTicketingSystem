@@ -20,30 +20,29 @@ import java.io.IOException;
 public class JwtFilterChain extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String authHeader=request.getHeader("Authorization");
-        String username=null;
-        String jwt=null;
+        String authHeader = request.getHeader("Authorization");
+        String username = null;
+        String jwt = null;
 
-        if(authHeader!=null&&authHeader.startsWith("Bearer ")){
-            jwt=authHeader.substring(7);
-            try{
-                username=this.jwtService.getUserNameFromToken(jwt);
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7);
+            try {
+                username = this.jwtService.getUserNameFromToken(jwt);
 
-            }
-            catch(IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
 
                 e.printStackTrace();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null){
-            UserDetails userDetails=this.userDetailsService.loadUserByUsername(username);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             Boolean validateToken = this.jwtService.validateToken(jwt, userDetails);
             if (validateToken) {
 
@@ -52,7 +51,7 @@ public class JwtFilterChain extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationFilter);
             }
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
 
     }
 }

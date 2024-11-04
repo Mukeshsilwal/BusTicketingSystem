@@ -11,22 +11,25 @@ import com.Transaction.transaction.repository.SeatRepo;
 import com.Transaction.transaction.service.BookingRequestService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 
 @Service
-public  class BookingRequestServiceImpl implements BookingRequestService {
+public class BookingRequestServiceImpl implements BookingRequestService {
     private final SeatRepo seatRepo;
     private final ModelMapper modelMapper;
     private final BookingRequestRepo requestRepo;
     private final EmailService emailService;
+
     public BookingRequestServiceImpl(SeatRepo seatRepo, ModelMapper modelMapper, BookingRequestRepo requestRepo, EmailService emailService) {
         this.seatRepo = seatRepo;
         this.modelMapper = modelMapper;
         this.requestRepo = requestRepo;
         this.emailService = emailService;
     }
+
     @Override
-    public ReservationResponse rserveSeat(BookingRequestDto requestDto,int seatId) {
+    public ReservationResponse rserveSeat(BookingRequestDto requestDto, int seatId) {
         BookingRequest request = toRequest(requestDto);
 
         // Retrieve the seat by its ID
@@ -44,18 +47,21 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
             return new ReservationResponse(false, "Seat not available");
         }
     }
+
     private boolean isSeatAvailable(Seat seat) {
         return !seat.isReserved();
     }
+
     private void reserveSeatAndUpdateDatabase(BookingRequest request) {
         // Perform seat reservation logic and update the database
         Seat seat = request.getSeat();
         seat.setReserved(true);
         seatRepo.save(seat);
     }
+
     @Transactional
     @Override
-    public void cancelReservation(String email, int ticketNo,  int bookingId) {
+    public void cancelReservation(String email, int ticketNo, int bookingId) {
         Seat seat = seatRepo.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Seat", "bookingId", bookingId));
         BookingRequest booking = seat.getBooking();
 
@@ -77,11 +83,11 @@ public  class BookingRequestServiceImpl implements BookingRequestService {
     @Override
     public void cancelNotification(String email) {
         String subject = "TicketCanceling Confirmation";
-        String body = "Your ticket has been canceled successfully" ;
-        emailService.sendEmailForCancelTicket(email,subject,body);
+        String body = "Your ticket has been canceled successfully";
+        emailService.sendEmailForCancelTicket(email, subject, body);
     }
 
-    public BookingRequest toRequest(BookingRequestDto bookingDto){
-        return modelMapper.map(bookingDto,BookingRequest.class);
+    public BookingRequest toRequest(BookingRequestDto bookingDto) {
+        return modelMapper.map(bookingDto, BookingRequest.class);
     }
 }

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 
 @Service
@@ -24,53 +25,56 @@ public class TicketServiceImpl implements TicketService {
     private final BookingRepo bookingRepo;
     private final SeatRepo seatRepo;
     private final EmailService emailService;
+
     @Override
-    public void sendBookingConfirmationEmail(String userEmail,byte[] pdfContent) {
+    public void sendBookingConfirmationEmail(String userEmail, byte[] pdfContent) {
         String subject = "Booking Confirmation";
-        String body = "Thank you for booking! Your booking details: " ;
+        String body = "Thank you for booking! Your booking details: ";
         String attachmentName = "ticket.pdf";
 
-        emailService.sendEmail(userEmail, subject,body,pdfContent, attachmentName);
+//        emailService.sendEmail(userEmail, subject, body, pdfContent, attachmentName);
     }
 
     @Override
     public TicketDto updateTicket(TicketDto ticketDto, int tId) {
-        Ticket ticket=this.ticketRepo.findById(tId).orElseThrow(()->new ResourceNotFoundException("Ticket","tId",tId));
+        Ticket ticket = this.ticketRepo.findById(tId).orElseThrow(() -> new ResourceNotFoundException("Ticket", "tId", tId));
         ticket.setTicketNo(ticketDto.getTicketNo());
         return ticketToDto(ticket);
     }
+
     @Override
-    public TicketDto createSeatWithTicket(TicketDto ticketDto, int id,int bookId) {
-      try{  Ticket ticket=this.dtoToTicket(ticketDto);
-        Seat seat=this.seatRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Seat","id",id));
-        BookingTicket bookingTicket=this.bookingRepo.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("BookingTicket","bId",bookId));
-        ticket.setSeat(seat);
-        ticket.setSeatNumber(seat.getSeatNumber());
-        ticket.setBookingTicket(bookingTicket);
-        Ticket ticket1=this.ticketRepo.save(ticket);
-        return ticketToDto(ticket1);}
-      catch (DataIntegrityViolationException e) {
-          // Catch the specific exception for duplicate entry
-          if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
-              throw new DuplicateEntryException("Ticket with the same entry already exists.");
-          }
-          // Rethrow the exception if it's not related to duplicate entry
-          throw e;
-      }
+    public TicketDto createSeatWithTicket(TicketDto ticketDto, int id, int bookId) {
+        try {
+            Ticket ticket = this.dtoToTicket(ticketDto);
+            Seat seat = this.seatRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Seat", "id", id));
+            BookingTicket bookingTicket = this.bookingRepo.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("BookingTicket", "bId", bookId));
+            ticket.setSeat(seat);
+            ticket.setSeatNumber(seat.getSeatNumber());
+            ticket.setBookingTicket(bookingTicket);
+            Ticket ticket1 = this.ticketRepo.save(ticket);
+            return ticketToDto(ticket1);
+        } catch (DataIntegrityViolationException e) {
+            // Catch the specific exception for duplicate entry
+            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+                throw new DuplicateEntryException("Ticket with the same entry already exists.");
+            }
+            // Rethrow the exception if it's not related to duplicate entry
+            throw e;
+        }
     }
 
-  @Transactional
-  @Override
+    @Transactional
+    @Override
     public void deleteSeatWithTicket(int tId) {
-        Ticket ticket=this.ticketRepo.findById(tId).orElseThrow(()->new ResourceNotFoundException("Ticket","tId",tId));
-        Seat seat=ticket.getSeat();
-        if(seat!=null){
+        Ticket ticket = this.ticketRepo.findById(tId).orElseThrow(() -> new ResourceNotFoundException("Ticket", "tId", tId));
+        Seat seat = ticket.getSeat();
+        if (seat != null) {
             seat.setTicket(null);
             ticket.setSeat(null);
             seatRepo.save(seat);
         }
-        BookingTicket ticket1=ticket.getBookingTicket();
-        if(ticket1!=null){
+        BookingTicket ticket1 = ticket.getBookingTicket();
+        if (ticket1 != null) {
             ticket1.getTicket().remove(ticket);
             bookingRepo.save(ticket1);
         }
@@ -79,14 +83,15 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket getTicketById(int tId) {
-        Ticket ticket=this.ticketRepo.findById(tId).orElseThrow(()->new ResourceNotFoundException("Ticket","tId",tId));
+        Ticket ticket = this.ticketRepo.findById(tId).orElseThrow(() -> new ResourceNotFoundException("Ticket", "tId", tId));
         return ticket;
     }
 
-    public Ticket dtoToTicket(TicketDto ticketDto){
-        return this.modelMapper.map(ticketDto,Ticket.class);
+    public Ticket dtoToTicket(TicketDto ticketDto) {
+        return this.modelMapper.map(ticketDto, Ticket.class);
     }
-    public TicketDto ticketToDto(Ticket ticket){
+
+    public TicketDto ticketToDto(Ticket ticket) {
         return this.modelMapper.map(ticket, TicketDto.class);
     }
 }

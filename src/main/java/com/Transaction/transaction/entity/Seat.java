@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Seat1111")
+@Table(name = "Seat1111")
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,16 +23,16 @@ public class Seat {
     private String seatNumber;
 
 
-    public void cancelRequest(){
-        this.reserved=false;
+    public void cancelRequest() {
+        this.reserved = false;
     }
 
     @ManyToOne
-    @JoinColumn(name = "fid",referencedColumnName = "id")
+    @JoinColumn(name = "fid", referencedColumnName = "id")
     private BusInfo busInfo;
-    @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(mappedBy = "seat", fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Ticket ticket;
-    @OneToOne(mappedBy = "seat",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},orphanRemoval = true)
+    @OneToOne(mappedBy = "seat", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
     private BookingRequest booking;
 
     public Seat(String seatNumber) {

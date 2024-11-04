@@ -5,10 +5,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class SeatsNotAvailableException extends RuntimeException{
+public class SeatsNotAvailableException extends RuntimeException {
     private String msg;
+
     public SeatsNotAvailableException(String msg) {
         super(String.format(msg));
-        this.msg=msg;
+        this.msg = msg;
     }
 }

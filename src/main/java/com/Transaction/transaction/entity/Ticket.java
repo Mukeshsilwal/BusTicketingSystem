@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Ticket")
+@Table(name = "Ticket")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +20,10 @@ public class Ticket {
     @Column(unique = true)
     private String seatNumber;
     @OneToOne
-    @JoinColumn(name="seat_Id",referencedColumnName = "id")
+    @JoinColumn(name = "seat_Id", referencedColumnName = "id")
     private Seat seat;
     @ManyToOne
-    @JoinColumn(name="booking_id",referencedColumnName = "id")
+    @JoinColumn(name = "booking_id", referencedColumnName = "id")
     private BookingTicket bookingTicket;
 
 }

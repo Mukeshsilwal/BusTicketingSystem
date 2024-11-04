@@ -16,43 +16,50 @@ import java.util.stream.Collectors;
 public class BusStopServiceImpl implements BusStopService {
     private final BusStopRepo busStopRepo;
     private final ModelMapper modelMapper;
+
     public BusStopServiceImpl(BusStopRepo busStopRepo, ModelMapper modelMapper) {
         this.busStopRepo = busStopRepo;
         this.modelMapper = modelMapper;
     }
+
     @Override
     public BusStopDto createBusStop(BusStopDto busStopDto) {
-        BusStop busStop=this.dtoToBusStop(busStopDto);
-        BusStop busStop1=this.busStopRepo.save(busStop);
+        BusStop busStop = this.dtoToBusStop(busStopDto);
+        BusStop busStop1 = this.busStopRepo.save(busStop);
         return busStopToDto(busStop1);
     }
+
     @Override
     public BusStopDto updateBusStop(BusStopDto busStopDto, int id) {
-        BusStop busStop=this.dtoToBusStop(busStopDto);
+        BusStop busStop = this.dtoToBusStop(busStopDto);
         busStop.setName(busStopDto.getName());
-        BusStop busStop1=this.busStopRepo.save(busStop);
+        BusStop busStop1 = this.busStopRepo.save(busStop);
         return busStopToDto(busStop1);
     }
+
     @Override
     public void deleteBusStop(int id) {
-        BusStop busStop=this.busStopRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("BusStop","id",id));
+        BusStop busStop = this.busStopRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusStop", "id", id));
         busStopRepo.delete(busStop);
     }
 
     @Override
     public List<BusStopDto> getAllBusStops() {
-        List<BusStop> busStops=this.busStopRepo.findAll();
+        List<BusStop> busStops = this.busStopRepo.findAll();
         return busStops.stream().map(this::busStopToDto).collect(Collectors.toList());
     }
+
     @Override
     public BusStopDto getBusStopById(int id) {
-        BusStop busStop=this.busStopRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("BusStop","id",id));
+        BusStop busStop = this.busStopRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusStop", "id", id));
         return busStopToDto(busStop);
     }
-    public BusStop dtoToBusStop(BusStopDto busStopDto){
+
+    public BusStop dtoToBusStop(BusStopDto busStopDto) {
         return this.modelMapper.map(busStopDto, BusStop.class);
     }
-    public BusStopDto busStopToDto(BusStop busStop){
-        return this.modelMapper.map(busStop,BusStopDto.class);
+
+    public BusStopDto busStopToDto(BusStop busStop) {
+        return this.modelMapper.map(busStop, BusStopDto.class);
     }
 }

@@ -17,11 +17,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BusInfoController {
     private final BusInfoService busInfoService;
+
     @GetMapping("/route")
-    public ResponseEntity<List<BusInfoDto>> getAllRoute(){
-        List<BusInfoDto>  busInfo=this.busInfoService.getAllBusInfo();
-        return new ResponseEntity<>(busInfo,HttpStatus.OK);
+    public ResponseEntity<List<BusInfoDto>> getAllRoute() {
+        List<BusInfoDto> busInfo = this.busInfoService.getAllBusInfo();
+        return new ResponseEntity<>(busInfo, HttpStatus.OK);
     }
+
     @GetMapping("/search")
     public ResponseEntity<List<BusInfoDto>> searchBuses(
             @RequestParam String source,
@@ -32,7 +34,6 @@ public class BusInfoController {
 
         return new ResponseEntity<>(busInfoDtos, HttpStatus.OK);
     }
-
 
 
 }

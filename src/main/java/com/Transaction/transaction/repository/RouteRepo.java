@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RouteRepo extends JpaRepository<Route12,Integer> {
+public interface RouteRepo extends JpaRepository<Route12, Integer> {
     List<Route12> findByDestinationBusStop(Route12 route12);
 }
