@@ -11,7 +11,7 @@ import static com.Transaction.transaction.entity.Permission.*;
 
 @Getter
 @RequiredArgsConstructor
-public enum Role1 {
+public enum Role {
     ADMIN(
             new LinkedHashSet<>(Arrays.asList(ADMIN_CREATE, ADMIN_DELETE, ADMIN_UPDATE, ADMIN_READ))
     ),

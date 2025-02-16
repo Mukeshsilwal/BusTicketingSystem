@@ -14,12 +14,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "Route")
-public class Route12 {
+public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @OneToMany(mappedBy = "route12", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
-    Set<BusInfo> busInfos;
+    @OneToMany(mappedBy = "route", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
+    Set<Bus> busInfos;
     @ManyToOne
     @JoinColumn(name = "source_id")
     private BusStop sourceBusStop;

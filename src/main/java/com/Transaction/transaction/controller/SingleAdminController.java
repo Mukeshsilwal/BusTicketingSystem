@@ -1,13 +1,13 @@
 package com.Transaction.transaction.controller;
 
 import com.Transaction.transaction.exception.ApiResponse;
-import com.Transaction.transaction.payloads.BusInfoDto;
+import com.Transaction.transaction.payloads.BusDto;
 import com.Transaction.transaction.payloads.BusStopDto;
-import com.Transaction.transaction.payloads.Route12Dto;
+import com.Transaction.transaction.payloads.RouteDto;
 import com.Transaction.transaction.payloads.SeatDto;
-import com.Transaction.transaction.service.BusInfoService;
+import com.Transaction.transaction.service.BusService;
 import com.Transaction.transaction.service.BusStopService;
-import com.Transaction.transaction.service.Route12Service;
+import com.Transaction.transaction.service.RouteService;
 import com.Transaction.transaction.service.SeatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SingleAdminController {
     private final BusStopService stopService;
-    private final Route12Service service;
-    private final BusInfoService busInfoService;
+    private final RouteService service;
+    private final BusService busService;
     private final SeatService seatService;
 
     @PutMapping("/updateBusStop/{id}")
@@ -30,15 +30,15 @@ public class SingleAdminController {
     }
 
     @PutMapping("/updateRoute/{id}")
-    public ResponseEntity<Route12Dto> updateRoute(@RequestBody Route12Dto route12Dto, @PathVariable int id) {
-        Route12Dto route12Dto1 = this.service.updateRoute(route12Dto, id);
-        return new ResponseEntity<>(route12Dto1, HttpStatus.OK);
+    public ResponseEntity<RouteDto> updateRoute(@RequestBody RouteDto routeDto, @PathVariable int id) {
+        RouteDto routeDto1 = this.service.updateRoute(routeDto, id);
+        return new ResponseEntity<>(routeDto1, HttpStatus.OK);
     }
 
     @PutMapping("/bus/{id}/route/{routeId}")
-    public ResponseEntity<BusInfoDto> updateBusInfoWithRoute(@RequestBody BusInfoDto busInfoDto, @PathVariable Integer id, @PathVariable Integer routeId) {
-        BusInfoDto busInfoDto1 = this.busInfoService.updateBusInfo(busInfoDto, id, routeId);
-        return new ResponseEntity<>(busInfoDto1, HttpStatus.OK);
+    public ResponseEntity<BusDto> updateBusInfoWithRoute(@RequestBody BusDto busDto, @PathVariable Integer id, @PathVariable Integer routeId) {
+        BusDto busDto1 = this.busService.updateBusInfo(busDto, id, routeId);
+        return new ResponseEntity<>(busDto1, HttpStatus.OK);
     }
 
     @PutMapping("/updateSeat/{id}")
@@ -54,16 +54,16 @@ public class SingleAdminController {
     }
 
     @PostMapping("/busStopRoute/{id}/{id1}")
-    public ResponseEntity<Route12Dto> createRouteWithBusStop(@RequestBody Route12Dto route12Dto, @PathVariable int
+    public ResponseEntity<RouteDto> createRouteWithBusStop(@RequestBody RouteDto routeDto, @PathVariable int
             id, @PathVariable int id1) {
-        Route12Dto route12Dto1 = this.service.createRouteWithBusStop(route12Dto, id, id1);
-        return new ResponseEntity<>(route12Dto1, HttpStatus.CREATED);
+        RouteDto routeDto1 = this.service.createRouteWithBusStop(routeDto, id, id1);
+        return new ResponseEntity<>(routeDto1, HttpStatus.CREATED);
     }
 
     @PostMapping("/routeBus/{id}")
-    public ResponseEntity<BusInfoDto> createBusInRoute(@RequestBody BusInfoDto busInfoDto, @PathVariable int id) {
-        BusInfoDto busInfoDto1 = this.busInfoService.createBusForRoute(busInfoDto, id);
-        return new ResponseEntity<>(busInfoDto1, HttpStatus.CREATED);
+    public ResponseEntity<BusDto> createBusInRoute(@RequestBody BusDto busDto, @PathVariable int id) {
+        BusDto busDto1 = this.busService.createBusForRoute(busDto, id);
+        return new ResponseEntity<>(busDto1, HttpStatus.CREATED);
     }
 
     @PostMapping("/postSeat/{id}")
@@ -86,7 +86,7 @@ public class SingleAdminController {
 
     @DeleteMapping("/deleteBus/{id}")
     public ResponseEntity<ApiResponse> deleteBus(@PathVariable int id) {
-        busInfoService.deleteBusInfo(id);
+        busService.deleteBusInfo(id);
         return new ResponseEntity<>(new ApiResponse("Bus deleted", true, HttpStatus.OK), HttpStatus.OK);
     }
 

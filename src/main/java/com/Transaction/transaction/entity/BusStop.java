@@ -11,13 +11,14 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "BusStop")
 public class BusStop {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     @OneToMany(mappedBy = "sourceBusStop", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
-    List<Route12> sourceRoutes;
+    List<Route> sourceRoutes;
     @OneToMany(mappedBy = "destinationBusStop", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
-    List<Route12> destinationRoutes;
+    List<Route> destinationRoutes;
 }

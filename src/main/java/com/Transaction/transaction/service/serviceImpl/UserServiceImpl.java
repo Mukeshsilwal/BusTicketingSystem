@@ -1,7 +1,7 @@
 package com.Transaction.transaction.service.serviceImpl;
 
 
-import com.Transaction.transaction.entity.Role1;
+import com.Transaction.transaction.entity.Role;
 import com.Transaction.transaction.entity.Users;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.exception.UserAlreadyExistsException;
@@ -10,7 +10,6 @@ import com.Transaction.transaction.model.User;
 import com.Transaction.transaction.payloads.UserDto;
 import com.Transaction.transaction.repository.UserRepo;
 import com.Transaction.transaction.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -36,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
         Users user = this.dtoToUser(userDto);
         if (!userRepo.existsByEmail(user.getEmail())) {
-            user.setRole1(Role1.SUPER_ADMIN);
+            user.setRole1(Role.SUPER_ADMIN);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             Users user1 = this.userRepo.save(user);
             return userToDto(user1);
@@ -77,6 +76,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePassword(ChangePasswordRequest changePasswordRequest) {
         this.userRepo.findByEmail(changePasswordRequest.getUsername()).ifPresent(user -> {
+
             if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())) {
                 throw new BadCredentialsException("Wrong Password");
             } else if (!Objects.equals(changePasswordRequest.getNewPassword(), changePasswordRequest.getConfirmPassword())) {
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void sentOtp(User userJson) throws JsonProcessingException {
+    public void sentOtp(User userJson) {
 
 
         String otp = this.otpGeneratorService.generateOTP();

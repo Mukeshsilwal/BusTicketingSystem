@@ -16,20 +16,20 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Users")
+@Table(name = "users_table")
 public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id1;
     private String email;
     private String password;
-    private Role1 role;
+    private Role role;
     private String otp;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<BookingTicket> tickets;
     @Enumerated(EnumType.STRING)
-    private Role1 role1;
+    private Role role1;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

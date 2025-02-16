@@ -32,7 +32,7 @@ public class JwtFilterChain extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
             try {
-                username = this.jwtService.getUserNameFromToken(jwt);
+                username = this.jwtService.extractUsername(jwt);
 
             } catch (IllegalArgumentException e) {
 
@@ -43,7 +43,7 @@ public class JwtFilterChain extends OncePerRequestFilter {
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            Boolean validateToken = this.jwtService.validateToken(jwt, userDetails);
+            Boolean validateToken = this.jwtService.isTokenValid(jwt, userDetails);
             if (validateToken) {
 
                 UsernamePasswordAuthenticationToken authenticationFilter = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

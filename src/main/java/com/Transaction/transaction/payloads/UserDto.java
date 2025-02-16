@@ -1,15 +1,12 @@
 package com.Transaction.transaction.payloads;
 
 
-import com.Transaction.transaction.entity.Permission;
-import com.Transaction.transaction.entity.Role1;
+import com.Transaction.transaction.entity.Role;
 import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Getter
 @Setter
@@ -26,5 +23,5 @@ public class UserDto {
     @Size(min = 7, max = 50)
     private String password;
     @NonNull
-    private Role1 role;
+    private Role role;
 }

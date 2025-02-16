@@ -1,12 +1,12 @@
 package com.Transaction.transaction.service.serviceImpl;
 
 import com.Transaction.transaction.algorithm.DynamicPricingAlgorithm;
-import com.Transaction.transaction.entity.BusInfo;
+import com.Transaction.transaction.entity.Bus;
 import com.Transaction.transaction.entity.Seat;
 import com.Transaction.transaction.exception.ResourceNotFoundException;
 import com.Transaction.transaction.exception.SeatsNotAvailableException;
 import com.Transaction.transaction.payloads.SeatDto;
-import com.Transaction.transaction.repository.BusInfoRepo;
+import com.Transaction.transaction.repository.BusRepo;
 import com.Transaction.transaction.repository.SeatRepo;
 import com.Transaction.transaction.service.SeatService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class SeatServiceImpl implements SeatService {
     private final SeatRepo seatRepo;
     private final ModelMapper modelMapper;
-    private final BusInfoRepo busInfoRepo;
+    private final BusRepo busRepo;
     private final DynamicPricingAlgorithm algorithm;
 
 
@@ -37,10 +37,10 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public void deleteSeat(int id) {
         Seat seat = this.seatRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Seat", "id", id));
-        BusInfo busInfo = seat.getBusInfo();
+        Bus busInfo = seat.getBus();
         if (busInfo != null) {
             busInfo.getSeats().remove(seat);
-            busInfoRepo.save(busInfo);
+            busRepo.save(busInfo);
         }
         this.seatRepo.delete(seat);
     }
@@ -60,7 +60,7 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public SeatDto createSeatForBus(SeatDto seatDto, int id) {
         Seat seat = this.dtoToSeat(seatDto);
-        BusInfo busInfo = this.busInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo", "id", id));
+        Bus busInfo = this.busRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("BusInfo", "id", id));
         if (!seat.isReserved() && busInfo != null) {
             int availableSeats = calculateAvailableSeats(busInfo);
             System.out.println("available seats :" + availableSeats);
@@ -69,21 +69,21 @@ public class SeatServiceImpl implements SeatService {
         } else {
             throw new SeatsNotAvailableException("Seat not available :");
         }
-        seat.setBusInfo(busInfo);
+        seat.setBus(busInfo);
         Seat seat1 = this.seatRepo.save(seat);
         return seatToDto(seat1);
     }
 
-    private int calculateAvailableSeats(BusInfo busInfo) {
-        List<Seat> reservedSeats = seatRepo.findByBusInfoAndReserved(busInfo, true);
-        int totalSeats = seatRepo.countByBusInfo(busInfo);
+    private int calculateAvailableSeats(Bus busInfo) {
+        List<Seat> reservedSeats = seatRepo.findByBusAndReserved(busInfo, true);
+        int totalSeats = seatRepo.countByBus(busInfo);
         System.out.println("Total Seats :" + totalSeats);
         return totalSeats - reservedSeats.size();
     }
 
     @Override
     public List<SeatDto> findSeatRelatedToBus(String busName) {
-        List<Seat> seats = seatRepo.findByBusInfoBusName(busName);
+        List<Seat> seats = seatRepo.findByBusBusName(busName);
         return seats.stream().map(this::seatToDto).collect(Collectors.toList());
     }
 

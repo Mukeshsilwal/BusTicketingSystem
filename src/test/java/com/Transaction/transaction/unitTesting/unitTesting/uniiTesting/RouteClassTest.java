@@ -2,7 +2,7 @@ package com.Transaction.transaction.unitTesting.unitTesting.uniiTesting;
 
 
 import com.Transaction.transaction.entity.Route12;
-import com.Transaction.transaction.payloads.Route12Dto;
+import com.Transaction.transaction.payloads.RouteDto;
 import com.Transaction.transaction.repository.BusStopRepo;
 import com.Transaction.transaction.repository.RouteRepo;
 import com.Transaction.transaction.service.serviceImpl.RouteServiceImpl;
@@ -42,11 +42,11 @@ public class RouteClassTest {
     @Test
     public void updateRoute() {
         int id = 1;
-        Route12Dto route12Dto = new Route12Dto();
+        RouteDto routeDto = new RouteDto();
         Route12 route12 = new Route12();
         when(routeRepo.findById(id)).thenReturn(Optional.of(route12));
         when(routeRepo.save(any(Route12.class))).thenReturn(route12);
-        Route12Dto result = routeService.updateRoute(route12Dto, id);
+        RouteDto result = routeService.updateRoute(routeDto, id);
         assertNotNull(result);
         verify(routeRepo, times(1)).findById(id);
         verify(routeRepo, times(1)).save(any(Route12.class));
@@ -57,8 +57,8 @@ public class RouteClassTest {
     public void getAllRoute() {
         List<Route12> route12s = new ArrayList<>();
         when(routeRepo.findAll()).thenReturn(route12s);
-        List<Route12Dto> route12Dtos1 = routeService.getAllRoute();
-        assertNotNull(route12Dtos1);
+        List<RouteDto> routeDtos1 = routeService.getAllRoute();
+        assertNotNull(routeDtos1);
         verify(routeRepo, times(1)).findAll();
     }
 
@@ -67,8 +67,8 @@ public class RouteClassTest {
         int id = 1;
         Route12 route12 = new Route12();
         when(routeRepo.findById(id)).thenReturn(Optional.of(route12));
-        Route12Dto route12Dto = routeService.getRouteById(id);
-        assertNotNull(route12Dto);
+        RouteDto routeDto = routeService.getRouteById(id);
+        assertNotNull(routeDto);
         verify(routeRepo, times(1)).findById(id);
     }
 }

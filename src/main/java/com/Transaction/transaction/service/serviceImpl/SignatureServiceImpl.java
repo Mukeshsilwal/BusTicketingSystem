@@ -18,7 +18,6 @@ public class SignatureServiceImpl implements SignatureService {
             SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
             sha256Hmac.init(secretKey);
             byte[] hashedBytes = sha256Hmac.doFinal(str.getBytes(StandardCharsets.UTF_8));
-            // Encode the bytes to Base64
             return Base64.getEncoder().encodeToString(hashedBytes);
         } catch (Exception e) {
             e.printStackTrace();

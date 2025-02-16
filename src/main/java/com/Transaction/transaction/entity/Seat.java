@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Seat1111")
+@Table(name = "Seat")
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Seat {
 
     @ManyToOne
     @JoinColumn(name = "fid", referencedColumnName = "id")
-    private BusInfo busInfo;
+    private Bus bus;
     @OneToOne(mappedBy = "seat", fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Ticket ticket;
     @OneToOne(mappedBy = "seat", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)

@@ -16,12 +16,11 @@ public class SignatureController {
     @GetMapping("/generateSignature")
     public String generateSignature(
             @RequestParam int total_cost, @RequestParam String transaction_uuid) {
-        // Construct the input string similar to the JavaScript example
+
         String inputString = String.format(
                 "total_amount=%d,transaction_uuid=%s,product_code=EPAYTEST",
                 total_cost, transaction_uuid);
 
-        // Call the createSig function and return the generated signature
         return service.createSig(inputString);
     }
 }
